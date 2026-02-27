@@ -1,0 +1,6 @@
+{
+  "client_interface": "wlan0",
+  "hotspot_interface": "wlan1",
+  "hotspot_ssid": "ScreenSage",
+  "hotspot_password": "DnDepaper"
+}

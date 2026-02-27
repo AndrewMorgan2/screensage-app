@@ -1,0 +1,79 @@
+<h1>Combat Tracker</h1>
+<div class="battle-container">
+    <div class="initiative-panel">
+        <h2>Initiative Order</h2>
+        <div class="initiative-controls">
+            <button id="next-turn-btn">Next Turn</button>
+            <button id="reset-combat-btn" class="danger-btn">Reset Combat</button>
+            <button id="start-combat-display-btn" class="success-btn">Start Combat Display</button>
+            <button id="end-combat-display-btn" class="success-btn">End Combat Display</button>
+        </div>
+        <br/>
+        <div id="initiative-list" class="initiative-list">
+            <!-- Initiative list will be inserted here -->
+        </div>
+    </div>
+    
+    <div class="combatant-details">
+        <h2>Combatants</h2>
+        <div id="combatant-form" class="combatant-form">
+            <p class="parser-instructions">Enter combatants, one per line, in this format:<br>
+            <code>[initiative] [name] [AC] [HP]</code><br>
+            Example: <code>18 Goblin 15 7</code><br>
+            You can also use dice notation for initiative and HP: <code>d20+2 Goblin 15 2d6+1</code></p>
+            <div class="form-group">
+                <textarea id="combatant-batch" class="text-input" rows="10" placeholder="18 Goblin 15 7
+15 Wizard 12 30
+12 Guard 16 25"></textarea>
+            </div>
+            <div class="form-group">
+                <button id="parse-combatants-btn" class="primary-btn">Parse Combatants</button>
+                <button id="roll-all-btn">Roll Initiative</button>
+                <button id="clear-input-btn">Clear Input</button>
+                <button id="example-btn">Load Example</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="battle-status">
+        <h2>Battle Status</h2>
+        <div class="status-panel">
+            <div class="status-item">
+                <span class="status-label">Round:</span>
+                <button id="round-decrement-btn" class="round-btn">-</button>
+                <span id="round-counter" class="status-value">1</span>
+                <button id="round-increment-btn" class="round-btn">+</button>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Current Turn:</span>
+                <span id="current-turn" class="status-value">-</span>
+            </div>
+        </div>
+        
+        <div class="damage-tracker">
+            <h3>Apply Damage/Healing</h3>
+            <p class="command-instructions">Format: <code>[target_index] [health_change] [source_index]</code>
+            <div class="form-group">
+                <input type="text" id="damage-command" class="text-input" placeholder="1 -10 2">
+                <button id="apply-damage-btn" class="primary-btn">Apply</button>
+            </div>
+            <div id="damage-log" class="damage-log"></div>
+
+            <div class="damage-editor">
+                <h3>
+                    <button id="toggle-damage-editor" class="collapse-btn">
+                        <span id="damage-editor-arrow">▶</span> Edit Damage Stats
+                    </button>
+                </h3>
+                <div id="damage-editor-content" class="damage-editor-content" style="display: none;">
+                    <p class="editor-instructions">Edit damage dealt for each combatant before generating the chart:</p>
+                    <div id="damage-editor-list" class="damage-editor-list">
+                        <!-- Damage editor items will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <button id="piechart-making-btn" class="primary-btn">Make Chart</button>
+        </div>
+    </div>
+</div>

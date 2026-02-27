@@ -1,0 +1,33 @@
+# Rust build artifacts
+target/*
+
+# Storage directories
+storage/generated_images/*
+storage/ai_images/*
+
+# ISO build artifacts
+iso/iso-output/
+iso/iso-work/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Logs and temporary files
+*.log
+nohup.out
+*.tmp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

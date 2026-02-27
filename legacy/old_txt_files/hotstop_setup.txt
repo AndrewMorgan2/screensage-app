@@ -1,0 +1,24 @@
+https://github.com/lakinduakash/linux-wifi-hotspot
+linux-wifi-hotspot 
+systemctl enable create_ap
+
+// so that we dont need sudo for create_ap
+sudo visudo -f /etc/sudoers.d/create_ap
+jp19060 ALL=(ALL) NOPASSWD: /usr/bin/create_ap
+
+//If fails 
+nmcli r wifi off
+rfkill unblock wlan
+
+sudo apt install -y libgtk-3-dev build-essential gcc g++ pkg-config make hostapd libqrencode-dev libpng-dev
+
+git clone https://github.com/lakinduakash/linux-wifi-hotspot
+cd linux-wifi-hotspot
+
+#build binaries
+make
+
+#install
+sudo make install
+
+/usr/bin/wihotspot

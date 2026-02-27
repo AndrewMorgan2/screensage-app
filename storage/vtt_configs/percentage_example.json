@@ -1,0 +1,165 @@
+{
+  "screen": {
+    "width": 1920,
+    "height": 1080,
+    "fullscreen": true
+  },
+  "background": {
+    "src": "",
+    "color": "#1a1a2e"
+  },
+  "elements": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": "50%",
+      "y": "5%",
+      "size": "4%",
+      "text": "Percentage Coordinates Demo",
+      "color": "#ffffff",
+      "alignment": "center",
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "x": "50%",
+      "y": "10%",
+      "size": "2%",
+      "text": "This layout works on any screen resolution!",
+      "color": "#aaaaaa",
+      "alignment": "center"
+    },
+    {
+      "type": "area",
+      "id": "left_panel",
+      "x": "5%",
+      "y": "20%",
+      "width": "25%",
+      "height": "70%",
+      "color": "rgba(52, 152, 219, 0.3)",
+      "opacity": 80,
+      "label": "Left Panel (25%)"
+    },
+    {
+      "type": "area",
+      "id": "center_panel",
+      "x": "35%",
+      "y": "20%",
+      "width": "30%",
+      "height": "70%",
+      "color": "rgba(46, 204, 113, 0.3)",
+      "opacity": 80,
+      "label": "Center Panel (30%)"
+    },
+    {
+      "type": "area",
+      "id": "right_panel",
+      "x": "70%",
+      "y": "20%",
+      "width": "25%",
+      "height": "70%",
+      "color": "rgba(155, 89, 182, 0.3)",
+      "opacity": 80,
+      "label": "Right Panel (25%)"
+    },
+    {
+      "type": "token",
+      "id": "token_topleft",
+      "x": "17.5%",
+      "y": "35%",
+      "size": "8%",
+      "color": "rgba(231, 76, 60, 0.8)",
+      "label": "8% Token"
+    },
+    {
+      "type": "token",
+      "id": "token_center",
+      "x": "50%",
+      "y": "55%",
+      "size": "10%",
+      "color": "rgba(241, 196, 15, 0.8)",
+      "label": "10% Token"
+    },
+    {
+      "type": "token",
+      "id": "token_right",
+      "x": "82.5%",
+      "y": "35%",
+      "size": "6%",
+      "color": "rgba(52, 152, 219, 0.8)",
+      "label": "6% Token"
+    },
+    {
+      "type": "line",
+      "id": "line_left_to_center",
+      "x": "17.5%",
+      "y": "35%",
+      "endX": "50%",
+      "endY": "55%",
+      "thickness": "0.3%",
+      "color": "#e74c3c",
+      "opacity": 70
+    },
+    {
+      "type": "line",
+      "id": "line_center_to_right",
+      "x": "50%",
+      "y": "55%",
+      "endX": "82.5%",
+      "endY": "35%",
+      "thickness": "0.3%",
+      "color": "#3498db",
+      "opacity": 70
+    },
+    {
+      "type": "text",
+      "id": "corner_topleft",
+      "x": "2%",
+      "y": "2%",
+      "size": "2%",
+      "text": "Top Left (2%, 2%)",
+      "color": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "corner_topright",
+      "x": "98%",
+      "y": "2%",
+      "size": "2%",
+      "text": "Top Right (98%, 2%)",
+      "color": "#ffffff",
+      "alignment": "right"
+    },
+    {
+      "type": "text",
+      "id": "corner_bottomleft",
+      "x": "2%",
+      "y": "96%",
+      "size": "2%",
+      "text": "Bottom Left (2%, 96%)",
+      "color": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "corner_bottomright",
+      "x": "98%",
+      "y": "96%",
+      "size": "2%",
+      "text": "Bottom Right (98%, 96%)",
+      "color": "#ffffff",
+      "alignment": "right"
+    },
+    {
+      "type": "text",
+      "id": "info_text",
+      "x": "50%",
+      "y": "93%",
+      "size": "1.5%",
+      "text": "All coordinates use percentages - try changing the screen resolution!",
+      "color": "#95a5a6",
+      "alignment": "center",
+      "italic": true
+    }
+  ]
+}

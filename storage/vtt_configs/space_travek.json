@@ -1,0 +1,543 @@
+{
+  "background": {
+    "height": 1440,
+    "src": "/home/amorgan/GitHub/DnD_Images/OuterPlanes/Layout_path_5.png",
+    "width": 2560
+  },
+  "elements": [
+    {
+      "collapsed": true,
+      "height": 175,
+      "id": "star",
+      "invisible": false,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Star.png",
+      "type": "image",
+      "width": 176,
+      "x": 487,
+      "y": 499
+    },
+    {
+      "collapsed": true,
+      "height": 146,
+      "id": "blackhole",
+      "invisible": false,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/blackwhole.png",
+      "type": "image",
+      "width": 187,
+      "x": 431,
+      "y": 317
+    },
+    {
+      "collapsed": true,
+      "height": 146,
+      "id": "blackhole2",
+      "invisible": false,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/blackwhole.png",
+      "type": "image",
+      "width": 187,
+      "x": 981,
+      "y": 745
+    },
+    {
+      "collapsed": true,
+      "height": 50,
+      "id": "flyingstone",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/FlyingStone.png",
+      "type": "image",
+      "width": 70,
+      "x": 798,
+      "y": 814
+    },
+    {
+      "collapsed": true,
+      "height": 50,
+      "id": "flyingstone1",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/FlyingStone.png",
+      "type": "image",
+      "width": 70,
+      "x": 1252,
+      "y": 843
+    },
+    {
+      "collapsed": true,
+      "height": 50,
+      "id": "flyingstone2",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/FlyingStone.png",
+      "type": "image",
+      "width": 70,
+      "x": 1302,
+      "y": 242
+    },
+    {
+      "collapsed": true,
+      "height": 208,
+      "id": "grave",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Grave.png",
+      "type": "image",
+      "width": 160,
+      "x": 1540,
+      "y": 698
+    },
+    {
+      "collapsed": true,
+      "height": 50,
+      "id": "lighthouse",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Lighthouse.png",
+      "type": "image",
+      "width": 50,
+      "x": 1165,
+      "y": 215
+    },
+    {
+      "collapsed": false,
+      "height": 88.6439896755162,
+      "id": "maker",
+      "invisible": false,
+      "keepAspectRatio": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Maker.png",
+      "type": "image",
+      "width": 59.09599311701079,
+      "x": 198,
+      "y": 81
+    },
+    {
+      "collapsed": true,
+      "height": 96,
+      "id": "observe",
+      "invisible": false,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Observe.png",
+      "type": "image",
+      "width": 96,
+      "x": 356,
+      "y": 632
+    },
+    {
+      "collapsed": true,
+      "height": 96,
+      "id": "observe2",
+      "invisible": false,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Observe.png",
+      "type": "image",
+      "width": 96,
+      "x": 917,
+      "y": 830
+    },
+    {
+      "collapsed": true,
+      "height": 96,
+      "id": "observe1",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Observe.png",
+      "type": "image",
+      "width": 96,
+      "x": 962,
+      "y": 173
+    },
+    {
+      "collapsed": false,
+      "height": 96,
+      "id": "observe4",
+      "invisible": false,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Observe.png",
+      "type": "image",
+      "width": 96,
+      "x": 1470,
+      "y": 576
+    },
+    {
+      "collapsed": true,
+      "height": 173,
+      "id": "signrock",
+      "invisible": false,
+      "locked": false,
+      "opacity": 0,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Sign_Rock.png",
+      "type": "image",
+      "width": 143,
+      "x": 1350,
+      "y": 703
+    },
+    {
+      "collapsed": true,
+      "height": 103,
+      "id": "stone",
+      "invisible": true,
+      "locked": false,
+      "opacity": 0,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Stone.png",
+      "type": "image",
+      "width": 135,
+      "x": 1000,
+      "y": 900
+    },
+    {
+      "collapsed": true,
+      "height": 99,
+      "id": "trade",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Trade.png",
+      "type": "image",
+      "width": 100,
+      "x": 1212,
+      "y": 329
+    },
+    {
+      "collapsed": true,
+      "height": 155,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "ships2",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Ships.png",
+      "type": "image",
+      "width": 299,
+      "x": 643,
+      "y": 237
+    },
+    {
+      "collapsed": true,
+      "height": 155,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "ships",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Ships.png",
+      "type": "image",
+      "width": 299,
+      "x": 1379,
+      "y": 268
+    },
+    {
+      "collapsed": true,
+      "height": 155,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "ships1",
+      "invisible": false,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Ships.png",
+      "type": "image",
+      "width": 299,
+      "x": 447,
+      "y": 703
+    },
+    {
+      "collapsed": true,
+      "height": 50,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "farm",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/farm-icon.png",
+      "type": "image",
+      "width": 50,
+      "x": 361,
+      "y": 390
+    },
+    {
+      "collapsed": true,
+      "height": 69.9391592920354,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "hag",
+      "invisible": false,
+      "keepAspectRatio": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/tree.webp",
+      "type": "image",
+      "width": 69.9391592920354,
+      "x": 305,
+      "y": 930
+    },
+    {
+      "collapsed": true,
+      "height": 50,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "asteroid2",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/asteroid.webp",
+      "type": "image",
+      "width": 50,
+      "x": 409,
+      "y": 244
+    },
+    {
+      "collapsed": true,
+      "height": 50,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "asteroid5",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/asteroid.webp",
+      "type": "image",
+      "width": 50,
+      "x": 1361,
+      "y": 444
+    },
+    {
+      "collapsed": true,
+      "height": 101.432594296593,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "asteroid3",
+      "invisible": false,
+      "keepAspectRatio": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/asteroid.webp",
+      "type": "image",
+      "width": 101.432594296593,
+      "x": 850,
+      "y": 661
+    },
+    {
+      "collapsed": true,
+      "height": 50,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "asteroid",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/asteroid.webp",
+      "type": "image",
+      "width": 50,
+      "x": 259,
+      "y": 615
+    },
+    {
+      "collapsed": true,
+      "height": 50,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "asteroid1",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/asteroid.webp",
+      "type": "image",
+      "width": 50,
+      "x": 1410,
+      "y": 702
+    },
+    {
+      "collapsed": true,
+      "height": 80.3529925038671,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "planet",
+      "invisible": false,
+      "keepAspectRatio": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/planet.webp",
+      "type": "image",
+      "width": 80.3529925038671,
+      "x": 308,
+      "y": 530
+    },
+    {
+      "collapsed": false,
+      "height": 64.1347717447349,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "crystal",
+      "invisible": false,
+      "keepAspectRatio": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/crystal-planet.png",
+      "type": "image",
+      "width": 64.1347717447349,
+      "x": 1364,
+      "y": 501
+    },
+    {
+      "collapsed": true,
+      "height": 50,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "crystal1",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/crystal-planet.png",
+      "type": "image",
+      "width": 50,
+      "x": 257,
+      "y": 729
+    },
+    {
+      "collapsed": true,
+      "height": 65.6871455201682,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "Dinner",
+      "invisible": false,
+      "keepAspectRatio": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/diner.png",
+      "type": "image",
+      "width": 65.6871455201682,
+      "x": 708,
+      "y": 641
+    },
+    {
+      "collapsed": true,
+      "height": 50,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "turtle",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/turtle.webp",
+      "type": "image",
+      "width": 50,
+      "x": 409,
+      "y": 815
+    },
+    {
+      "collapsed": true,
+      "height": 75,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "Monk",
+      "invisible": true,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Sign_Rock.png",
+      "type": "image",
+      "width": 50,
+      "x": 1460,
+      "y": 822
+    }
+  ],
+  "screen": {
+    "monitor": 2
+  },
+  "zoom": {
+    "collapsed": false,
+    "level": 1,
+    "maxZoom": 10,
+    "minZoom": 0.1,
+    "panSpeed": 20,
+    "panX": 0,
+    "panY": 0,
+    "showInfo": false,
+    "smoothZoom": true,
+    "zoomSpeed": 0.1,
+    "zoomToMouse": false
+  }
+}

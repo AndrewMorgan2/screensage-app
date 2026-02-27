@@ -1,0 +1,185 @@
+<style>
+    /* Hide VTT controls that aren't needed for Sageslate */
+    .add-elements-container {
+        display: none !important;
+    }
+    .zoom-group {
+        display: none !important;
+    }
+    /* Hide the red "Display Area" border and label in preview */
+    #previewArea > div[style*="border: 3px solid red"] {
+        display: none !important;
+    }
+    /* Hide Switch Display button */
+    #einkSwitchDisplay {
+        display: none !important;
+    }
+    /* Hide fog buttons */
+    #addFogBtn, #removeFogBtn {
+        display: none !important;
+    }
+</style>
+
+<div class="device-container" id="deviceContainer">
+    <div id="devicePlaceholder" style="padding: 20px; text-align: center; color: #888; font-style: italic;">
+        Sageslate device statuses will appear here when devices are connected
+    </div>
+</div>
+<button class="refresh-button" id="refreshButton">Refresh Status</button>
+<button class="refresh-button" id="einkSwitchDisplay">Switch Display (Directory / Player Management)</button>
+<h3 id="result-eink-network-ping"></h3>
+
+<div class="container" id="eink-dir">
+    <div class="directory-input-container">
+        <h3>Change Directory</h3>
+        <div class="directory-flex-container">
+            <input type="text" id="directory-input" class="text-input" style="flex-grow: 1;"
+                placeholder="Enter absolute path (e.g., /home/user/pictures)" value="{{MEDIA_BASE_DIR}}" />
+            <button onclick="changeDirectory()">Navigate</button>
+        </div>
+        <div class="directory-info">
+            Default base directory: <code>{{MEDIA_BASE_DIR}}</code>
+        </div>
+        <div id="directory-error" class="error" style="margin-top: 5px; display: none;"></div>
+    </div>
+    <div class="grid-container">
+        <div class="folder-panel">
+            <h2>Files & Folders</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" id="path-breadcrumb">
+                    <li class="breadcrumb-item active" id="current-directory">{{MEDIA_BASE_DIR}}</li>
+                </ol>
+            </nav>
+            <div id="folder-list" class="loading">
+                <!-- Items will be loaded here -->
+            </div>
+        </div>
+
+        <div class="image-panel">
+            <h2>Media Viewer</h2>
+            <div id="image-viewer" class="image-container">
+                <p class="secondary-text">Select a file to view it here</p>
+            </div>
+            <div id="media-actions" class="media-actions">
+                <h3>Media Actions</h3>
+                <input type="text" id="current-path" class="text-input" style="margin-bottom: 10px; width: 100%;"
+                    readonly />
+                <div class="media-actions-buttons">
+                    <button id="set-sageslate-bg-btn" onclick="setAsBackground()">Set as Background</button>
+                    <button id="add-image-btn" onclick="addImageToSageslate()">Add Image</button>
+                    <button id="display-btn">Display to Eink</button>
+                    <select id="eink-select" name="numberSelect">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+                <div id="path-result" class="result-area"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Initialize the default media base directory for the JavaScript file -->
+    <script>
+        // This will be initialized in the DOMContentLoaded event
+        DEFAULT_MEDIA_BASE_DIR = "{{MEDIA_BASE_DIR}}";
+    </script>
+</div>
+<div class="container" id="eink-player-management">
+
+    <h1 style="display: block;">Player Aid Manager</h1>
+    <div class="json-container">
+        <div class="json-input">
+            <textarea id="jsonInput" placeholder="Enter your JSON configuration here...">
+{
+  "elements": [
+    {
+      "type": "box",
+      "id": "box1",
+      "x": 50,
+      "y": 50,
+      "width": 100,
+      "height": 100
+    },
+    {
+      "type": "circle",
+      "id": "circle1",
+      "x": 200,
+      "y": 150,
+      "radius": 50
+    },
+    {
+      "type": "text",
+      "id": "text1",
+      "x": 300,
+      "y": 250,
+      "content": "Hello World",
+      "fontSize": 18
+    }
+  ]
+}</textarea>
+            <div class="file-browser-container">
+                <div class="file-browser-header">
+                    <h3>File Browser</h3>
+                </div>
+                <div class="file-browser" id="fileBrowser">
+                    <!-- Files and folders will be listed here -->
+                </div>
+                <div class="file-actions">
+                    <div class="save-container">
+                        <input type="text" id="saveFilename" placeholder="filename.json" />
+                        <button id="saveFileBtn" class="action-button">Save Current JSON</button>
+                        <button id="parseButton">Parse JSON & Generate Controls</button>
+                        <p id="jsonError" class="error"></p>
+                    </div>
+                    <!-- <button id="refreshFilesBtn" class="action-button">Refresh Files</button> -->
+                </div>
+            </div>
+
+        </div>
+        <div class="controls-container">
+            <div id="controlsArea">
+                <p>Controls will appear here after parsing JSON...</p>
+            </div>
+            <div class="button-group">
+                <button class="primary-btn" id="addBoxBtn">Add Box</button>
+                <button class="primary-btn" id="addCircleBtn">Add Circle</button>
+                <button class="primary-btn" id="addTextBtn">Add Text</button>
+                <button class="primary-btn" id="addBarBtn">Add Bar</button>
+                <button class="primary-btn" id="addFogBtn">Add Fog</button>
+                <button class="primary-btn" id="removeFogBtn">Remove Fog</button>
+                <button class="secondary-btn" id="collapseAllBtn">Collapse All</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-preview">
+        <h2>Preview</h2>
+        <div class="upload-section">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button id="sendImageBtn" class="action-button">Send Image</button>
+                <select id="eink-select-player" name="numberSelect">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <p class="image-dimensions">Canvas: <span id="imageDimensions">400 × 300</span></p>
+        </div>
+        <div id="previewArea" style="width: 100%; height: 600px; position: relative;">
+            <!-- Add scale control for Sageslate tab -->
+            <div id="previewScalePanel" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
+                <div id="previewScaleContent" style="display: flex; align-items: center; gap: 10px;">
+                    <label style="color: white; font-size: 12px;">Preview Scale:</label>
+                    <input type="range" id="previewScaleSlider" min="10" max="200" value="100" step="5" style="width: 150px;">
+                    <span id="previewScaleDisplay" style="color: white;">100%</span>
+                </div>
+                <button id="minimizeScaleBtn" style="position: absolute; top: 5px; right: 5px; padding: 2px 8px; font-size: 14px; font-weight: bold;" title="Minimize">−</button>
+            </div>
+            <!-- Preview elements will be placed here -->
+        </div>
+    </div>
+</div>

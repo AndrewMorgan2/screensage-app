@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 120" width="900" height="120">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a"/>
+      <stop offset="50%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#1e3a8a"/>
+    </linearGradient>
+    
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24"/>
+      <stop offset="50%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#fbbf24"/>
+    </linearGradient>
+    
+    <linearGradient id="shimmer" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:transparent"/>
+      <stop offset="50%" style="stop-color:rgba(255,255,255,0.3)"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+      <animateTransform attributeName="gradientTransform" 
+                        type="translate" 
+                        values="-100 0;200 0;-100 0" 
+                        dur="2.5s" 
+                        repeatCount="indefinite"/>
+    </linearGradient>
+    
+    <!-- Filters for glow effects -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Main banner group with entrance animation -->
+  <g id="bannerGroup">
+    <animateTransform attributeName="transform" 
+                      type="translate" 
+                      values="0,-100;0,0" 
+                      dur="1s" 
+                      fill="freeze"/>
+    <animate attributeName="opacity" 
+             values="0;1" 
+             dur="1s" 
+             fill="freeze"/>
+    
+    <!-- Floating animation for entire banner -->
+    <animateTransform attributeName="transform" 
+                      type="translate" 
+                      values="0,0;0,-3;0,0" 
+                      dur="4s" 
+                      repeatCount="indefinite"
+                      begin="1s"/>
+    
+    <!-- Left scroll end -->
+    <path d="M0,20 L60,20 L80,60 L60,100 L0,100 L20,60 Z" 
+          fill="url(#blueGradient)" 
+          filter="url(#softGlow)">
+      <animateTransform attributeName="transform" 
+                        type="translate" 
+                        values="0,0;0,-4;0,0" 
+                        dur="2s" 
+                        repeatCount="indefinite"
+                        begin="1.2s"/>
+    </path>
+    
+    <!-- Right scroll end -->
+    <path d="M820,20 L900,20 L880,60 L900,100 L820,100 L840,60 Z" 
+          fill="url(#blueGradient)" 
+          filter="url(#softGlow)">
+      <animateTransform attributeName="transform" 
+                        type="translate" 
+                        values="0,0;0,-4;0,0" 
+                        dur="2s" 
+                        repeatCount="indefinite"
+                        begin="1.4s"/>
+    </path>
+    
+    <!-- Main scroll body -->
+    <rect x="60" y="20" width="780" height="80" rx="8" ry="8" 
+          fill="url(#blueGradient)" 
+          filter="url(#glow)">
+      <!-- Gentle glow animation -->
+      <animate attributeName="opacity" 
+               values="0.9;1;0.9" 
+               dur="3s" 
+               repeatCount="indefinite"/>
+    </rect>
+    
+    <!-- Shimmer effect overlay -->
+    <rect x="60" y="20" width="780" height="80" rx="8" ry="8" 
+          fill="url(#shimmer)" 
+          opacity="0.6"/>
+    
+    <!-- Golden edges -->
+    <rect x="60" y="20" width="780" height="4" rx="2" ry="2" 
+          fill="url(#goldGradient)">
+      <animate attributeName="opacity" 
+               values="0.8;1;0.8" 
+               dur="2s" 
+               repeatCount="indefinite"/>
+    </rect>
+    
+    <rect x="60" y="96" width="780" height="4" rx="2" ry="2" 
+          fill="url(#goldGradient)">
+      <animate attributeName="opacity" 
+               values="0.8;1;0.8" 
+               dur="2s" 
+               repeatCount="indefinite"/>
+    </rect>
+  
+    
+    <!-- Floating particles -->
+    <circle r="2" fill="#fbbf24" opacity="0.7">
+      <animateMotion dur="4s" repeatCount="indefinite">
+        <mpath href="#particlePath1"/>
+      </animateMotion>
+      <animate attributeName="opacity" 
+               values="0;0.7;0.7;0" 
+               dur="4s" 
+               repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" 
+                        type="rotate" 
+                        values="0;360" 
+                        dur="4s" 
+                        repeatCount="indefinite"/>
+    </circle>
+    
+    <circle r="2" fill="#fbbf24" opacity="0.7">
+      <animateMotion dur="4s" repeatCount="indefinite" begin="1s">
+        <mpath href="#particlePath2"/>
+      </animateMotion>
+      <animate attributeName="opacity" 
+               values="0;0.7;0.7;0" 
+               dur="4s" 
+               repeatCount="indefinite"
+               begin="1s"/>
+      <animateTransform attributeName="transform" 
+                        type="rotate" 
+                        values="0;360" 
+                        dur="4s" 
+                        repeatCount="indefinite"
+                        begin="1s"/>
+    </circle>
+    
+    <circle r="2" fill="#fbbf24" opacity="0.7">
+      <animateMotion dur="4s" repeatCount="indefinite" begin="2s">
+        <mpath href="#particlePath3"/>
+      </animateMotion>
+      <animate attributeName="opacity" 
+               values="0;0.7;0.7;0" 
+               dur="4s" 
+               repeatCount="indefinite"
+               begin="2s"/>
+      <animateTransform attributeName="transform" 
+                        type="rotate" 
+                        values="0;360" 
+                        dur="4s" 
+                        repeatCount="indefinite"
+                        begin="2s"/>
+    </circle>
+    
+    <circle r="2" fill="#fbbf24" opacity="0.7">
+      <animateMotion dur="4s" repeatCount="indefinite" begin="3s">
+        <mpath href="#particlePath4"/>
+      </animateMotion>
+      <animate attributeName="opacity" 
+               values="0;0.7;0.7;0" 
+               dur="4s" 
+               repeatCount="indefinite"
+               begin="3s"/>
+      <animateTransform attributeName="transform" 
+                        type="rotate" 
+                        values="0;360" 
+                        dur="4s" 
+                        repeatCount="indefinite"
+                        begin="3s"/>
+    </circle>
+  </g>
+  
+  <!-- Particle paths (invisible) -->
+  <defs>
+    <path id="particlePath1" d="M180,110 Q200,60 220,-10" fill="none"/>
+    <path id="particlePath2" d="M360,110 Q380,50 400,-20" fill="none"/>
+    <path id="particlePath3" d="M540,110 Q560,70 580,-10" fill="none"/>
+    <path id="particlePath4" d="M720,110 Q740,55 760,-15" fill="none"/>
+  </defs>
+</svg>

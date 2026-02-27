@@ -1,0 +1,28 @@
+{
+  "background": {
+    "height": 9100,
+    "src": "../Expansion/content/Structures/Workshops/Thurin'  Forge/_ Ba tt le ma ps _ 4K/02b. Smithing Quarters.mp4",
+    "type": "image",
+    "width": 4340
+  },
+  "elements": [],
+  "screen": {
+    "fullscreen": true,
+    "height": 1080,
+    "monitor": 1,
+    "width": 1920
+  },
+  "zoom": {
+    "collapsed": false,
+    "level": 1,
+    "maxZoom": 10,
+    "minZoom": 0.1,
+    "panSpeed": 20,
+    "panX": "0%",
+    "panY": "0%",
+    "showInfo": false,
+    "smoothZoom": true,
+    "zoomSpeed": 0.1,
+    "zoomToMouse": false
+  }
+}

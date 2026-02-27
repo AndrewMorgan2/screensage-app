@@ -1,0 +1,212 @@
+<div class="commands-container">
+    <!-- OBS Controls Section -->
+    <div class="section-title"><h2>VTT Controls</h2></div>
+    
+    <!-- Stop OBS -->
+    <div class="command-card">
+        <h3>Stop VTT</h3>
+        <p>Stop running OBS Studio process</p>
+        <button onclick="executeCommand('stop-vtt')">Execute</button>
+        <div id="result-stop-vtt" class="result-area"></div>
+    </div>
+    
+    <!-- OBS Status -->
+    <div class="command-card">
+        <h3>VTT Status</h3>
+        <p>Check how many OBS instances are running</p>
+        <button onclick="executeCommand('vtt-status')">Execute</button>
+        <div id="result-vtt-status" class="result-area"></div>
+    </div>
+    
+    <!-- List Available Monitors -->
+    <div class="command-card">
+        <h3>List Available Monitors</h3>
+        <p>List all connected displays with their resolutions</p>
+        <button onclick="executeCommand('list-monitors')">Execute</button>
+        <div id="result-list-monitors" class="result-area"></div>
+    </div>
+    
+    <!-- Battlemap Controls Section -->
+    <div class="section-title"><h2>Battlemap Controls</h2></div>
+    
+    <!-- Start OBS Battle -->
+    <div class="command-card">
+        <h3>Start VTT Battle</h3>
+        <p>Launch VTT, that reads in battlemap.json</p>
+        <div class="command-options">
+            <label for="battlemap-screen-select">Monitor:</label>
+            <select id="battlemap-screen-select" class="screen-select">
+                <option value="0">Monitor 0 (Default)</option>
+            </select>
+        </div>
+        <button onclick="executeCommandWithScreen('start-battlemap-screen', 'battlemap-screen-select')">Execute</button>
+        <div id="result-start-battlemap-screen" class="result-area"></div>
+    </div>
+    
+    <!-- Start OBS Display Screen -->
+    <div class="command-card">
+        <h3>Start VTT Display Screen</h3>
+        <p>Launch VTT, that reads in display.json</p>
+        <div class="command-options">
+            <label for="display-screen-select">Monitor:</label>
+            <select id="display-screen-select" class="screen-select">
+                <option value="0">Monitor 0 (Default)</option>
+            </select>
+        </div>
+        <button onclick="executeCommandWithScreen('start-display-screen', 'display-screen-select')">Execute</button>
+        <div id="result-start-display-screen" class="result-area"></div>
+    </div>
+</div>
+
+<script>
+// Fetch and populate monitor list on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadAvailableMonitors();
+});
+
+async function loadAvailableMonitors() {
+    try {
+        // Fetch monitors and configs in parallel
+        const [monitorsResponse, battlemapConfig, displayConfig] = await Promise.all([
+            fetch('/commands/list-monitors', { method: 'POST' }),
+            fetch('/json/read?path=./storage/scrying_glasses/battlemap.json').then(r => r.json()).catch(() => null),
+            fetch('/json/read?path=./storage/scrying_glasses/display.json').then(r => r.json()).catch(() => null)
+        ]);
+
+        const result = await monitorsResponse.json();
+
+        if (result.success && result.stdout) {
+            // Parse the monitor list from hyprctl/xrandr output
+            const monitors = result.stdout.trim().split('\n');
+            const selects = document.querySelectorAll('.screen-select');
+
+            selects.forEach(select => {
+                // Clear existing options
+                select.innerHTML = '';
+
+                // Add monitor options
+                monitors.forEach((monitor) => {
+                    // Extract monitor ID from the beginning of the string (format: "ID: name - resolution")
+                    const monitorId = monitor.split(':')[0].trim();
+                    const option = document.createElement('option');
+                    option.value = monitorId;
+                    option.textContent = monitor;
+                    select.appendChild(option);
+                });
+            });
+
+            // Pre-select saved monitor values from configs
+            const battlemapSelect = document.getElementById('battlemap-screen-select');
+            const displaySelect = document.getElementById('display-screen-select');
+
+            if (battlemapConfig && battlemapConfig.screen && battlemapConfig.screen.monitor !== undefined) {
+                battlemapSelect.value = String(battlemapConfig.screen.monitor);
+                console.log('✓ Battlemap monitor pre-selected:', battlemapConfig.screen.monitor);
+            }
+
+            if (displayConfig && displayConfig.screen && displayConfig.screen.monitor !== undefined) {
+                displaySelect.value = String(displayConfig.screen.monitor);
+                console.log('✓ Display monitor pre-selected:', displayConfig.screen.monitor);
+            }
+
+            console.log('✓ Loaded available monitors');
+        }
+    } catch (error) {
+        console.error('Error loading monitors:', error);
+    }
+}
+
+async function executeCommandWithScreen(commandId, selectId) {
+    const screenSelect = document.getElementById(selectId);
+    const screenNum = parseInt(screenSelect.value);
+
+    // Determine config path based on command
+    const configPath = commandId === 'start-battlemap-screen'
+        ? './storage/scrying_glasses/battlemap.json'
+        : './storage/scrying_glasses/display.json';
+
+    try {
+        // Read current config, update monitor, and save
+        const configResponse = await fetch(`/json/read?path=${encodeURIComponent(configPath)}`);
+        if (configResponse.ok) {
+            const config = await configResponse.json();
+            if (config.screen && config.screen.monitor !== screenNum) {
+                config.screen.monitor = screenNum;
+                await fetch('/json/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ path: configPath, content: JSON.stringify(config, null, 2) })
+                });
+                console.log(`✓ Updated ${configPath} with monitor: ${screenNum}`);
+            }
+        }
+    } catch (error) {
+        console.warn('Could not update config with monitor:', error);
+    }
+
+    // Execute the command with the selected screen
+    executeCommandWithParams(commandId, { screen: screenNum });
+}
+
+async function executeCommandWithParams(commandId, params) {
+    const resultElement = document.getElementById(`result-${commandId}`);
+    let output = '';
+    
+    try {
+        const url = new URL(`/commands/${commandId}`, window.location.origin);
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+        
+        const response = await fetch(url, {
+            method: 'POST'
+        });
+        const result = await response.json();
+        
+        if (result.success) {
+            if (result.stdout) {
+                console.log("Command output:", result.stdout);
+            }
+            resultElement.style.display = 'block';
+            output += `Success! Exit code: ${result.exit_code ?? 0}\n\n`;
+            output += `Output:\n${result.stdout}\n`;
+            resultElement.textContent = output;
+        } else {
+            resultElement.style.display = 'block';
+            console.error("Error running command:", result.stderr);
+            output += `Failed! Exit code: ${result.exit_code ?? 'Unknown'}\n\n`;
+            output += `Errors:\n${result.stderr}`;
+            resultElement.textContent = output;
+        }
+    } catch (error) {
+        console.error("Failed to execute command:", error);
+        resultElement.style.display = 'block';
+        resultElement.textContent = `Error: ${error.message}`;
+    }
+}
+</script>
+
+<style>
+.command-options {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.command-options label {
+    font-weight: bold;
+}
+
+.screen-select {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    min-width: 200px;
+    font-size: 14px;
+}
+
+.screen-select:focus {
+    outline: 2px solid #007bff;
+    border-color: #007bff;
+}
+</style>

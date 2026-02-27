@@ -1,0 +1,13 @@
+{
+  "background": {
+    "src": "/media/jp19060/Expansion/Cze/sci-fi/Spaceships_and_Vessels/040 Caladrius - Medical Ship - Animated Battlemaps/Caladrius_Original_Interior.webm"
+  },
+  "fog": {
+    "enabled": true,
+    "opacity": 1
+  },
+  "elements": [],
+  "screen": {
+    "monitor": 1
+  }
+}

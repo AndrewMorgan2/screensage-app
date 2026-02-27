@@ -1,0 +1,65 @@
+<div class="directory-input-container">
+    <h3>Change Directory</h3>
+    <div class="directory-flex-container">
+        <input type="text" id="directory-input" class="text-input" style="flex-grow: 1;" placeholder="Enter absolute path (e.g., /home/user/pictures)" value="{{MEDIA_BASE_DIR}}" />
+        <button onclick="changeDirectory()">Navigate</button>
+    </div>
+    <div class="directory-info">
+        Default base directory: <code>{{MEDIA_BASE_DIR}}</code>
+        <br/>
+        Default base directory: <code>{{BATTLEMAP_BASE_DIR}}</code>
+    </div>
+    <div id="directory-error" class="error" style="margin-top: 5px; display: none;"></div>
+</div>
+
+<div class="directory-input-container">
+    <h3>Search Media</h3>
+    <div class="directory-flex-container">
+        <input type="text" id="search-input" class="text-input" style="flex-grow: 1;" placeholder="Search in current directory and subdirectories..." />
+        <button onclick="searchMedia()">Search</button>
+        <button onclick="clearSearch()">Clear</button>
+    </div>
+    <div id="search-error" class="error" style="margin-top: 5px; display: none;"></div>
+</div>
+
+<div class="grid-container">
+    <div class="folder-panel">
+        <h2>Files & Folders</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" id="path-breadcrumb">
+                <li class="breadcrumb-item active" id="current-directory">{{MEDIA_BASE_DIR}}</li>
+            </ol>
+        </nav>
+        <div id="folder-list" class="loading">
+            <!-- Items will be loaded here -->
+        </div>
+    </div>
+    
+    <div class="image-panel">
+        <h2>Media Viewer</h2>
+        <div id="image-viewer" class="image-container">
+            <p class="secondary-text">Select a file to view it here</p>
+        </div>
+        <div id="media-actions" class="media-actions">
+            <h3>Media Actions</h3>
+            <input type="text" id="current-path" class="text-input" style="margin-bottom: 10px; width: 100%;" readonly />
+            <div class="media-actions-buttons">
+                <button id="display-btn" onclick="displayMediaInVTT('Display')">Display Media</button>
+                <button id="battlemap-btn" onclick="displayMediaInVTT('VTT')">Battlemap Media</button>
+                <button id="copy-path-btn" onclick="copyMediaPath()">Copy Path</button>
+            </div>
+            <h3 style="margin-top: 20px;">Add as Element</h3>
+            <div class="media-actions-buttons">
+                <button id="add-to-battlemap-btn" onclick="addMediaToVTTElement('battlemap')">Add to Battlemap</button>
+                <button id="add-to-display-btn" onclick="addMediaToVTTElement('display')">Add to Display</button>
+            </div>
+            <div id="path-result" class="result-area"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Initialize the default media base directory for the JavaScript file -->
+<script>
+    // This will be initialized in the DOMContentLoaded event
+    DEFAULT_MEDIA_BASE_DIR = "{{MEDIA_BASE_DIR}}";
+</script>

@@ -1,0 +1,165 @@
+{
+    "background": {
+        "src": "/home/amorgan/Github/DnD_Images/Castles_and_Fortifications/Cragmaw Castle/Cragmaw Castle Night.mp4"
+    },
+    "elements": [
+        {
+            "collapsed": true,
+            "color": "#e74c3c",
+            "id": "wizard",
+            "label": "Wizard",
+            "size": 50,
+            "type": "token",
+            "x": 200,
+            "y": 300
+        },
+        {
+            "collapsed": true,
+            "color": "#2ecc71",
+            "id": "rogue",
+            "label": "Rogue",
+            "size": 45,
+            "type": "token",
+            "x": 800,
+            "y": 200
+        },
+        {
+            "collapsed": true,
+            "color": "#8e44ad",
+            "id": "orc",
+            "label": "Orc Warrior",
+            "size": 55,
+            "type": "token",
+            "x": 1000,
+            "y": 500
+        },
+        {
+            "arrow": false,
+            "collapsed": true,
+            "color": "#ffff00",
+            "endX": 600,
+            "endY": 300,
+            "id": "light_ray_1",
+            "label": "Torch Light",
+            "thickness": 8,
+            "type": "line",
+            "x": 100,
+            "y": 300
+        },
+        {
+            "arrow": false,
+            "collapsed": true,
+            "color": "#00ffff",
+            "endX": 900,
+            "endY": 150,
+            "id": "light_ray_2",
+            "label": "Magic Light Beam",
+            "thickness": 6,
+            "type": "line",
+            "x": 200,
+            "y": 400
+        },
+        {
+            "arrow": false,
+            "collapsed": true,
+            "color": "#ff6600",
+            "endX": 1100,
+            "endY": 600,
+            "id": "light_ray_3",
+            "label": "Fire Spell Ray",
+            "thickness": 10,
+            "type": "line",
+            "x": 250,
+            "y": 250
+        },
+        {
+            "collapsed": true,
+            "color": "rgba(139, 69, 19, 0.8)",
+            "height": 200,
+            "id": "mirror wall_1",
+            "label": "Stone Wall",
+            "type": "area",
+            "width": 50,
+            "x": 400,
+            "y": 350,
+            "rotation": 0
+        },
+        {
+            "collapsed": true,
+            "color": "rgba(105, 105, 105, 0.7)",
+            "height": 150,
+            "id": "pillar_1",
+            "label": "Ancient Pillar",
+            "type": "area",
+            "width": 80,
+            "x": 600,
+            "y": 200,
+            "rotation": 15
+        },
+        {
+            "collapsed": true,
+            "color": "rgba(70, 130, 180, 0.6)",
+            "height": 120,
+            "id": "crystal_barrier",
+            "label": "Crystal Barrier",
+            "type": "area",
+            "width": 120,
+            "x": 750,
+            "y": 400,
+            "rotation": -10
+        },
+        {
+            "collapsed": true,
+            "color": "rgba(160, 82, 45, 0.9)",
+            "height": 180,
+            "id": "wooden_crate",
+            "label": "Large Crate",
+            "type": "area",
+            "width": 100,
+            "x": 850,
+            "y": 350,
+            "rotation": 0
+        },
+        {
+            "alignment": "center",
+            "collapsed": true,
+            "color": "#ffffff",
+            "font": "Arial",
+            "id": "title",
+            "size": 28,
+            "text": "Dungeon Light Physics Demo",
+            "type": "text",
+            "x": 600,
+            "y": 50
+        },
+        {
+            "angle": 90,
+            "borderColor": "#ff0000",
+            "collapsed": true,
+            "color": "rgba(255, 0, 0, 0.4)",
+            "direction": 45,
+            "id": "fireball_cone",
+            "label": "Fireball Cone",
+            "radius": 100,
+            "rotation": 0,
+            "type": "cone",
+            "x": 200,
+            "y": 300
+        },
+        {
+            "collapsed": true,
+            "height": 100,
+            "id": "mirror_shield",
+            "opacity": 60,
+            "rotation": 30,
+            "src": "/home/user/images/mirror_shield.png",
+            "type": "image",
+            "width": 80,
+            "x": 500,
+            "y": 250
+        }
+    ],
+    "screen": {
+        "monitor": 1
+    }
+}

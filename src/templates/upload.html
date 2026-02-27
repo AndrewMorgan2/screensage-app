@@ -1,0 +1,437 @@
+<div class="upload-container">
+    <h1>Upload Images</h1>
+
+    <div class="upload-section">
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📁</div>
+            <p>Drag and drop images here</p>
+            <p class="upload-hint">or</p>
+            <label for="fileInput" class="upload-button">Choose Files</label>
+            <input type="file" id="fileInput" accept="image/*" multiple hidden>
+            <p class="upload-info">Supports: JPG, PNG, GIF, WebP</p>
+        </div>
+    </div>
+
+    <div class="upload-progress" id="uploadProgress" style="display: none;">
+        <h3>Uploading...</h3>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p id="progressText">0%</p>
+    </div>
+
+    <div class="upload-results" id="uploadResults">
+        <!-- Upload results will be displayed here -->
+    </div>
+</div>
+
+<style>
+.upload-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.upload-section {
+    margin-bottom: 30px;
+}
+
+.upload-area {
+    border: 3px dashed #4CAF50;
+    border-radius: 10px;
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.upload-area.dragover {
+    background-color: #e8f5e9;
+    border-color: #2E7D32;
+    transform: scale(1.02);
+}
+
+.upload-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.upload-area p {
+    font-size: 18px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.upload-hint {
+    font-size: 14px;
+    color: #666;
+}
+
+.upload-button {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin: 10px 0;
+}
+
+.upload-button:hover {
+    background-color: #45a049;
+}
+
+.upload-info {
+    font-size: 12px;
+    color: #999;
+    margin-top: 15px;
+}
+
+.upload-progress {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.upload-progress h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 30px;
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+#progressText {
+    text-align: center;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.upload-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.upload-result-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.upload-result-item.success {
+    border-color: #4CAF50;
+}
+
+.upload-result-item.error {
+    border-color: #f44336;
+}
+
+.result-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.upload-result-item.success .result-icon {
+    color: #4CAF50;
+}
+
+.upload-result-item.error .result-icon {
+    color: #f44336;
+}
+
+.result-filename {
+    font-size: 14px;
+    color: #333;
+    margin: 10px 0;
+    word-break: break-all;
+    font-weight: bold;
+}
+
+.result-status {
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
+.result-status.success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.result-status.error {
+    background-color: #f44336;
+    color: white;
+}
+
+.result-path {
+    font-size: 12px;
+    color: #4CAF50;
+    margin-top: 5px;
+    font-weight: bold;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const uploadResults = document.getElementById('uploadResults');
+
+    const STORAGE_KEY = 'uploadHistory';
+    const DIRECTORY_KEY = 'mediaDirectory';
+    const UPLOAD_DIR = '/home/amorgan/GitHub/Upload';
+
+    // Save upload directory to localStorage so Media tab shows it
+    localStorage.setItem(DIRECTORY_KEY, UPLOAD_DIR);
+
+    // Load previous upload results from localStorage
+    loadUploadHistory();
+
+    // Listen for storage changes from other tabs
+    window.addEventListener('storage', function(e) {
+        if (e.key === STORAGE_KEY) {
+            console.log('Storage changed in another tab, reloading results');
+            loadUploadHistory();
+        }
+    });
+
+    // Click to select files - but not if clicking the label or button
+    uploadArea.addEventListener('click', (e) => {
+        // Only trigger if clicking the upload area itself, not the label
+        if (e.target === uploadArea || e.target.classList.contains('upload-icon') || e.target.tagName === 'P') {
+            fileInput.click();
+        }
+    });
+
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, preventDefaults, false);
+        document.body.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    // Highlight drop area when item is dragged over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+        uploadArea.classList.add('dragover');
+    }
+
+    function unhighlight(e) {
+        uploadArea.classList.remove('dragover');
+    }
+
+    // Handle dropped files
+    uploadArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+    }
+
+    // Handle selected files
+    fileInput.addEventListener('change', function(e) {
+        handleFiles(this.files);
+    });
+
+    function loadUploadHistory() {
+        try {
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            uploadResults.innerHTML = '';
+
+            // Display each saved result
+            history.forEach(item => {
+                displayResult(item.filename, item.success, item.message, item.path);
+            });
+
+            console.log('Loaded', history.length, 'items from upload history');
+        } catch (error) {
+            console.error('Error loading upload history:', error);
+        }
+    }
+
+    function saveToHistory(filename, success, message, path) {
+        try {
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+            // Add new item to the beginning of the array
+            history.unshift({
+                filename,
+                success,
+                message,
+                path,
+                timestamp: new Date().toISOString()
+            });
+
+            // Keep only the last 50 uploads to prevent localStorage from growing too large
+            if (history.length > 50) {
+                history.splice(50);
+            }
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+            console.log('Saved to history:', filename);
+        } catch (error) {
+            console.error('Error saving to history:', error);
+        }
+    }
+
+    async function handleFiles(files) {
+        if (files.length === 0) return;
+
+        // Show progress
+        uploadProgress.style.display = 'block';
+
+        const filesArray = Array.from(files);
+        let completed = 0;
+
+        for (const file of filesArray) {
+            await uploadFile(file);
+            completed++;
+            const progress = Math.round((completed / filesArray.length) * 100);
+            progressFill.style.width = progress + '%';
+            progressText.textContent = progress + '%';
+        }
+
+        // Hide progress after completion
+        setTimeout(() => {
+            uploadProgress.style.display = 'none';
+            progressFill.style.width = '0%';
+            progressText.textContent = '0%';
+        }, 1000);
+    }
+
+    async function uploadFile(file) {
+        try {
+            console.log('Starting upload for:', file.name, 'Type:', file.type, 'Size:', file.size);
+
+            // Validate file type - allow if type is image/* or if type is empty but filename suggests image
+            const hasImageType = file.type && file.type.startsWith('image/');
+            const hasImageExtension = /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(file.name);
+
+            if (!hasImageType && !hasImageExtension) {
+                console.warn('Invalid file type:', file.type, 'File name:', file.name);
+                addResult(file.name, false, 'Not an image file');
+                return;
+            }
+
+            console.log('File validation passed - Type:', file.type || 'unknown', 'Has image extension:', hasImageExtension);
+
+            console.log('Reading file as ArrayBuffer...');
+            const arrayBuffer = await file.arrayBuffer();
+            console.log('File read successfully, size:', arrayBuffer.byteLength, 'bytes');
+
+            // Determine content type - use file.type if available, otherwise guess from extension
+            let contentType = file.type;
+            if (!contentType) {
+                if (/\.jpe?g$/i.test(file.name)) contentType = 'image/jpeg';
+                else if (/\.png$/i.test(file.name)) contentType = 'image/png';
+                else if (/\.gif$/i.test(file.name)) contentType = 'image/gif';
+                else if (/\.webp$/i.test(file.name)) contentType = 'image/webp';
+                else contentType = 'image/jpeg'; // Default to JPEG
+                console.log('Guessed content type from filename:', contentType);
+            }
+
+            console.log('Sending POST request to /api/upload/image');
+            const response = await fetch('/api/upload/image', {
+                method: 'POST',
+                body: arrayBuffer,
+                headers: {
+                    'Content-Type': contentType
+                }
+            });
+
+            console.log('Response received, status:', response.status, response.statusText);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Upload failed with status:', response.status, 'Error:', errorText);
+                addResult(file.name, false, `Upload failed: ${response.status} ${response.statusText}`);
+                return;
+            }
+
+            const result = await response.json();
+            console.log('Upload result:', result);
+
+            if (result.success) {
+                console.log('Upload successful:', result.path);
+                addResult(file.name, true, 'Uploaded successfully', result.path);
+            } else {
+                console.error('Upload failed:', result.message);
+                addResult(file.name, false, result.message || 'Upload failed');
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            addResult(file.name, false, 'Upload failed: ' + error.message);
+        }
+    }
+
+    function addResult(filename, success, message, path) {
+        // Save to history
+        saveToHistory(filename, success, message, path);
+
+        // Display the result
+        displayResult(filename, success, message, path);
+    }
+
+    function displayResult(filename, success, message, path) {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'upload-result-item ' + (success ? 'success' : 'error');
+
+        let content = `
+            <div class="result-icon">${success ? '✓' : '✗'}</div>
+            <div class="result-filename">${filename}</div>
+            <div class="result-status ${success ? 'success' : 'error'}">${message}</div>
+        `;
+
+        if (success && path) {
+            content += `<div class="result-path">✓ Uploaded</div>`;
+        }
+
+        resultItem.innerHTML = content;
+
+        // Insert at the beginning so newest uploads appear first
+        if (uploadResults.firstChild) {
+            uploadResults.insertBefore(resultItem, uploadResults.firstChild);
+        } else {
+            uploadResults.appendChild(resultItem);
+        }
+    }
+});
+</script>

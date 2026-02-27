@@ -1,0 +1,50 @@
+{
+  "background": {
+    "height": 458,
+    "src": "/home/amorgan/GitHub/DnD_Images/OuterPlanes/Planes/Auril.jpg",
+    "width": 1000
+  },
+  "elements": [
+    {
+      "collapsed": false,
+      "height": "50%",
+      "id": "image_1767888518667",
+      "keepAspectRatio": true,
+      "opacity": 100,
+      "src": "/home/amorgan/GitHub/DnD_Images/OuterPlanes/Planes/Auril_p91.webp",
+      "type": "image",
+      "width": "20.604395604395602%",
+      "x": 692,
+      "y": 318
+    },
+    {
+      "collapsed": false,
+      "height": "50%",
+      "id": "image_1767888560630",
+      "invisible": true,
+      "keepAspectRatio": true,
+      "opacity": 100,
+      "src": "/home/amorgan/GitHub/DnD_Images/OuterPlanes/NPCs/barbain_crytals.png",
+      "type": "image",
+      "width": "18.749999999999996%",
+      "x": 1284,
+      "y": 390
+    }
+  ],
+  "screen": {
+    "monitor": 1
+  },
+  "zoom": {
+    "collapsed": false,
+    "level": 1,
+    "maxZoom": 10,
+    "minZoom": 0.1,
+    "panSpeed": 20,
+    "panX": 0,
+    "panY": 0,
+    "showInfo": false,
+    "smoothZoom": true,
+    "zoomSpeed": 0.1,
+    "zoomToMouse": false
+  }
+}

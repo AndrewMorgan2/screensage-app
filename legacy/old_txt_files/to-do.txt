@@ -1,0 +1,37 @@
+- [ ] VTT
+    - [x] Refactor JavaScript modules for better organization (COMPLETED)
+        - [x] Consolidate vtt-main.js and display-main.js (reduced by 70%)
+        - [x] Extract element type definitions into separate module
+        - [x] Extract UI control generators into reusable module
+        - [x] Extract file operations into separate module
+        - [x] Add comprehensive JSDoc documentation
+        - [x] Create README, MIGRATION, and QUICK_REFERENCE guides
+        - [x] Update template_loader.rs to include new modules
+    - [ ] Add textures for spell effects
+- [x] Run on local, but sshing does it work?
+- [ ] Remake Docs
+- [ ] unity intergation for Tilt 5
+- [ ] Lazer connecting though some python scrip that handles the math and produces a json
+
+## Longer term 
+- [x] File transfer, bones in place -> NFS replaced this
+- [ ] Make setup script
+    - [ ] list of sudo apt installs
+- [x] VTT deal with not just HD maps
+    - [x] player windows 
+    - [x] Preview scrollable
+- [ ] Tool to add fog blocking walls into a json map
+
+## Futrue Promts
+- [x] python game doesn't do fog clearing detection well when the background is zoomed in (FIXED - coordinate transformation added)
+- [x] make preview work with the new % for size and x,y co-ords as well as the old system (COMPLETED - full support for absolute, percentage, and relative coordinates)
+- [ ] Update the README.md to be a nice github page and look though the documentation in /docs and add all features to, along with adding to the code documention
+- [x] Remeber Preview zoom when you leave the tab
+- [x] Make the buttons in display and battle work for adding new text/ image/ videos etc. Also make them use json files instead of hard coded json 
+- [x] Add a add and remove fog button next to the add and remove images
+- [ ] Suggest how to auto work out screen dimensions and apply them to the json with a button
+
+### Wall Fog Features
+- [ ] Make clear documentation for the wall fog feature, where fog is stopped by walls 
+- [ ] Tell me how to optimise the program for the use case where a seperate device is using the webpage, this already works but can you think of performance improvements
+

@@ -1,0 +1,48 @@
+/* =============================================================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================================================= */
+
+/* Hardware acceleration for draggable elements */
+.preview-item {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Enhanced performance while dragging */
+.preview-item.dragging {
+    will-change: transform, left, top;
+    pointer-events: none;
+    z-index: 1000;
+    /* Disable transitions during drag for performance */
+    transition: none !important;
+}
+
+/* Smooth transitions only when not dragging */
+.preview-item:not(.dragging) {
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+}
+
+/* Optimize video rendering */
+video.background-video {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: auto; /* Let browser decide */
+}
+
+/* Reduce repaint overhead for preview area */
+#previewArea,
+#previewArea2 {
+    contain: layout style paint;
+    transform: translateZ(0);
+}
+
+/* Optimize slider performance */
+input[type="range"] {
+    will-change: auto;
+}
+
+/* Reduce reflow during control updates */
+.control-item {
+    contain: layout;
+}

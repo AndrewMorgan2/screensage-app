@@ -1,0 +1,116 @@
+{
+  "background": {
+    "height": 1080,
+    "src": "/media/amorgan/Expansion/content/Blue Lake/Static/Blue Lake (Static Day Snow Unknown Deep Gridless).jpg",
+    "width": 1920
+  },
+  "elements": [
+    {
+      "animation": {
+        "frequency": 2,
+        "intensity": 0.2,
+        "type": "pulse"
+      },
+      "color": "#3498db",
+      "id": "player1",
+      "label": "Wizard",
+      "size": 60,
+      "type": "token",
+      "x": 500,
+      "y": 300,
+      "collapsed": false
+    },
+    {
+      "animation": {
+        "endX": 1200,
+        "endY": 600,
+        "startX": 1400,
+        "startY": 700,
+        "type": "move"
+      },
+      "color": "#e74c3c",
+      "id": "enemy1",
+      "label": "Dragon",
+      "size": 70,
+      "type": "token",
+      "x": 1200,
+      "y": 600,
+      "collapsed": false
+    },
+    {
+      "animation": {
+        "startHeight": 0,
+        "startWidth": 0,
+        "type": "expand"
+      },
+      "color": "rgba(155, 89, 182, 0.5)",
+      "height": 300,
+      "id": "spell_area",
+      "label": "Magical Zone",
+      "type": "area",
+      "width": 300,
+      "x": 800,
+      "y": 400,
+      "collapsed": false
+    },
+    {
+      "animation": {
+        "type": "draw"
+      },
+      "arrow": true,
+      "color": "#f39c12",
+      "endX": 1200,
+      "endY": 600,
+      "id": "arrow",
+      "thickness": 5,
+      "type": "line",
+      "x": 500,
+      "y": 300,
+      "collapsed": false
+    },
+    {
+      "angle": 60,
+      "animation": {
+        "startRadius": 0,
+        "type": "expand"
+      },
+      "borderColor": "#c0392b",
+      "color": "rgba(231, 76, 60, 0.6)",
+      "direction": 225,
+      "id": "dragon_breath",
+      "label": "Dragon Breath",
+      "radius": 300,
+      "type": "cone",
+      "x": 1200,
+      "y": 600,
+      "collapsed": false
+    },
+    {
+      "animation": {
+        "type": "typewriter"
+      },
+      "color": "white",
+      "content": "Dragon attacks!",
+      "fontSize": 48,
+      "id": "battle_text",
+      "type": "text",
+      "x": 960,
+      "y": 100,
+      "collapsed": false
+    },
+    {
+      "animation": {
+        "fadeType": "in",
+        "type": "fade"
+      },
+      "color": "#2ecc71",
+      "content": "Round 1",
+      "fontSize": 36,
+      "id": "round_counter",
+      "type": "text",
+      "x": 960,
+      "y": 980,
+      "collapsed": false
+    }
+  ]
+}

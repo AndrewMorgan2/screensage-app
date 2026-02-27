@@ -1,0 +1,57 @@
+<div id="previewArea" style="width: 100%; position: relative;">
+    <!-- Add scale control -->
+    <div id="previewScalePanel" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
+        <div id="previewScaleContent" style="display: flex; align-items: center; gap: 10px;">
+            <label style="color: white; font-size: 12px;">Preview Scale:</label>
+            <input type="range" id="previewScaleSlider" min="10" max="200" value="100" step="5" style="width: 150px;">
+            <span id="previewScaleDisplay" style="color: white;">100%</span>
+        </div>
+        <button id="minimizeScaleBtn" style="position: absolute; top: 5px; right: 5px; padding: 2px 8px; font-size: 14px; font-weight: bold;" title="Minimize">−</button>
+    </div>
+    <!-- Preview elements will be placed here -->
+</div>
+<div class="container">
+    <div class="json-container">
+        <div class="json-input">
+            <textarea id="jsonInput" placeholder="Enter your JSON configuration here..."> </textarea>
+            <div class="file-browser-container">
+                <div class="file-browser-header">
+                    <h3>File Browser</h3>
+                </div>
+                <div class="file-browser" id="fileBrowser">
+                    <!-- Files and folders will be listed here -->
+                </div>
+                <div class="file-actions">
+                    <div class="save-container">
+                        <input type="text" id="saveFilename" placeholder="filename.json" />
+                        <button id="saveFileBtn" class="action-button">Save Current JSON</button>
+                        <button id="parseButton">Parse JSON & Generate Controls</button>
+                        <p id="jsonError" class="error"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="controls-container">
+            <div id="controlsArea">
+                <p>Controls will appear here after parsing JSON...</p>
+            </div>
+            <!-- Main element buttons -->
+            <button id="addTokenBtn" class="primary-btn">Add Token</button>
+            <button id="addAreaBtn" class="primary-btn">Add Area</button>
+            <button id="addTextBtn" class="primary-btn">Add Text</button>
+            <button id="addVideoBtn" class="primary-btn">Add Video</button>
+            <button id="addGifBtn" class="primary-btn">Add GIF</button>
+            <button id="addImageBtn" class="primary-btn">Add Image</button>
+            <button id="addSvgBtn" class="primary-btn">Add SVG</button>
+            <button id="addLineBtn" class="primary-btn">Add Line</button>
+            <button id="addConeBtn" class="primary-btn">Add Cone</button>
+            <button id="addBarBtn" class="primary-btn">Add Bar</button>
+
+            <!-- Utility buttons -->
+            <button id="addFogBtn" class="secondary-btn" style="margin-left: auto;">Add Fog</button>
+            <button id="resetFogBtn" class="secondary-btn">Reset Fog</button>
+            <button id="removeFogBtn" class="secondary-btn">Remove Fog</button>
+            <button id="collapseAllBtn" class="secondary-btn">Collapse All</button>
+        </div>
+    </div>
+</div>

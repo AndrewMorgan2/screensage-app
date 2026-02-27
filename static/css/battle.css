@@ -1,0 +1,554 @@
+.parser-instructions, .command-instructions {
+    background-color: #333;
+    padding: 10px;
+    border-left: 3px solid #3498db;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.parser-instructions code, .command-instructions code {
+    background-color: #444;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+#combatant-batch {
+    font-family: monospace;
+    resize: vertical;
+}
+
+/* Damage Tracker Styles */
+.damage-tracker {
+    background-color: #3a3a3a;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.damage-log {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 10px;
+    max-height: 120px;
+    overflow-y: auto;
+    margin-top: 10px;
+    font-family: monospace;
+    font-size: 0.9em;
+    color: #ddd;
+}
+
+.damage-log .healing {
+    color: #27ae60;
+}
+
+.damage-log .damage {
+    color: #e74c3c;
+}
+
+.initiative-list {
+    background-color: #2a2a2a;
+    border-radius: 4px;
+    padding: 10px;
+    max-height: 500px;
+    overflow-y: auto;
+    font-family: monospace;
+}
+
+.initiative-index {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-color: #555;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin-right: 8px;
+}
+
+.active-turn {
+    background-color: #3498db;
+    padding: 5px;
+    border-radius: 4px;
+    border-left: 3px solid #2980b9;
+}/* Battle/Combat Tracker Styles */
+.battle-container {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) minmax(300px, 1fr) minmax(300px, 1fr);
+    grid-gap: 20px;
+    padding: 20px;
+}
+
+@media (max-width: 1200px) {
+    .battle-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Initiative Panel Styles */
+.initiative-panel, .combatant-details, .battle-status {
+    background-color: #2c2c2c;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.initiative-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.initiative-list {
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+.combatant-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    background-color: #383838;
+    border-radius: 4px;
+    padding: 8px;
+    transition: all 0.3s ease;
+}
+
+.combatant-item.active {
+    background-color: #424242;
+    border-left: 3px solid #4CAF50;
+}
+
+.initiative-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.combatant-info {
+    flex: 1;
+    padding: 5px;
+}
+
+.combatant-info.player {
+    border-left: 3px solid #3498db;
+}
+
+.combatant-info.enemy {
+    border-left: 3px solid #e74c3c;
+}
+
+.combatant-info.ally {
+    border-left: 3px solid #2ecc71;
+}
+
+.combatant-name {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.combatant-stats {
+    display: flex;
+    font-size: 0.9em;
+    color: #bbb;
+}
+
+.hp-label, .ac-label {
+    margin-right: 5px;
+}
+
+.hp-value, .ac-value {
+    margin-right: 15px;
+}
+
+.hp-value.low {
+    color: #e74c3c;
+}
+
+.combatant-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.combatant-controls button {
+    padding: 3px 6px;
+    font-size: 0.85em;
+}
+
+/* Combatant Form Styles */
+.combatant-form {
+    background-color: #3a3a3a;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.form-group {
+    margin-bottom: 12px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ddd;
+}
+
+.text-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #555;
+    background-color: #444;
+    color: #fff;
+    border-radius: 4px;
+}
+
+/* Status Panel Styles */
+.status-panel {
+    display: flex;
+    background-color: #3a3a3a;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.status-item {
+    margin-right: 20px;
+}
+
+.status-label {
+    font-weight: bold;
+    color: #bbb;
+    margin-right: 8px;
+}
+
+.status-value {
+    font-size: 1.2em;
+}
+
+.round-btn {
+    padding: 2px 8px;
+    font-size: 0.9em;
+    margin: 0 4px;
+    background-color: #555;
+    color: white;
+    border: 1px solid #666;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.round-btn:hover {
+    background-color: #666;
+}
+
+.round-btn:active {
+    background-color: #777;
+}
+
+.status-notes {
+    background-color: #3a3a3a;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* Button Styles */
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #555;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #666;
+}
+
+.primary-btn {
+    background-color: #3498db;
+}
+
+.primary-btn:hover {
+    background-color: #2980b9;
+}
+
+.danger-btn {
+    background-color: #e74c3c;
+}
+
+.danger-btn:hover {
+    background-color: #c0392b;
+}
+
+.damage-btn {
+    background-color: #c0392b;
+}
+
+.heal-btn {
+    background-color: #27ae60;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #2c2c2c;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: #fff;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+/* Battle Management Section */
+.battle-actions {
+    background-color: #3a3a3a;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.session-id {
+    font-size: 0.9em;
+    color: #aaa;
+    margin-bottom: 10px;
+}
+
+.import-container {
+    display: flex;
+    gap: 10px;
+}
+
+.import-container .text-input {
+    flex: 1;
+}
+/* Add these to your existing styles.css file */
+
+/* Button styles for the combat display buttons */
+.success-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.success-btn:hover {
+    background-color: #218838;
+}
+
+.warning-btn {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.warning-btn:hover {
+    background-color: #e0a800;
+}
+
+.danger-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.danger-btn:hover {
+    background-color: #c82333;
+}
+
+.success-btn.disabled, .warning-btn.disabled, .danger-btn.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* Style for system messages in the damage log */
+.damage-log .system-message {
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 5px 8px;
+    margin: 5px 0;
+    border-radius: 4px;
+    font-style: italic;
+}
+
+/* Damage Editor Styles */
+.damage-editor {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.collapse-btn {
+    background: none;
+    border: none;
+    color: #ddd;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 0;
+    text-align: left;
+    width: 100%;
+    transition: color 0.2s;
+}
+
+.collapse-btn:hover {
+    color: #fff;
+    background: none;
+}
+
+#damage-editor-arrow {
+    display: inline-block;
+    transition: transform 0.2s;
+    margin-right: 5px;
+}
+
+#damage-editor-arrow.expanded {
+    transform: rotate(90deg);
+}
+
+.damage-editor-content {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #2a2a2a;
+    border-radius: 4px;
+}
+
+.editor-instructions {
+    font-size: 0.9em;
+    color: #bbb;
+    margin-bottom: 10px;
+}
+
+.damage-editor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.damage-editor-item {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    padding: 8px 10px;
+    border-radius: 4px;
+    gap: 10px;
+}
+
+.damage-editor-item .combatant-label {
+    flex: 1;
+    font-weight: bold;
+    color: #ddd;
+}
+
+.damage-editor-item .damage-input {
+    width: 80px;
+    padding: 5px 8px;
+    background-color: #444;
+    border: 1px solid #555;
+    border-radius: 4px;
+    color: #fff;
+    text-align: right;
+    font-family: monospace;
+}
+
+.damage-editor-item .damage-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* Adjust initiative-controls to make room for the new buttons */
+.initiative-controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+/* Combatant management section */
+.combatant-actions {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: rgba(33, 37, 41, 0.1);
+    border-radius: 6px;
+}
+
+.index-container {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.index-container input {
+    flex-grow: 1;
+}
+
+.index-container button {
+    white-space: nowrap;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+    .initiative-controls, .index-container {
+        flex-direction: column;
+    }
+    
+    .initiative-controls button, .index-container button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}

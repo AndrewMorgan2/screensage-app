@@ -1,0 +1,31 @@
+{
+  "background": {
+    "src": "../DnD_Images/OuterPlanes/bandit_ship.mp4"
+  },
+  "elements": [
+    {
+      "collapsed": false,
+      "height": 397,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "image_1759437008520",
+      "invisible": false,
+      "locked": false,
+      "opacity": 100,
+      "rotation": 0,
+      "src": "../DnD_Images/OuterPlanes/Bandits.jpg",
+      "type": "image",
+      "width": 300,
+      "x": 1464,
+      "y": 480
+    }
+  ],
+  "screen": {
+    "monitor": 2,
+    "fullscreen": true,
+    "width": 2560,
+    "height": 1440
+  }
+}

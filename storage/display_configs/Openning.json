@@ -1,0 +1,41 @@
+{
+  "background": {
+    "height": 720,
+    "src": "/home/amorgan/GitHub/DnD_Images/Towns_and_Villages/Halfling Village/Halfling Village.mp4",
+    "width": 1280
+  },
+  "elements": [
+    {
+      "collapsed": false,
+      "height": "88.2458034019429%",
+      "id": "image_1768665975237",
+      "keepAspectRatio": true,
+      "opacity": 100,
+      "src": "/home/amorgan/GitHub/magic_items.png",
+      "type": "image",
+      "width": "57.05547633746307%",
+      "x": 343,
+      "y": 60,
+      "invisible": true
+    }
+  ],
+  "screen": {
+    "fullscreen": true,
+    "height": 1080,
+    "monitor": 1,
+    "width": 1920
+  },
+  "zoom": {
+    "collapsed": false,
+    "level": 1,
+    "maxZoom": 10,
+    "minZoom": 0.1,
+    "panSpeed": 20,
+    "panX": "0%",
+    "panY": "0%",
+    "showInfo": false,
+    "smoothZoom": true,
+    "zoomSpeed": 0.1,
+    "zoomToMouse": false
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "fog": {
+    "enabled": true,
+    "opacity": 50,
+    "color": "#000000",
+    "clearMode": true,
+    "clearRadius": 40,
+    "clearReset": false,
+    "clear_polygons": []
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "description": "Combat Overlay Template - Responsive positioning using percentages",
+  "elements": [
+     {
+      "collapsed": false,
+      "height": "23.9132205598849%",
+      "id": "top_banner",
+      "src": "./storage/images/battle_display_top.png",
+      "type": "image",
+      "width": "94.15507792801336%",
+      "x": 47.5972738874257,
+      "y": -70,
+      "keepAspectRatio": true
+    },
+    {
+      "alignment": "center",
+      "collapsed": false,
+      "color": "#ffffff",
+      "font": "Arial",
+      "id": "title",
+      "outlineColor": "#000000",
+      "outlineWidth": 2,
+      "size": "5%",
+      "text": "Roll Initative",
+      "type": "text",
+      "x": 965.656412066578,
+      "y": 20
+    },
+    {
+      "alignment": "left",
+      "collapsed": false,
+      "color": "#ffff00",
+      "font": "Arial",
+      "id": "turn_display",
+      "outlineColor": "#000000",
+      "outlineWidth": 3,
+      "size": "7%",
+      "text": "Turn: 1",
+      "type": "text",
+      "x": 24,
+      "y": 974
+    }
+  ]
+}

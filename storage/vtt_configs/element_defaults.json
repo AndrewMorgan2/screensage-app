@@ -1,0 +1,130 @@
+{
+  "token": {
+    "size": 50,
+    "color": "#3498db",
+    "label": "",
+    "labelDisplay": true,
+    "hiddenProperties": ["x", "y"],
+    "collapsed": true,
+    "position": "center"
+  },
+  "area": {
+    "widthFraction": 0.5,
+    "heightFraction": 0.5,
+    "keepAspectRatio": true,
+    "color": "#2ecc71",
+    "alpha": 30,
+    "label": "",
+    "labelDisplay": true,
+    "hiddenProperties": ["x", "y"],
+    "collapsed": true,
+    "position": "center"
+  },
+  "text": {
+    "size": 24,
+    "color": "#ffffff",
+    "text": "New Text",
+    "font": "Arial",
+    "alignment": "center",
+    "hiddenProperties": ["x", "y"],
+    "collapsed": false,
+    "position": "center"
+  },
+  "video": {
+    "width": 400,
+    "height": 300,
+    "src": "",
+    "keepAspectRatio": true,
+    "autoplay": true,
+    "loop": true,
+    "muted": true,
+    "collapsed": false,
+    "position": "center"
+  },
+  "gif": {
+    "width": 300,
+    "height": 200,
+    "src": "",
+    "keepAspectRatio": true,
+    "collapsed": false,
+    "position": "center"
+  },
+  "line": {
+    "xFraction": 0.333,
+    "yFraction": 0.333,
+    "endXFraction": 0.667,
+    "endYFraction": 0.667,
+    "thickness": 3,
+    "color": "#ff0000",
+    "arrow": false,
+    "label": "",
+    "labelDisplay": true,
+    "hiddenProperties": ["x", "y"],
+    "collapsed": false
+  },
+  "cone": {
+    "radius": 150,
+    "angle": 90,
+    "direction": 0,
+    "rotation": 0,
+    "color": "#ffa500",
+    "alpha": 50,
+    "borderColor": "#ff7700",
+    "label": "",
+    "labelDisplay": true,
+    "hiddenProperties": ["x", "y"],
+    "collapsed": false,
+    "position": "center"
+  },
+  "image": {
+    "width": 300,
+    "height": 200,
+    "src": "",
+    "keepAspectRatio": true,
+    "opacity": 100,
+    "rotation": 0,
+    "collapsed": false,
+    "hiddenProperties": ["x", "y"],
+    "position": "center"
+  },
+  "svg": {
+    "width": 200,
+    "height": 200,
+    "src": "",
+    "opacity": 100,
+    "rotation": 0,
+    "color": "#000000",
+    "collapsed": false,
+    "hiddenProperties": ["x", "y"],
+    "position": "center"
+  },
+  "box": {
+    "width": 100,
+    "height": 100,
+    "grayscale": 0,
+    "transparency": 0,
+    "hiddenProperties": ["x", "y"],
+    "collapsed": false,
+    "position": "center"
+  },
+  "circle": {
+    "radius": 50,
+    "grayscale": 0,
+    "transparency": 0,
+    "hiddenProperties": ["x", "y"],
+    "collapsed": false,
+    "position": "center"
+  },
+  "bar": {
+    "width": 200,
+    "height": 20,
+    "currentValue": 50,
+    "maxValue": 100,
+    "barColor": "#000000",
+    "grayscale": 0,
+    "transparency": 0,
+    "hiddenProperties": ["x", "y"],
+    "collapsed": false,
+    "position": "center"
+  }
+}

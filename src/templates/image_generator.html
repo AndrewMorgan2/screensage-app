@@ -1,0 +1,76 @@
+<div class="container">
+    <h1>AI Image Generator</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2>Generate Image</h2>
+                </div>
+                <div class="card-body">
+                    <form id="image-gen-form">
+                        <div class="form-group mb-3">
+                            <label for="api-key">API Key</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control form-control-lg" id="api-key" style="width: 100%;" placeholder="sk-...">
+                                <button type="button" class="btn btn-info" id="check-credits">Check Credits</button>
+                            </div>
+                            <small class="form-text text-muted">Your Stability AI API key (automatically saved)</small>
+                            <div id="credits-info" class="alert alert-info mt-2" style="display: none;"></div>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="api-endpoint">API Endpoint</label>
+                            <input type="text" class="form-control form-control-lg" id="api-endpoint" style="width: 100%;" value="https://api.stability.ai/v2beta/stable-image/generate/ultra">
+                            <small class="form-text text-muted">The API endpoint URL</small>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="prompt">Prompt</label>
+                            <textarea class="form-control form-control-lg" id="prompt" rows="2" style="width: 100%;" placeholder="Describe the image you want to generate..."></textarea>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="output-format">Output Format</label>
+                            <select class="form-control form-control-lg" id="output-format">
+                                <option value="webp">WebP</option>
+                                <option value="png">PNG</option>
+                                <option value="jpeg">JPEG</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg">Generate Image</button>
+                    </form>
+                    
+                    <div id="generation-status" class="alert alert-info mt-3" style="display: none;"></div>
+                    <div id="generation-error" class="alert alert-danger mt-3" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Generated Image</h2>
+                </div>
+                <div class="card-body">
+                    <div id="image-result" class="text-center">
+                        <p class="secondary-text">Generated image will appear here</p>
+                    </div>
+                </div>
+            </div>
+            <div id="image-actions" class="mt-3" style="display: none;">
+                <button id="btn-display-image" class="btn btn-primary btn-lg">Display in OBS</button>
+                <button id="btn-copy-path-image" class="btn btn-primary btn-lg">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="saved-images" class="mt-4">
+        <h2>Recently Generated Images</h2>
+        <div id="image-history" class="row">
+            <!-- Images will be added here -->
+            <p class="secondary-text">No images generated yet</p>
+        </div>
+    </div>
+</div>

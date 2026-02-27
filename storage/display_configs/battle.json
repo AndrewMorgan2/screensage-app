@@ -1,0 +1,20 @@
+{
+  "background": {
+    "src": "/media/amorgan/Expansion/content/Campaign Collections/Curse of the Night Hag/Maps_4K_Grid/NH-Cave.mp4"
+  },
+  "elements": [
+    {
+      "collapsed": false,
+      "height": 300,
+      "id": "spell_effect",
+      "src": "/home/amorgan/Github/ScreenSage/storage/images/battle_display.png",
+      "type": "image",
+      "width": 400,
+      "x": 500,
+      "y": 300
+    }
+  ],
+  "screen": {
+    "monitor": 1
+  }
+}

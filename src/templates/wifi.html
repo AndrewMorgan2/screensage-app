@@ -1,0 +1,613 @@
+<div class="container">
+    <h1>WiFi Manager</h1>
+
+    <!-- Current Connection Section -->
+    <div class="wifi-section">
+        <div class="section-header">
+            <h2>Current Connection</h2>
+        </div>
+
+        <div id="current-connection-container" class="current-connection">
+            <div class="loading-message">Loading connection status...</div>
+        </div>
+    </div>
+
+    <!-- Available Networks Section -->
+    <div class="wifi-section">
+        <div class="section-header">
+            <h2>Available Networks</h2>
+            <button id="refresh-networks" class="btn-refresh">Refresh</button>
+        </div>
+
+        <div id="networks-container" class="networks-grid">
+            <div class="loading-message">Scanning for networks...</div>
+        </div>
+    </div>
+
+    <!-- Known Networks Section -->
+    <div class="wifi-section">
+        <div class="section-header">
+            <h2>Known Networks</h2>
+        </div>
+
+        <div id="known-networks-container" class="known-networks-list">
+            <div class="loading-message">Loading known networks...</div>
+        </div>
+    </div>
+
+    <!-- Connected Devices Section -->
+    <div class="wifi-section">
+        <div class="section-header">
+            <h2>Connected Devices</h2>
+            <div class="hotspot-controls">
+                <div class="hotspot-info" id="hotspot-info">
+                    <span class="hotspot-label">Hotspot:</span>
+                    <span id="hotspot-status">Loading...</span>
+                </div>
+                <button id="hotspot-toggle" class="btn-hotspot-toggle">
+                    <span id="toggle-text">Turn Off</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="devices-container" class="devices-list">
+            <div class="loading-message">Loading connected devices...</div>
+        </div>
+    </div>
+</div>
+
+<!-- Connection Modal -->
+<div id="connect-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Connect to Network</h3>
+            <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="network-ssid">Network Name</label>
+                <input type="text" id="network-ssid" readonly>
+            </div>
+            <div class="form-group">
+                <label for="network-password">Password</label>
+                <input type="password" id="network-password" placeholder="Enter password">
+            </div>
+            <div id="connection-error" class="error-message" style="display: none;"></div>
+        </div>
+        <div class="modal-footer">
+            <button id="cancel-connect" class="btn-secondary">Cancel</button>
+            <button id="confirm-connect" class="btn-primary">Connect</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.wifi-section {
+    margin-bottom: 40px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.btn-refresh {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.btn-refresh:hover {
+    background-color: var(--secondary-color);
+}
+
+.hotspot-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--card-bg-color);
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+.hotspot-label {
+    color: var(--secondary-text);
+    font-weight: bold;
+}
+
+#hotspot-status {
+    color: var(--success-color);
+}
+
+.hotspot-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-hotspot-toggle {
+    background-color: var(--error-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.btn-hotspot-toggle:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.btn-hotspot-toggle:disabled {
+    background-color: var(--border-color);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-hotspot-toggle.inactive {
+    background-color: var(--success-color);
+}
+
+/* Current Connection */
+.current-connection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.connection-card {
+    background-color: var(--card-bg-color);
+    border: 2px solid var(--success-color);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.connection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.connection-ssid {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.connection-signal {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--secondary-text);
+    font-size: 16px;
+}
+
+.connection-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.connection-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.connection-detail-label {
+    font-size: 12px;
+    color: var(--secondary-text);
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.connection-detail-value {
+    font-size: 14px;
+    color: var(--text-color);
+    font-family: monospace;
+}
+
+.not-connected-card {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    color: var(--secondary-text);
+}
+
+/* Networks Grid */
+.networks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 15px;
+}
+
+.network-card {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.network-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(68, 131, 182, 0.3);
+}
+
+.network-card.connected {
+    border-color: var(--success-color);
+    border-width: 2px;
+}
+
+.network-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.network-ssid {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.connected-badge {
+    background-color: var(--success-color);
+    color: white;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: normal;
+}
+
+.network-signal {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--secondary-text);
+    font-size: 14px;
+}
+
+.signal-bars {
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+}
+
+.signal-bar {
+    width: 4px;
+    background-color: var(--border-color);
+    border-radius: 2px;
+}
+
+.signal-bar.active {
+    background-color: var(--success-color);
+}
+
+.signal-bar:nth-child(1) { height: 6px; }
+.signal-bar:nth-child(2) { height: 10px; }
+.signal-bar:nth-child(3) { height: 14px; }
+.signal-bar:nth-child(4) { height: 18px; }
+
+.network-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--secondary-text);
+}
+
+.network-security {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Known Networks List */
+.known-networks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.known-network-item {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.known-network-item:hover {
+    border-color: var(--primary-color);
+    transform: translateX(2px);
+}
+
+.known-network-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-connect-known {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.btn-connect-known:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
+.btn-connect-known:disabled {
+    background-color: var(--border-color);
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Devices List */
+.devices-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.device-card {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.device-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.device-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.device-details {
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--secondary-text);
+}
+
+.device-detail {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.device-status {
+    background-color: var(--success-color);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Loading and Empty States */
+.loading-message, .empty-message {
+    text-align: center;
+    padding: 40px;
+    color: var(--secondary-text);
+    font-size: 14px;
+    grid-column: 1 / -1;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.2s;
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    animation: slideDown 0.3s;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.close-modal {
+    font-size: 28px;
+    color: var(--secondary-text);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close-modal:hover {
+    color: var(--text-color);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    color: var(--text-color);
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.error-message {
+    background-color: rgba(244, 67, 54, 0.1);
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-primary, .btn-secondary {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--border-color);
+}
+
+.btn-primary:disabled {
+    background-color: var(--border-color);
+    cursor: not-allowed;
+}
+</style>
+
+<script src="/static/js/wifi.js"></script>

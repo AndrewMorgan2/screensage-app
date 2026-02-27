@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Screen Sage - {{title}}</title>
+    <link rel="icon" href="/static/logo.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="/static/js/common.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">Screen Sage</div>
+            <ul class="nav-links">
+                <li><a href="/" class="{{home_active}}">Commands</a></li>
+                <li><a href="/images" class="{{images_active}}">Media</a></li>
+                <li><a href="/battle" class="{{battle_active}}">Battle</a></li>
+                <li><a href="/image-gen" class="nav-link {{image_gen_active}}">Image Gen</a></li>
+                <li><a href="/sageslate" class="nav-link {{sageslate_active}}">SageSlate</a></li>
+                <li><a href="/vtt" class="nav-link {{vtt_active}}">Battlemap</a></li>
+                <li><a href="/display" class="nav-link {{display_active}}">Display</a></li>
+                <li><a href="/draw" class="nav-link {{draw_active}}">Draw</a></li>
+                <li><a href="/upload" class="nav-link {{upload_active}}">Upload</a></li>
+                <li><a href="/wifi" class="nav-link {{wifi_active}}">WiFi</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="main-content">
+        {{content}}
+    </div>
+    {{page_script}}
+</body>
+</html>

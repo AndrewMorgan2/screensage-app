@@ -1,0 +1,17 @@
+xrandr --listmonitors
+
+xinput list
+-- find
+⎜   ↳ Touch p403 Touch Device,32-40P          	id=20	[slave  pointer  (2)]
+
+-- Map to where we want them 
+xinput map-to-output 20 HDMI-1
+
+---Here
+# Install wmctrl if not already installed
+sudo apt install wmctrl
+
+# Move all windows to screen 1 (assuming 1920x1080 resolution)
+for window in $(wmctrl -l | awk '{print $1}'); do
+    wmctrl -i -r $window -e 0,0,0,-1,-1
+done

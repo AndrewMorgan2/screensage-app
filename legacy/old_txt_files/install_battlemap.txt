@@ -1,0 +1,119 @@
+install ubunut 
+sudo apt install git
+ssh amorgan@mustgrove-1
+ssh-keygen -t ed25519 -C "andrewdmorgan.2@gmail.com"
+Go to https://github.com/settings/keys
+cat ~/.ssh/id_ed25519.pub
+Copy and Paste it in
+```
+mkdir Github
+cd ~/Github
+git clone git@github.com:AndrewMorgan2/ScreenSage.git
+cd ScreenSage
+sudo apt  install cargo  -y
+sudo apt  install rustup -y
+rustup default stable
+sudo apt update -y
+sudo apt install pkg-config libssl-dev -y
+cd ..
+git clone git@github.com:AndrewMorgan2/DnD_Images.git
+```
+
+
+File syncing 
+set your laptop as the server for NFS so that you can on the fly get phots videos etc
+laptop
+```
+# Ubuntu/Debian
+sudo apt update
+sudo apt install nfs-kernel-server
+
+# Fedora/RHEL/CentOS
+sudo dnf install nfs-utils
+
+# Start and enable NFS
+sudo systemctl start nfs-server
+sudo systemctl enable nfs-server
+```
+We want a main folder with content then a smaller more "on the fly" folder
+```
+mdkir ~/nfs #on both machines
+sudo nano /etc/exports
+```
+Add this:
+~/nfs    192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)
+Export exports
+```
+# Apply the changes
+sudo exportfs -arv
+
+# Verify exports
+sudo exportfs -v
+```
+setup firewall
+```
+# Ubuntu/Debian (UFW)
+sudo ufw allow from 192.168.1.0/24 to any port nfs
+
+# Fedora/RHEL (firewalld)
+sudo firewall-cmd --permanent --add-service=nfs
+sudo firewall-cmd --permanent --add-service=rpc-bind
+sudo firewall-cmd --permanent --add-service=mountd
+sudo firewall-cmd --reload
+```
+### Client
+```
+# Ubuntu/Debian
+sudo apt update
+sudo apt install nfs-common
+
+# Fedora/RHEL/CentOS
+sudo dnf install nfs-utils
+```
+showmount -e it101641 //verify
+//Test out
+sudo mount -t nfs it101641:/home/jp19060/Github/DnD_Images /home/amorgan/Github/DnD_Images
+sudo mount -t nfs it101641:/media/jp19060/Expansion /home/amorgan/Github/Expansion
+```
+Make permant 
+```
+sudo nano /etc/fstab
+it101641:/home/jp19060/Github/DnD_Images  /home/amorgan/Github/DnD_Images  nfs  _netdev,auto,nofail,x-systemd.automount,x-systemd.mount-timeout=10  0  0
+it101641:/media/jp19060/Expansion  /home/amorgan/Github/Expansion  nfs  _netdev,auto,nofail,x-systemd.automount,x-systemd.mount-timeout=10  0  0
+``
+${NameFromTailscale}:/media/videos    /mnt/shared_videos    nfs    defaults,_netdev    0 0
+```
+THen run 
+```
+sudo systemctl daemon-reload
+sudo mount -a
+```
+
+```
+sudo systemctl enable tailscaled
+sudo systemctl start tailscaled
+```
+check 
+```
+df -h | grep mnt
+```
+
+Occationaly issues with nfs hosting 
+```
+# Start rpcbind first (required dependency)
+sudo systemctl start rpcbind
+sudo systemctl enable rpcbind
+
+# Start NFS related services in order
+sudo systemctl start nfs-idmapd
+sudo systemctl start nfs-mountd
+sudo systemctl start nfs-server
+
+# Check status
+sudo systemctl status nfs-server
+```
+
+Then on Client
+```
+sudo mount -a
+```
