@@ -1,0 +1,2585 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A web-based control center for tabletop RPG management and multimedia display.">
+      
+      
+      
+      
+        <link rel="prev" href="../INSTALLATION/">
+      
+      
+        <link rel="next" href="../TOUCHSCREEN_SETUP/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images/new_logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Features Guide - ScreenSage</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#screen-sage-features-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ScreenSage" class="md-header__button md-logo" aria-label="ScreenSage" data-md-component="logo">
+      
+  <img src="../images/new_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ScreenSage
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Features Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ScreenSage" class="md-nav__button md-logo" aria-label="ScreenSage" data-md-component="logo">
+      
+  <img src="../images/new_logo.png" alt="logo">
+
+    </a>
+    ScreenSage
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INSTALLATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vtt-coordinate-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VTT Coordinate Systems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VTT Coordinate Systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#percentage-coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Coordinates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Percentage Coordinates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported Formats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported Elements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percentage-slider-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Slider Controls
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fog-of-war-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fog of War System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fog of War System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-fog-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Fog Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fog-template-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fog Template System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addremove-fog-buttons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add/Remove Fog Buttons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fog-with-zoom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fog with Zoom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clear-property" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clear Property
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Controls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Display Controls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#button-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Button System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Button System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#element-addition-buttons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Element Addition Buttons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utility-buttons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Utility Buttons
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-tab-button-ids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Tab Button IDs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template System
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preview-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Preview System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preview-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview Scale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scale Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recent-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recent Implementations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recent Implementations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2024-q4-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2024 Q4 Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2024 Q4 Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#javascript-module-refactoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JavaScript Module Refactoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percentage-coordinate-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Coordinate System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percentage-slider-toggles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Slider Toggles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fog-system-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fog System Improvements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-tab-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Tab Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-scale-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview Scale Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-responsive-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Responsive Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-fog-of-war" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting Up Fog of War
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-percentage-sliders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Percentage Sliders
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#percentage-coordinates-not-working" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Coordinates Not Working
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fog-not-clearing-at-zoom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fog Not Clearing at Zoom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-buttons-not-working" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Buttons Not Working
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-scale-not-persisting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview Scale Not Persisting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature Requests
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Setup Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TOUCHSCREEN_SETUP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Touchscreen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../WIFI_HOTSPOT_SETUP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFi Hotspot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Wifi_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFi Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Node_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Node Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USEFUL_COMMANDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Useful Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../src/code_documentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backend (Rust)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../src/wifi_hotspot_feature/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFi API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../static/code_documetation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend (JS)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../src/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Display Engine
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Display Engine
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ScryingGlass_pyglet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pyglet Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ScryingGlass_pyglet/IMPLEMENTATION_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TODO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ISO-BUILD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISO Builder
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vtt-coordinate-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VTT Coordinate Systems
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VTT Coordinate Systems">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#percentage-coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Coordinates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Percentage Coordinates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported Formats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported Elements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percentage-slider-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Slider Controls
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fog-of-war-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fog of War System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fog of War System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-fog-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Fog Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fog-template-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fog Template System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addremove-fog-buttons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add/Remove Fog Buttons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fog-with-zoom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fog with Zoom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clear-property" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clear Property
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Controls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Display Controls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#button-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Button System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Button System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#element-addition-buttons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Element Addition Buttons
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utility-buttons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Utility Buttons
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-tab-button-ids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Tab Button IDs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template System
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preview-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Preview System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preview-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview Scale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scale Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recent-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recent Implementations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recent Implementations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2024-q4-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2024 Q4 Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2024 Q4 Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#javascript-module-refactoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JavaScript Module Refactoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percentage-coordinate-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Coordinate System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percentage-slider-toggles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Slider Toggles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fog-system-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fog System Improvements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-tab-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Tab Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-scale-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview Scale Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-responsive-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Responsive Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-fog-of-war" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting Up Fog of War
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-percentage-sliders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Percentage Sliders
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#percentage-coordinates-not-working" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage Coordinates Not Working
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fog-not-clearing-at-zoom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fog Not Clearing at Zoom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-buttons-not-working" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Buttons Not Working
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-scale-not-persisting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preview Scale Not Persisting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature Requests
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="screen-sage-features-guide">Screen Sage Features Guide<a class="headerlink" href="#screen-sage-features-guide" title="Permanent link">&para;</a></h1>
+<p>Comprehensive guide to all Screen Sage features, with implementation details and usage examples.</p>
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#vtt-coordinate-systems">VTT Coordinate Systems</a></li>
+<li><a href="#fog-of-war-system">Fog of War System</a></li>
+<li><a href="#display-controls">Display Controls</a></li>
+<li><a href="#preview-system">Preview System</a></li>
+<li><a href="#recent-implementations">Recent Implementations</a></li>
+</ul>
+<h2 id="vtt-coordinate-systems">VTT Coordinate Systems<a class="headerlink" href="#vtt-coordinate-systems" title="Permanent link">&para;</a></h2>
+<h3 id="percentage-coordinates">Percentage Coordinates<a class="headerlink" href="#percentage-coordinates" title="Permanent link">&para;</a></h3>
+<p>Screen Sage supports three coordinate formats for resolution-independent layouts:</p>
+<h4 id="supported-formats">Supported Formats<a class="headerlink" href="#supported-formats" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Absolute Pixels</strong> (number): <code>100</code> → 100px</li>
+<li><strong>Percentage Strings</strong> (string): <code>"50%"</code> → 50% of dimension</li>
+<li><strong>Relative Floats</strong> (0.0-1.0): <code>0.5</code> → 50% of dimension</li>
+</ol>
+<h4 id="example-usage">Example Usage<a class="headerlink" href="#example-usage" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;50%&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10%&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5%&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Centered Text&quot;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
+</code></pre></div>
+<h4 id="supported-elements">Supported Elements<a class="headerlink" href="#supported-elements" title="Permanent link">&para;</a></h4>
+<p>All element types support percentage coordinates:
+- Tokens (x, y, size)
+- Areas (x, y, width, height)
+- Text (x, y, size)
+- Videos (x, y, width, height)
+- GIFs (x, y, width, height)
+- Images (x, y, width, height)
+- SVGs (x, y, width, height)
+- Lines (x, y, endX, endY, thickness)
+- Cones (x, y, radius)</p>
+<h4 id="percentage-slider-controls">Percentage Slider Controls<a class="headerlink" href="#percentage-slider-controls" title="Permanent link">&para;</a></h4>
+<p>The VTT interface includes toggle buttons for each slider:</p>
+<ul>
+<li><strong>Blue "px" button</strong>: Absolute pixel mode</li>
+<li><strong>Green "%" button</strong>: Percentage mode</li>
+<li>Click to toggle between modes</li>
+<li>Automatic value conversion</li>
+<li>Per-property mode memory</li>
+</ul>
+<p><strong>Features:</strong>
+- Smart reference dimension selection (width vs height)
+- Preserves value proportions when switching
+- Works with all position and size properties
+- Excludes opacity, rotation, and angle properties</p>
+<p><strong>Full Documentation:</strong> PERCENTAGE_COORDINATES_IMPLEMENTATION.md</p>
+<h2 id="fog-of-war-system">Fog of War System<a class="headerlink" href="#fog-of-war-system" title="Permanent link">&para;</a></h2>
+<h3 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h3>
+<p>Interactive fog system with advanced features for battlemap visibility control.</p>
+<h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Wall Shadows</strong>: Fog respects wall polygons for realistic line-of-sight</li>
+<li><strong>Interactive Clearing</strong>: Click to clear fog areas during gameplay</li>
+<li><strong>Persistent State</strong>: Cleared areas saved to JSON configuration</li>
+<li><strong>Zoom Support</strong>: Fog clearing works correctly when zoomed in/out</li>
+<li><strong>Template System</strong>: Customizable default fog settings</li>
+</ul>
+<h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
+<h4 id="basic-fog-setup">Basic Fog Setup<a class="headerlink" href="#basic-fog-setup" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;fog&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">&quot;opacity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#000000&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">&quot;clearMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">&quot;clearRadius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">&quot;clear_polygons&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">}</span>
+</code></pre></div>
+<h4 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>enabled</strong> (boolean): Enable/disable fog</li>
+<li><strong>opacity</strong> (0.0-1.0 or 0-255): Fog transparency</li>
+<li><strong>color</strong> (hex string): Fog color (e.g., "#000000")</li>
+<li><strong>clearMode</strong> (boolean): Enable interactive clearing</li>
+<li><strong>clearRadius</strong> (number): Radius of clearing circle in pixels</li>
+<li><strong>clear</strong> (boolean): Reset all cleared areas when true</li>
+<li><strong>clear_polygons</strong> (array): Stored cleared area shapes</li>
+</ul>
+<h3 id="fog-template-system">Fog Template System<a class="headerlink" href="#fog-template-system" title="Permanent link">&para;</a></h3>
+<p>Create custom fog presets in <code>storage/scrying_glasses/fog_template.json</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;fog&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">&quot;opacity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#000000&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">&quot;clearMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">&quot;clearRadius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nt">&quot;clear_polygons&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="addremove-fog-buttons">Add/Remove Fog Buttons<a class="headerlink" href="#addremove-fog-buttons" title="Permanent link">&para;</a></h3>
+<p><strong>VTT and Display tabs</strong> include fog management buttons:</p>
+<ul>
+<li><strong>Add Fog</strong>: Loads template and adds fog to configuration</li>
+<li><strong>Remove Fog</strong>: Removes fog from configuration</li>
+</ul>
+<h3 id="fog-with-zoom">Fog with Zoom<a class="headerlink" href="#fog-with-zoom" title="Permanent link">&para;</a></h3>
+<p>The fog system correctly handles coordinate transformation when zoomed:</p>
+<ul>
+<li>Mouse clicks transformed from screen to world space</li>
+<li>Clearing works accurately at any zoom level</li>
+<li>Fixed in display_engine.py:274</li>
+</ul>
+<h3 id="clear-property">Clear Property<a class="headerlink" href="#clear-property" title="Permanent link">&para;</a></h3>
+<p>Set <code>"clear": true</code> to reset all cleared fog areas:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;fog&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>The system checks this flag each frame and resets <code>clear_polygons</code> when true.</p>
+<p><strong>Full Documentation:</strong> FOG_TEMPLATE_SYSTEM.md</p>
+<h2 id="display-controls">Display Controls<a class="headerlink" href="#display-controls" title="Permanent link">&para;</a></h2>
+<h3 id="button-system">Button System<a class="headerlink" href="#button-system" title="Permanent link">&para;</a></h3>
+<p>Both VTT and Display tabs include standardized controls:</p>
+<h4 id="element-addition-buttons">Element Addition Buttons<a class="headerlink" href="#element-addition-buttons" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Add Token</li>
+<li>Add Area</li>
+<li>Add Text</li>
+<li>Add Video</li>
+<li>Add GIF</li>
+<li>Add Image</li>
+<li>Add SVG</li>
+<li>Add Line</li>
+<li>Add Cone</li>
+</ul>
+<h4 id="utility-buttons">Utility Buttons<a class="headerlink" href="#utility-buttons" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Add Fog</strong>: Add fog configuration from template</li>
+<li><strong>Remove Fog</strong>: Remove fog from configuration</li>
+<li><strong>Collapse All</strong>: Collapse all control sections</li>
+</ul>
+<h3 id="display-tab-button-ids">Display Tab Button IDs<a class="headerlink" href="#display-tab-button-ids" title="Permanent link">&para;</a></h3>
+<p>Display tab uses "2" suffix for all element IDs to avoid conflicts with VTT tab:</p>
+<ul>
+<li><code>addTextBtn2</code>, <code>addImageBtn2</code>, etc.</li>
+<li><code>jsonInput2</code>, <code>parseButton2</code>, etc.</li>
+<li>Both tabs share the same JavaScript modules</li>
+</ul>
+<h3 id="template-system">Template System<a class="headerlink" href="#template-system" title="Permanent link">&para;</a></h3>
+<p>Buttons load element templates from JSON files instead of hardcoded values:</p>
+<ul>
+<li><strong>Fog Template</strong>: <code>storage/scrying_glasses/fog_template.json</code></li>
+<li><strong>Element Templates</strong>: Customizable defaults for each element type</li>
+</ul>
+<h2 id="preview-system">Preview System<a class="headerlink" href="#preview-system" title="Permanent link">&para;</a></h2>
+<h3 id="preview-scale">Preview Scale<a class="headerlink" href="#preview-scale" title="Permanent link">&para;</a></h3>
+<p>The VTT preview includes a zoom control for the preview area:</p>
+<ul>
+<li><strong>Slider</strong>: Adjust from 10% to 200%</li>
+<li><strong>Display</strong>: Shows current percentage</li>
+<li><strong>Reset Button</strong>: Return to 100%</li>
+</ul>
+<h3 id="scale-persistence">Scale Persistence<a class="headerlink" href="#scale-persistence" title="Permanent link">&para;</a></h3>
+<p>Preview scale is saved to localStorage:</p>
+<ul>
+<li><strong>VTT Tab</strong>: Uses key <code>vtt_preview_scale</code></li>
+<li><strong>Display Tab</strong>: Uses key <code>display_preview_scale</code></li>
+<li><strong>Restoration</strong>: Automatically restores on page load</li>
+<li><strong>Independence</strong>: Each tab remembers its own scale</li>
+</ul>
+<h3 id="preview-features">Preview Features<a class="headerlink" href="#preview-features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Live Rendering</strong>: See changes immediately</li>
+<li><strong>Element Selection</strong>: Click elements to edit</li>
+<li><strong>Drag and Drop</strong>: Move elements visually</li>
+<li><strong>Coordinate Display</strong>: Shows position and size</li>
+<li><strong>Grid Overlay</strong>: Optional alignment grid</li>
+</ul>
+<h2 id="recent-implementations">Recent Implementations<a class="headerlink" href="#recent-implementations" title="Permanent link">&para;</a></h2>
+<h3 id="2024-q4-features">2024 Q4 Features<a class="headerlink" href="#2024-q4-features" title="Permanent link">&para;</a></h3>
+<h4 id="javascript-module-refactoring">JavaScript Module Refactoring<a class="headerlink" href="#javascript-module-refactoring" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Consolidated VTT modules</li>
+<li>Reduced code by 318 lines (70% reduction)</li>
+<li>Improved maintainability</li>
+<li>Added comprehensive documentation</li>
+</ul>
+<p><strong>Files:</strong>
+- <code>static/js/vtt/vtt-main.js</code>
+- <code>static/js/vtt/display-main.js</code>
+- <code>static/js/vtt/vtt-initializer.js</code>
+- <code>static/js/vtt/vtt-controls-module.js</code>
+- <code>static/js/vtt/vtt-preview-module.js</code>
+- <code>static/js/vtt/vtt-draggable-module.js</code></p>
+<h4 id="percentage-coordinate-system">Percentage Coordinate System<a class="headerlink" href="#percentage-coordinate-system" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Support for three coordinate formats</li>
+<li>All element types updated</li>
+<li>Preview rendering enhanced</li>
+<li>Python backend compatible</li>
+</ul>
+<p><strong>Implementation:</strong> PERCENTAGE_COORDINATES_IMPLEMENTATION.md</p>
+<h4 id="percentage-slider-toggles">Percentage Slider Toggles<a class="headerlink" href="#percentage-slider-toggles" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Toggle between px and % modes</li>
+<li>Automatic value conversion</li>
+<li>Visual feedback (blue/green)</li>
+<li>Per-property memory</li>
+</ul>
+<p><strong>Location:</strong> vtt-controls-module.js:411-584</p>
+<h4 id="fog-system-improvements">Fog System Improvements<a class="headerlink" href="#fog-system-improvements" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Template loading system</li>
+<li>Add/Remove buttons</li>
+<li>Clear property fix</li>
+<li>Zoom coordinate transformation</li>
+</ul>
+<p><strong>Files Modified:</strong>
+- <code>static/js/vtt/vtt-initializer.js</code> (fog buttons)
+- <code>ScryingGlass/display_engine.py</code> (clear flag check)
+- <code>ScryingGlass/event_handler.py</code> (zoom transformation)</p>
+<h4 id="display-tab-fixes">Display Tab Fixes<a class="headerlink" href="#display-tab-fixes" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Fixed button IDs mismatch</li>
+<li>Added debug logging</li>
+<li>Template integration</li>
+<li>Fog controls</li>
+</ul>
+<p><strong>Fix:</strong> DISPLAY_BUTTONS_FIX.md</p>
+<h4 id="preview-scale-persistence">Preview Scale Persistence<a class="headerlink" href="#preview-scale-persistence" title="Permanent link">&para;</a></h4>
+<ul>
+<li>localStorage integration</li>
+<li>Per-tab independence</li>
+<li>Auto-restoration</li>
+<li>UI synchronization</li>
+</ul>
+<p><strong>Implementation:</strong>
+- vtt-preview-module.js:51-55 - Load from storage
+- vtt-preview-module.js:67-68 - Save to storage
+- vtt-initializer.js:144-152 - Restore on load</p>
+<h2 id="usage-examples">Usage Examples<a class="headerlink" href="#usage-examples" title="Permanent link">&para;</a></h2>
+<h3 id="creating-a-responsive-layout">Creating a Responsive Layout<a class="headerlink" href="#creating-a-responsive-layout" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;screen&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1920</span><span class="p">,</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1080</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nt">&quot;elements&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;50%&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">      </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5%&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">      </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4%&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">      </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Campaign Title&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">      </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#FFFFFF&quot;</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;image&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10%&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">      </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10%&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">      </span><span class="nt">&quot;width&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;80%&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">      </span><span class="nt">&quot;height&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;80%&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">      </span><span class="nt">&quot;src&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;background.jpg&quot;</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;token&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;50%&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">      </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;50%&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">      </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5%&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">      </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Player 1&quot;</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="p">}</span>
+</code></pre></div>
+<p>This layout works on any screen resolution!</p>
+<h3 id="setting-up-fog-of-war">Setting Up Fog of War<a class="headerlink" href="#setting-up-fog-of-war" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&quot;fog&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">&quot;opacity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#0a0a0a&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nt">&quot;clearMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">&quot;clearRadius&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="nt">&quot;clear_polygons&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">  </span><span class="nt">&quot;walls&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">      </span><span class="nt">&quot;points&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mi">500</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">500</span><span class="p">]]</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="p">}</span>
+</code></pre></div>
+<p>Players can click to clear fog, and walls block visibility.</p>
+<h3 id="using-percentage-sliders">Using Percentage Sliders<a class="headerlink" href="#using-percentage-sliders" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Open VTT or Display tab</li>
+<li>Load a configuration</li>
+<li>Select an element</li>
+<li>Find position/size sliders</li>
+<li>Click the toggle button (px/%)</li>
+<li>Adjust value in chosen mode</li>
+<li>Values convert automatically when switching</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="percentage-coordinates-not-working">Percentage Coordinates Not Working<a class="headerlink" href="#percentage-coordinates-not-working" title="Permanent link">&para;</a></h3>
+<p><strong>Check:</strong>
+- Server is running latest build
+- Browser cache cleared (Ctrl+Shift+R)
+- Console shows no errors
+- JSON format is correct</p>
+<h3 id="fog-not-clearing-at-zoom">Fog Not Clearing at Zoom<a class="headerlink" href="#fog-not-clearing-at-zoom" title="Permanent link">&para;</a></h3>
+<p><strong>Solution:</strong>
+- Rebuild server: <code>cargo build --release</code>
+- Restart server
+- Zoom transformation implemented in event_handler.py</p>
+<h3 id="display-buttons-not-working">Display Buttons Not Working<a class="headerlink" href="#display-buttons-not-working" title="Permanent link">&para;</a></h3>
+<p><strong>Solution:</strong>
+- Restart server after template changes
+- Check console for button registration messages
+- Verify button IDs match JavaScript expectations</p>
+<h3 id="preview-scale-not-persisting">Preview Scale Not Persisting<a class="headerlink" href="#preview-scale-not-persisting" title="Permanent link">&para;</a></h3>
+<p><strong>Check:</strong>
+- localStorage is enabled in browser
+- No private/incognito mode
+- Browser developer tools → Application → Local Storage</p>
+<h2 id="related-documentation">Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../">Overview</a> - Project overview</li>
+<li><a href="../INSTALLATION/">Installation Guide</a> - Setup instructions</li>
+<li><a href="../TODO/">TODO / Roadmap</a> - Development plans</li>
+<li>VTT Documentation - Detailed coordinate guide</li>
+<li>Fog Template System - Fog configuration guide</li>
+</ul>
+<h2 id="feature-requests">Feature Requests<a class="headerlink" href="#feature-requests" title="Permanent link">&para;</a></h2>
+<p>Have ideas for new features? See <a href="../TODO/">TODO.md</a> or open an issue on GitHub!</p>
+<hr />
+<p><em>Last updated: 2024-10-13</em></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
