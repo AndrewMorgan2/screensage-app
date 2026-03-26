@@ -1,3 +1,7 @@
+---
+title: "Installation Guide"
+---
+
 # Screen Sage Installation Guide
 
 Complete installation guide for setting up Screen Sage on Ubuntu/Linux systems.
@@ -6,10 +10,9 @@ Complete installation guide for setting up Screen Sage on Ubuntu/Linux systems.
 - [Prerequisites](#prerequisites)
 - [System Setup](#system-setup)
 - [Screen Sage Installation](#screen-sage-installation)
-- [Network File Sharing (NFS)](#network-file-sharing-nfs)
+- [Network File Sharing (NFS)](#optional-network-file-sharing-nfs)
 - [Optional: Tailscale VPN](#optional-tailscale-vpn)
 - [Verification](#verification)
-- [Troubleshooting](#troubleshooting)
 
 ## Prerequisites
 
@@ -426,8 +429,8 @@ After installation:
 
 1. **Configure displays:** See [TOUCHSCREEN_SETUP.md](TOUCHSCREEN_SETUP.md)
 2. **Setup WiFi hotspot** (optional): See [WIFI_HOTSPOT_SETUP.md](WIFI_HOTSPOT_SETUP.md)
-3. **Read the usage guide:** See main [README.md](README.md)
-4. **Explore ScryingGlass:** See [ScryingGlass documentation](ScryingGlass/docs/how_to_documentation.md)
+3. **Read the usage guide:** See main [README.md](index.md)
+4. **Explore ScryingGlass:** See ScryingGlass documentation
 
 ## Quick Start After Installation
 
@@ -445,7 +448,7 @@ Open browser: **http://localhost:8080**
 
 ## Related Documentation
 
-- [README](README.md) - Screen Sage overview and features
+- [README](index.md) - Screen Sage overview and features
 - [Touchscreen Setup](TOUCHSCREEN_SETUP.md) - Configure touchscreen displays
 - [WiFi Hotspot Setup](WIFI_HOTSPOT_SETUP.md) - Mobile hotspot for e-ink devices
 - [Useful Commands](USEFUL_COMMANDS.md) - Common commands reference

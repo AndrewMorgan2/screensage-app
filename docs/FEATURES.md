@@ -1,3 +1,7 @@
+---
+title: "Features Guide"
+---
+
 # Screen Sage Features Guide
 
 Comprehensive guide to all Screen Sage features, with implementation details and usage examples.
@@ -62,7 +66,7 @@ The VTT interface includes toggle buttons for each slider:
 - Works with all position and size properties
 - Excludes opacity, rotation, and angle properties
 
-**Full Documentation:** [PERCENTAGE_COORDINATES_IMPLEMENTATION.md](PERCENTAGE_COORDINATES_IMPLEMENTATION.md)
+**Full Documentation:** PERCENTAGE_COORDINATES_IMPLEMENTATION.md
 
 ## Fog of War System
 
@@ -135,7 +139,7 @@ The fog system correctly handles coordinate transformation when zoomed:
 
 - Mouse clicks transformed from screen to world space
 - Clearing works accurately at any zoom level
-- Fixed in [display_engine.py:274](ScryingGlass/display_engine.py#L274)
+- Fixed in display_engine.py:274
 
 ### Clear Property
 
@@ -152,7 +156,7 @@ Set `"clear": true` to reset all cleared fog areas:
 
 The system checks this flag each frame and resets `clear_polygons` when true.
 
-**Full Documentation:** [FOG_TEMPLATE_SYSTEM.md](FOG_TEMPLATE_SYSTEM.md)
+**Full Documentation:** FOG_TEMPLATE_SYSTEM.md
 
 ## Display Controls
 
@@ -224,7 +228,7 @@ Preview scale is saved to localStorage:
 
 ### 2024 Q4 Features
 
-#### JavaScript Module Refactoring ✅
+#### JavaScript Module Refactoring 
 - Consolidated VTT modules
 - Reduced code by 318 lines (70% reduction)
 - Improved maintainability
@@ -238,23 +242,23 @@ Preview scale is saved to localStorage:
 - `static/js/vtt/vtt-preview-module.js`
 - `static/js/vtt/vtt-draggable-module.js`
 
-#### Percentage Coordinate System ✅
+#### Percentage Coordinate System 
 - Support for three coordinate formats
 - All element types updated
 - Preview rendering enhanced
 - Python backend compatible
 
-**Implementation:** [PERCENTAGE_COORDINATES_IMPLEMENTATION.md](PERCENTAGE_COORDINATES_IMPLEMENTATION.md)
+**Implementation:** PERCENTAGE_COORDINATES_IMPLEMENTATION.md
 
-#### Percentage Slider Toggles ✅
+#### Percentage Slider Toggles 
 - Toggle between px and % modes
 - Automatic value conversion
 - Visual feedback (blue/green)
 - Per-property memory
 
-**Location:** [vtt-controls-module.js:411-584](static/js/vtt/vtt-controls-module.js#L411-L584)
+**Location:** vtt-controls-module.js:411-584
 
-#### Fog System Improvements ✅
+#### Fog System Improvements 
 - Template loading system
 - Add/Remove buttons
 - Clear property fix
@@ -265,24 +269,24 @@ Preview scale is saved to localStorage:
 - `ScryingGlass/display_engine.py` (clear flag check)
 - `ScryingGlass/event_handler.py` (zoom transformation)
 
-#### Display Tab Fixes ✅
+#### Display Tab Fixes 
 - Fixed button IDs mismatch
 - Added debug logging
 - Template integration
 - Fog controls
 
-**Fix:** [DISPLAY_BUTTONS_FIX.md](DISPLAY_BUTTONS_FIX.md)
+**Fix:** DISPLAY_BUTTONS_FIX.md
 
-#### Preview Scale Persistence ✅
+#### Preview Scale Persistence 
 - localStorage integration
 - Per-tab independence
 - Auto-restoration
 - UI synchronization
 
 **Implementation:**
-- [vtt-preview-module.js:51-55](static/js/vtt/vtt-preview-module.js#L51-L55) - Load from storage
-- [vtt-preview-module.js:67-68](static/js/vtt/vtt-preview-module.js#L67-L68) - Save to storage
-- [vtt-initializer.js:144-152](static/js/vtt/vtt-initializer.js#L144-L152) - Restore on load
+- vtt-preview-module.js:51-55 - Load from storage
+- vtt-preview-module.js:67-68 - Save to storage
+- vtt-initializer.js:144-152 - Restore on load
 
 ## Usage Examples
 
@@ -389,11 +393,11 @@ Players can click to clear fog, and walls block visibility.
 
 ## Related Documentation
 
-- [Main README](README.md) - Project overview
+- [Overview](index.md) - Project overview
 - [Installation Guide](INSTALLATION.md) - Setup instructions
 - [TODO / Roadmap](TODO.md) - Development plans
-- [VTT Documentation](static/js/vtt/PERCENTAGE_COORDINATES.md) - Detailed coordinate guide
-- [Fog Template System](FOG_TEMPLATE_SYSTEM.md) - Fog configuration guide
+- VTT Documentation - Detailed coordinate guide
+- Fog Template System - Fog configuration guide
 
 ## Feature Requests
 

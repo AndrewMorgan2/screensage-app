@@ -1,3 +1,7 @@
+---
+title: "Touchscreen Setup Guide"
+---
+
 # Touchscreen Setup Guide
 
 Complete guide for configuring touchscreen displays and mapping them to specific monitors in a multi-screen setup.
@@ -42,11 +46,11 @@ xinput list
 
 **Example output:**
 ```
-⎡ Virtual core pointer                    	id=2	[master pointer  (3)]
-⎜   ↳ Virtual core XTEST pointer          	id=4	[slave  pointer  (2)]
-⎜   ↳ Touch p403 Touch Device,32-40P      	id=20	[slave  pointer  (2)]
-⎜   ↳ Logitech USB Optical Mouse          	id=10	[slave  pointer  (2)]
-⎣ Virtual core keyboard                   	id=3	[master keyboard (2)]
+ Virtual core pointer                    	id=2	[master pointer  (3)]
+   ↳ Virtual core XTEST pointer          	id=4	[slave  pointer  (2)]
+   ↳ Touch p403 Touch Device,32-40P      	id=20	[slave  pointer  (2)]
+   ↳ Logitech USB Optical Mouse          	id=10	[slave  pointer  (2)]
+ Virtual core keyboard                   	id=3	[master keyboard (2)]
 ```
 
 **Important:** Note the touchscreen device ID (in this example, `id=20`).
@@ -178,8 +182,8 @@ python ScryingGlass/display_engine.py storage/scrying_glasses/battlemap.json &
 ## Related Documentation
 
 - [Installation Guide](INSTALLATION.md) - Full system setup
-- [README](README.md) - Screen Sage overview
-- [ScryingGlass Documentation](ScryingGlass/docs/how_to_documentation.md) - Display features
+- [README](index.md) - Screen Sage overview
+- ScryingGlass Documentation - Display features
 
 ---
 

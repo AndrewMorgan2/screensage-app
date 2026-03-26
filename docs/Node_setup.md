@@ -1,4 +1,10 @@
+---
+title: "Node Setup"
+---
+
 # Commands to setup ScreenSage Node
+
+```bash
 sudo pacman -Sy
 sudo pacman -S hostapd dnsmasq
 sudo nano /etc/hostapd/hostapd.conf

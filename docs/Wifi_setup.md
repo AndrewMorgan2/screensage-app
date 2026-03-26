@@ -1,3 +1,7 @@
+---
+title: "WiFi Setup Guide"
+---
+
 # WiFi Setup Guide for ScreenSage
 
 This guide explains how to set up dual WiFi functionality on **Omarchy Linux** (or similar systems) using:

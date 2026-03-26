@@ -1,0 +1,53 @@
+site_name: ScreenSage
+site_description: A web-based control center for tabletop RPG management and multimedia display.
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  logo: images/new_logo.png
+  favicon: images/new_logo.png
+  palette:
+    scheme: slate
+    primary: deep purple
+    accent: blue
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.highlight
+
+nav:
+  - Overview: index.md
+  - Getting Started:
+    - Installation: INSTALLATION.md
+    - Features: FEATURES.md
+  - Setup Guides:
+    - Touchscreen: TOUCHSCREEN_SETUP.md
+    - WiFi Hotspot: WIFI_HOTSPOT_SETUP.md
+    - WiFi Setup: Wifi_setup.md
+    - Node Setup: Node_setup.md
+    - Useful Commands: USEFUL_COMMANDS.md
+  - Developer Docs:
+    - Backend (Rust): src/code_documentation.md
+    - WiFi API: src/wifi_hotspot_feature.md
+    - Frontend (JS): static/code_documetation.md
+    - Docs Index: src/README.md
+  - Display Engine:
+    - Pyglet Engine: ScryingGlass_pyglet/README.md
+    - Implementation: ScryingGlass_pyglet/IMPLEMENTATION_SUMMARY.md
+  - Project:
+    - Roadmap: TODO.md
+    - ISO Builder: ISO-BUILD.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - admonition
+  - toc:
+      permalink: true

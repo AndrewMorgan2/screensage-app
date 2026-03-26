@@ -1,3 +1,7 @@
+---
+title: "Useful Commands Reference"
+---
+
 # Useful Commands Reference
 
 Quick reference guide for common Screen Sage commands and system configuration.
@@ -26,4 +30,4 @@ sudo /usr/bin/wihotspot
 
 ---
 
-*For more information, see the main [README](README.md) or visit the [GitHub repository](https://github.com/AndrewMorgan2/ScreenSage).*
+*For more information, see the main [README](index.md) or visit the [GitHub repository](https://github.com/AndrewMorgan2/ScreenSage).*

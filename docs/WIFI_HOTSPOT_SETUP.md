@@ -1,3 +1,7 @@
+---
+title: "WiFi Hotspot Setup Guide"
+---
+
 # WiFi Hotspot Setup Guide for ScreenSage
 
 This guide explains how to set up dual WiFi interfaces on **Omarchy Linux** (or similar iwd-based systems) to simultaneously:
@@ -848,8 +852,8 @@ const char* password = "your_new_password";
 ## Related Documentation
 
 - [Installation Guide](INSTALLATION.md) - Full Screen Sage setup
-- [README](README.md) - Screen Sage overview
-- [ScryingGlass Documentation](ScryingGlass/docs/how_to_documentation.md) - Display features
+- [README](index.md) - Screen Sage overview
+- ScryingGlass Documentation - Display features
 
 ## Quick Reference
 

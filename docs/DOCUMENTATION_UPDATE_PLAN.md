@@ -1,3 +1,7 @@
+---
+title: "Documentation Update Plan"
+---
+
 # Documentation Update Plan
 
 ## Files to Move to Legacy Folder
@@ -7,7 +11,7 @@
 
 The entire `ScryingGlass/` directory should be moved as it contains the old Pygame-based implementation that has been replaced by the Pyglet version.
 
-**Reason:** The system now uses `ScryingGlass_pyglet/display_engine_pyglet.py` (confirmed in [src/commands.rs:53](src/commands.rs#L53) and [src/commands.rs:65](src/commands.rs#L65))
+**Reason:** The system now uses `ScryingGlass_pyglet/display_engine_pyglet.py` (confirmed in src/commands.rs:53 and src/commands.rs:65)
 
 ### 2. Old Text Files
 **Move to:** `legacy/old_txt_files/` (already exists)
@@ -33,7 +37,7 @@ These files should be moved into the existing legacy folder:
 
 ## Documentation That Needs Updating
 
-### 1. README.md ⚠️ OUTDATED
+### 1. README.md  OUTDATED
 **Issues:**
 - Line 85-86: Says "Python + Pygame for display rendering" → Should be "Python + Pyglet"
 - Lines 67-68: References `ScryingGlass/docs/` → Old pygame docs
@@ -48,12 +52,12 @@ These files should be moved into the existing legacy folder:
 - JSON for configuration and data storage
 
 # Update line 109:
-├── ScryingGlass_pyglet/    # Pyglet display engine (current)
-├── ScryingGlass/           # Legacy pygame engine (deprecated)
+ ScryingGlass_pyglet/    # Pyglet display engine (current)
+ ScryingGlass/           # Legacy pygame engine (deprecated)
 
 # Update lines 67-68:
-### 📖 Feature Documentation
-- **[ScryingGlass Quick Start](ScryingGlass_pyglet/QUICK_START.md)** - Display system guide
+###  Feature Documentation
+- **ScryingGlass Quick Start** - Display system guide
 - **[Zoom & Pan Guide](ScryingGlass_pyglet/ZOOM_PAN_GUIDE.md)** - Navigation controls
 - **[Implementation Summary](ScryingGlass_pyglet/IMPLEMENTATION_SUMMARY.md)** - Technical details
 
@@ -61,7 +65,7 @@ These files should be moved into the existing legacy folder:
 python ScryingGlass_pyglet/display_engine_pyglet.py --help
 ```
 
-### 2. FEATURES.md ⚠️ NEEDS NEW SECTIONS
+### 2. FEATURES.md  NEEDS NEW SECTIONS
 **Missing:**
 - Battle Tracker features (round increment/decrement, damage editor)
 - Command Center monitor selection
@@ -104,34 +108,34 @@ Element templates stored in `storage/vtt_configs/element_defaults.json`:
 - Applied when adding new elements
 ```
 
-### 3. TODO.md ⚠️ NEEDS UPDATE
+### 3. TODO.md  NEEDS UPDATE
 **Completed Items to Mark:**
-- [x] Auto-detect screen dimensions ✅ (Already marked)
-- [x] Battle tracker enhancements ✅ (Round controls, damage editor)
-- [x] Monitor selection UI ✅
-- [x] Python environment fixes ✅
+- [x] Auto-detect screen dimensions  (Already marked)
+- [x] Battle tracker enhancements  (Round controls, damage editor)
+- [x] Monitor selection UI 
+- [x] Python environment fixes 
 
 **Add Recent Completions:**
 ```markdown
 ## Recently Completed (2026-01-09)
 
-### Battle Tracker ✅
+### Battle Tracker 
 - [x] Round increment/decrement buttons
 - [x] Collapsible damage editor
 - [x] Matplotlib integration fix
 - [x] Damage stats for pie charts
 
-### Command Center ✅
+### Command Center 
 - [x] Monitor selection dropdowns
 - [x] Hyprland/Wayland support
 - [x] Workspace auto-switching
 
-### Bug Fixes ✅
+### Bug Fixes 
 - [x] Compiler warnings (dead code annotations)
 - [x] Python virtual environment path fixes
 ```
 
-### 4. INSTALLATION.md ✅ MOSTLY GOOD
+### 4. INSTALLATION.md  MOSTLY GOOD
 **Minor Updates:**
 - Add note about Pyglet vs Pygame (historical context)
 - Verify all dependencies are listed
@@ -168,74 +172,74 @@ Updated architecture document:
 
 ```
 ScreenSage/
-├── README.md                       # Main entry (NEEDS UPDATE)
-├── FEATURES.md                     # Feature guide (NEEDS UPDATE)
-├── INSTALLATION.md                 # Setup guide (✅ GOOD)
-├── TODO.md                         # Roadmap (NEEDS UPDATE)
-├── ARCHITECTURE.md                 # NEW: System architecture
-├── BATTLE_TRACKER.md              # NEW: Battle tracker guide
-├── COMMAND_CENTER.md              # NEW: Command center guide
-├── TOUCHSCREEN_SETUP.md           # ✅ GOOD
-├── WIFI_HOTSPOT_SETUP.md          # ✅ GOOD
-├── USEFUL_COMMANDS.md             # ✅ GOOD
-├── ISO-BUILD.md                   # ✅ GOOD (specialized)
-│
-├── ScryingGlass_pyglet/           # Current implementation
-│   ├── README.md                  # ✅ GOOD
-│   ├── QUICK_START.md            # ✅ GOOD
-│   ├── ZOOM_PAN_GUIDE.md         # ✅ GOOD
-│   └── IMPLEMENTATION_SUMMARY.md  # ✅ GOOD
-│
-├── src/docs/                      # Backend docs (needs review)
-├── static/docs/                   # Frontend docs (needs review)
-│
-└── legacy/                        # Archive folder
-    ├── ScryingGlass/             # Old pygame implementation
-    │   ├── docs/                 # Old docs
-    │   └── *.py                  # Old code
-    ├── docs/                     # Superseded documentation
-    │   ├── OPENGL_VIDEO_README.md
-    │   ├── PROCESS-MANAGER-IMPLEMENTATION.md
-    │   └── RELIABILITY-IMPROVEMENTS.md
-    └── old_txt_files/            # Text file archive
-        └── *.txt                 # Old text docs
+ README.md                       # Main entry (NEEDS UPDATE)
+ FEATURES.md                     # Feature guide (NEEDS UPDATE)
+ INSTALLATION.md                 # Setup guide ( GOOD)
+ TODO.md                         # Roadmap (NEEDS UPDATE)
+ ARCHITECTURE.md                 # NEW: System architecture
+ BATTLE_TRACKER.md              # NEW: Battle tracker guide
+ COMMAND_CENTER.md              # NEW: Command center guide
+ TOUCHSCREEN_SETUP.md           #  GOOD
+ WIFI_HOTSPOT_SETUP.md          #  GOOD
+ USEFUL_COMMANDS.md             #  GOOD
+ ISO-BUILD.md                   #  GOOD (specialized)
+
+ ScryingGlass_pyglet/           # Current implementation
+    README.md                  #  GOOD
+    QUICK_START.md            #  GOOD
+    ZOOM_PAN_GUIDE.md         #  GOOD
+    IMPLEMENTATION_SUMMARY.md  #  GOOD
+
+ src/docs/                      # Backend docs (needs review)
+ static/docs/                   # Frontend docs (needs review)
+
+ legacy/                        # Archive folder
+     ScryingGlass/             # Old pygame implementation
+        docs/                 # Old docs
+        *.py                  # Old code
+     docs/                     # Superseded documentation
+        OPENGL_VIDEO_README.md
+        PROCESS-MANAGER-IMPLEMENTATION.md
+        RELIABILITY-IMPROVEMENTS.md
+     old_txt_files/            # Text file archive
+         *.txt                 # Old text docs
 ```
 
 ## Priority Action Items
 
 ### High Priority (Do First)
-1. ✅ Move `ScryingGlass/` to `legacy/ScryingGlass/`
-2. ✅ Move `build.txt` to `legacy/`
-3. ✅ Update README.md (Pygame → Pyglet, fix paths)
-4. ✅ Update FEATURES.md (add new sections)
-5. ✅ Update TODO.md (mark completed items)
+1.  Move `ScryingGlass/` to `legacy/ScryingGlass/`
+2.  Move `build.txt` to `legacy/`
+3.  Update README.md (Pygame → Pyglet, fix paths)
+4.  Update FEATURES.md (add new sections)
+5.  Update TODO.md (mark completed items)
 
 ### Medium Priority
-6. ⏳ Create BATTLE_TRACKER.md
-7. ⏳ Create COMMAND_CENTER.md
-8. ⏳ Create ARCHITECTURE.md
+6.  Create BATTLE_TRACKER.md
+7.  Create COMMAND_CENTER.md
+8.  Create ARCHITECTURE.md
 
 ### Low Priority
-9. ⏳ Review and consolidate src/docs/
-10. ⏳ Review and consolidate static/docs/
-11. ⏳ Add video tutorials (long-term)
+9.  Review and consolidate src/docs/
+10.  Review and consolidate static/docs/
+11.  Add video tutorials (long-term)
 
 ## Cross-References to Add
 
 All documentation should link to related docs:
 
 **README.md links:**
-- [Battle Tracker Guide](BATTLE_TRACKER.md)
-- [Command Center Guide](COMMAND_CENTER.md)
-- [Architecture](ARCHITECTURE.md)
+- Battle Tracker Guide
+- Command Center Guide
+- Architecture
 
 **FEATURES.md links:**
-- [Battle Tracker Details](BATTLE_TRACKER.md)
+- Battle Tracker Details
 - [Pyglet Implementation](ScryingGlass_pyglet/README.md)
 
 **INSTALLATION.md links:**
-- [Architecture Overview](ARCHITECTURE.md)
-- [Quick Start](ScryingGlass_pyglet/QUICK_START.md)
+- Architecture Overview
+- Quick Start
 
 ## Version History to Add
 

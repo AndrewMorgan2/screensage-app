@@ -1,3 +1,7 @@
+---
+title: "Development Roadmap"
+---
+
 # Screen Sage Development Roadmap
 
 Track ongoing development, completed features, and future plans for Screen Sage.
@@ -12,7 +16,7 @@ Track ongoing development, completed features, and future plans for Screen Sage.
 
 ## In Progress
 
-### Documentation 🔄
+### Documentation 
 - [ ] Update README.md to be a comprehensive GitHub page
 - [ ] Review all documentation in `/docs` folders
 - [ ] Add all current features to documentation
@@ -22,7 +26,7 @@ Track ongoing development, completed features, and future plans for Screen Sage.
 ## High Priority
 
 ### Automation
-- [x] Auto-detect screen dimensions ✅
+- [x] Auto-detect screen dimensions 
 
 ### Documentation
 - [ ] Make setup script
@@ -59,7 +63,7 @@ Track ongoing development, completed features, and future plans for Screen Sage.
   - AR glasses integration
 
 ### Network Features
-- [x] File transfer system ✅
+- [x] File transfer system 
   - ~~Bones in place~~ → NFS replaced this
   - Works well with current setup
 
@@ -77,10 +81,10 @@ Track ongoing development, completed features, and future plans for Screen Sage.
 ## Documentation Needs
 
 ### User Documentation
-- [x] Touchscreen setup guide ✅
-- [x] Installation guide ✅
-- [x] WiFi hotspot setup ✅
-- [x] Useful commands reference ✅
+- [x] Touchscreen setup guide 
+- [x] Installation guide 
+- [x] WiFi hotspot setup 
+- [x] Useful commands reference 
 - [ ] Video tutorials
 - [ ] Quick start guide
 - [ ] Common workflows guide
