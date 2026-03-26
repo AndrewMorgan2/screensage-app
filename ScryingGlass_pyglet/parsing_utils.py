@@ -1,9 +1,10 @@
 """
-Parsing utilities for dimensions, colors, and fonts.
+Parsing utilities for dimensions, colors, fonts, and video resolution checks.
 
 Used by the display engine to convert config values to usable formats.
 """
 
+import os
 import re
 from typing import Tuple, Union
 
@@ -148,6 +149,89 @@ def resolve_font_name(font_name: str) -> str:
         # If all fallbacks fail, return original and let pyglet handle it
         print(f"  ⚠️ Font '{font_name}' not found, no fallback available")
         return font_name
+
+
+def get_optimal_video_path(video_path: str, display_width: int, display_height: int,
+                            video_width: int = None, video_height: int = None) -> str:
+    """
+    Check if a video is oversized for the display and return the best path to load.
+
+    When video native resolution significantly exceeds the display (ratio > 1.5x),
+    checks for a pre-downscaled version named <original>_display.<ext> and returns
+    it if found. Otherwise logs a prominent warning with the ffmpeg command to fix it.
+
+    Args:
+        video_path: Original video file path
+        display_width: Display/window width in pixels
+        display_height: Display/window height in pixels
+        video_width: Known video width from video_format (skips ffprobe if provided)
+        video_height: Known video height from video_format (skips ffprobe if provided)
+
+    Returns:
+        Path to load — may be a pre-converted version if one exists.
+    """
+    # If dimensions weren't provided, try ffprobe
+    if video_width is None or video_height is None:
+        try:
+            import subprocess
+            import json as _json
+            result = subprocess.run(
+                ['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_streams', video_path],
+                capture_output=True, text=True, timeout=5
+            )
+            if result.returncode == 0:
+                probe = _json.loads(result.stdout)
+                for stream in probe.get('streams', []):
+                    if stream.get('codec_type') == 'video':
+                        video_width = int(stream.get('width', 0))
+                        video_height = int(stream.get('height', 0))
+                        break
+        except Exception:
+            pass
+
+    if not video_width or not video_height:
+        return video_path  # Can't determine dimensions — use original
+
+    # Check if video significantly exceeds display resolution
+    ratio_w = video_width / display_width
+    ratio_h = video_height / display_height
+    max_ratio = max(ratio_w, ratio_h)
+
+    if max_ratio <= 1.5:
+        return video_path  # Close enough, no action needed
+
+    # Video is too large for display — check for a pre-converted version
+    base, ext = os.path.splitext(video_path)
+    candidates = [
+        f"{base}_display{ext}",
+        f"{base}_display.mp4",
+        f"{base}_1080p{ext}",
+        f"{base}_1080p.mp4",
+    ]
+
+    for candidate in candidates:
+        if os.path.exists(candidate):
+            print(f"  ✓ Found pre-converted version: {os.path.basename(candidate)}")
+            print(f"    (original {video_width}x{video_height} → display {display_width}x{display_height})")
+            return candidate
+
+    # No pre-converted version — warn with the fix command
+    sep = "!" * 62
+    print(f"\n{sep}")
+    print(f"  WARNING: VIDEO RESOLUTION EXCEEDS DISPLAY ({max_ratio:.1f}x larger)")
+    print(f"  File:    {os.path.basename(video_path)}")
+    print(f"  Video:   {video_width}x{video_height}  |  Display: {display_width}x{display_height}")
+    print(f"  Impact:  Severe lag — software decoder saturated on this GPU")
+    print(f"")
+    print(f"  Fix — run this once to create a display-resolution version:")
+    print(f'    ffmpeg -i "{video_path}" \\')
+    print(f'      -vf scale={display_width}:{display_height} \\')
+    print(f'      -c:v libx264 -crf 23 -pix_fmt yuv420p -c:a copy \\')
+    print(f'      "{base}_display{ext}"')
+    print(f"  ScreenSage will auto-detect and use the _display version on next run.")
+    print(f"{sep}\n")
+
+    return video_path
 
 
 def parse_color(color_str: str) -> Tuple[int, int, int, int]:

@@ -1,67 +1,28 @@
 {
   "background": {
     "height": 1080,
-    "src": "../DnD_Images/OuterPlanes/NPCs/Gond_1.png",
+    "src": "../DnD_Images/Towns_and_Villages/Halfling Village/Halfling Village.mp4",
     "width": 1920
   },
   "elements": [
     {
-      "collapsed": true,
-      "height": "23.9132205598849%",
-      "id": "top_banner",
-      "keepAspectRatio": true,
-      "src": "./storage/images/battle_display_top.png",
       "type": "image",
-      "width": "94.15507792801336%",
-      "x": 47.5972738874257,
-      "y": -70
-    },
-    {
-      "alignment": "center",
-      "collapsed": true,
-      "color": "#ffffff",
-      "font": "Arial",
-      "id": "title",
-      "outlineColor": "#000000",
-      "outlineWidth": 2,
-      "size": "7.33613726876838%",
-      "text": "Styxs » Arachne » Karsten » Lair",
-      "type": "text",
-      "x": 1901,
-      "y": 75
-    },
-    {
-      "alignment": "left",
-      "collapsed": true,
-      "color": "#ffff00",
-      "font": "Arial",
-      "id": "turn_display",
-      "outlineColor": "#000000",
-      "outlineWidth": 3,
-      "size": "7%",
-      "text": "Turn: 4",
-      "type": "text",
-      "x": 14,
-      "y": 1919
-    },
-    {
-      "collapsed": false,
+      "id": "image_1772744956136",
+      "src": "../DnD_Images/NPC/Major.jpg",
+      "x": "25%",
+      "y": "25%",
+      "width": "18.749999999999996%",
       "height": "50%",
-      "id": "image_1771537565338",
       "keepAspectRatio": true,
-      "opacity": 100,
-      "src": "../DnD_Images/OuterPlanes/Planes/Oublivae.webp",
-      "type": "image",
-      "width": "22.67578125%",
-      "x": 530,
-      "y": 465
+      "collapsed": false,
+      "opacity": 100
     }
   ],
   "screen": {
     "fullscreen": true,
-    "height": 1440,
+    "height": 2160,
     "monitor": 2,
-    "width": 2560
+    "width": 3840
   },
   "zoom": {
     "collapsed": false,

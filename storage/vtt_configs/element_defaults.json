@@ -9,8 +9,8 @@
     "position": "center"
   },
   "area": {
-    "widthFraction": 0.5,
-    "heightFraction": 0.5,
+    "widthFraction": 0.15625,
+    "heightFraction": 0.2777,
     "keepAspectRatio": true,
     "color": "#2ecc71",
     "alpha": 30,
@@ -63,8 +63,8 @@
     "collapsed": false
   },
   "cone": {
-    "radius": 150,
-    "angle": 90,
+    "radius": 300,
+    "angle": 359,
     "direction": 0,
     "rotation": 0,
     "color": "#ffa500",

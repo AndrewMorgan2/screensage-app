@@ -125,8 +125,12 @@ class DebugStats:
         self.peak_videos = max(self.peak_videos, videos)
         self.peak_fog_areas = max(self.peak_fog_areas, fog_areas)
 
-        mem = self.get_memory_mb()
-        self.peak_memory_mb = max(self.peak_memory_mb, mem)
+        # Rate-limit psutil memory check to ~4x/sec instead of every frame
+        # psutil reads /proc/self/statm which is a syscall — 60/sec is wasteful
+        self.frame_count  # already incremented in record_frame
+        if self.frame_count % 15 == 0:
+            mem = self.get_memory_mb()
+            self.peak_memory_mb = max(self.peak_memory_mb, mem)
 
     def get_fps(self) -> float:
         """Calculate current FPS from recent frame times."""

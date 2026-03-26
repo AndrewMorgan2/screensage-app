@@ -73,6 +73,13 @@ class FogManagerPyglet:
         self._areas_pruned = 0
         self._last_prune_log = time.time()
 
+        # Fog rendering cache — rebuilt only when fog areas change, not every frame
+        self._stencil_dirty = True
+        self._stencil_batch = pyglet.graphics.Batch()
+        self._stencil_shapes = []  # Keep references to prevent GC
+        self._fog_rect = None
+        self._fog_rect_params = None  # (r, g, b, opacity_int) to detect color changes
+
         fog_logger.info(f"FogManager initialized: {window_width}x{window_height}, "
                        f"max_areas={MAX_FOG_CLEARED_AREAS}")
 
@@ -131,6 +138,7 @@ class FogManagerPyglet:
             was_at_max = len(self.fog_cleared_areas) >= MAX_FOG_CLEARED_AREAS
             self.fog_cleared_areas.append(clear_polygon)
             self._areas_added += 1
+            self._stencil_dirty = True  # Invalidate cached stencil geometry
 
             if was_at_max:
                 self._areas_pruned += 1
@@ -545,17 +553,48 @@ class FogManagerPyglet:
         self.mouse_dragging = False
         self.last_clear_position = None
 
+    def _rebuild_stencil_batch(self):
+        """Rebuild the cached stencil geometry from current fog_cleared_areas."""
+        from pyglet import shapes
+
+        self._stencil_shapes.clear()
+        self._stencil_batch = pyglet.graphics.Batch()
+
+        for cleared_area in self.fog_cleared_areas:
+            if len(cleared_area) >= 1:
+                center_x = sum(x for x, y in cleared_area) / len(cleared_area)
+                center_y = sum(y for x, y in cleared_area) / len(cleared_area)
+
+                if len(cleared_area) > 1:
+                    radius = max(
+                        ((x - center_x)**2 + (y - center_y)**2)**0.5
+                        for x, y in cleared_area
+                    )
+                else:
+                    radius = self.clear_radius
+
+                circle = shapes.Circle(
+                    center_x, center_y, radius,
+                    color=(255, 255, 255),
+                    batch=self._stencil_batch
+                )
+                self._stencil_shapes.append(circle)
+
+        self._stencil_dirty = False
+
     def draw_fog_overlay(self, config):
         """
         Draw fog overlay with polygon-based cleared areas using Pyglet shapes.
 
+        Stencil geometry is cached and only rebuilt when fog areas change,
+        not on every draw frame.
+
         Args:
             config (dict): Configuration dictionary containing fog settings
         """
-        if not config.get('fog', {}).get('enabled', False):
+        fog_config = config.get('fog')
+        if not fog_config or not fog_config.get('enabled', False):
             return
-
-        fog_config = config.get('fog', {})
         opacity = fog_config.get('opacity', 0.3)
         color = fog_config.get('color', '#808080')
 
@@ -571,53 +610,39 @@ class FogManagerPyglet:
         # Normalize opacity: support both 0-1 and 0-100 ranges
         if opacity > 1.0:
             opacity = opacity / 100.0
+        opacity_int = int(opacity * 255)
 
-        # Import shapes module
-        from pyglet import shapes
+        # Rebuild stencil batch only when fog areas have changed
+        if self._stencil_dirty:
+            self._rebuild_stencil_batch()
+
+        # Rebuild fog rect only when color/opacity changes
+        if self._fog_rect is None or self._fog_rect_params != (r, g, b, opacity_int):
+            from pyglet import shapes
+            self._fog_rect = shapes.Rectangle(
+                0, 0, self.window_width, self.window_height,
+                color=(r, g, b)
+            )
+            self._fog_rect.opacity = opacity_int
+            self._fog_rect_params = (r, g, b, opacity_int)
 
         # Use stencil buffer to cut holes in fog
-        # Enable stencil test
         gl.glEnable(gl.GL_STENCIL_TEST)
         gl.glClear(gl.GL_STENCIL_BUFFER_BIT)
 
         # First pass: Draw cleared areas to stencil buffer
-        gl.glColorMask(gl.GL_FALSE, gl.GL_FALSE, gl.GL_FALSE, gl.GL_FALSE)  # Don't draw to color buffer
+        gl.glColorMask(gl.GL_FALSE, gl.GL_FALSE, gl.GL_FALSE, gl.GL_FALSE)
         gl.glStencilFunc(gl.GL_ALWAYS, 1, 0xFF)
         gl.glStencilOp(gl.GL_KEEP, gl.GL_KEEP, gl.GL_REPLACE)
 
-        # Draw circles for each cleared area to stencil
-        for cleared_area in self.fog_cleared_areas:
-            if len(cleared_area) >= 1:
-                # Calculate center of polygon
-                center_x = sum(x for x, y in cleared_area) / len(cleared_area)
-                center_y = sum(y for x, y in cleared_area) / len(cleared_area)
-
-                # Calculate approximate radius (distance from center to furthest point)
-                if len(cleared_area) > 1:
-                    radius = max(
-                        ((x - center_x)**2 + (y - center_y)**2)**0.5
-                        for x, y in cleared_area
-                    )
-                else:
-                    # Single point - use default clear radius
-                    radius = self.clear_radius
-
-                # Draw circle to stencil buffer
-                circle = shapes.Circle(center_x, center_y, radius, color=(255, 255, 255))
-                circle.draw()
+        self._stencil_batch.draw()
 
         # Second pass: Draw fog only where stencil is 0
-        gl.glColorMask(gl.GL_TRUE, gl.GL_TRUE, gl.GL_TRUE, gl.GL_TRUE)  # Re-enable color buffer
+        gl.glColorMask(gl.GL_TRUE, gl.GL_TRUE, gl.GL_TRUE, gl.GL_TRUE)
         gl.glStencilFunc(gl.GL_EQUAL, 0, 0xFF)
         gl.glStencilOp(gl.GL_KEEP, gl.GL_KEEP, gl.GL_KEEP)
 
-        # Draw fog rectangle
-        fog_rect = shapes.Rectangle(
-            0, 0, self.window_width, self.window_height,
-            color=(r, g, b)
-        )
-        fog_rect.opacity = int(opacity * 255)
-        fog_rect.draw()
+        self._fog_rect.draw()
 
         # Disable stencil test
         gl.glDisable(gl.GL_STENCIL_TEST)
@@ -628,6 +653,10 @@ class FogManagerPyglet:
         self.fog_cleared_areas.clear()
         self.last_clear_position = None
         self._shadow_cache.clear()  # Also clear shadow cache
+        # Reset stencil cache
+        self._stencil_shapes.clear()
+        self._stencil_batch = pyglet.graphics.Batch()
+        self._stencil_dirty = True
         fog_logger.info(f"All fog cleared: removed {areas_before} areas, "
                        f"lifetime stats: added={self._areas_added}, pruned={self._areas_pruned}")
 
@@ -690,7 +719,9 @@ class FogManagerPyglet:
         if not config:
             return False
 
-        fog_config = config.get('fog', {})
+        fog_config = config.get('fog')
+        if not fog_config:
+            return False
 
         # Check for clearReset flag (clears fog and resets itself)
         if fog_config.get('clearReset', False):

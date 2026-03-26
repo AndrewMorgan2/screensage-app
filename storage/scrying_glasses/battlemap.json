@@ -1,16 +1,16 @@
 {
   "background": {
     "height": 9100,
-    "src": "../Expansion/content/Structures/Workshops/Thurin'  Forge/_ Ba tt le ma ps _ 4K/02b. Smithing Quarters.mp4",
+    "src": "../content/Structures/Workshops/Thurin'  Forge/Animated/01b. Great Hall.mp4",
     "type": "image",
     "width": 4340
   },
   "elements": [],
   "screen": {
     "fullscreen": true,
-    "height": 1080,
-    "monitor": 1,
-    "width": 1920
+    "height": 1440,
+    "monitor": 2,
+    "width": 2560
   },
   "zoom": {
     "collapsed": false,

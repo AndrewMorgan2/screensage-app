@@ -13,7 +13,7 @@ import pyglet
 from pyglet import shapes
 from pyglet.media import Player, load as media_load
 
-from parsing_utils import parse_dimension, parse_font_size, resolve_font_name, parse_color
+from parsing_utils import parse_dimension, parse_font_size, resolve_font_name, parse_color, get_optimal_video_path
 from debug_stats import debug_stats
 
 
@@ -94,8 +94,19 @@ class ElementLoaderMixin:
             height = parse_dimension(element.get('height'), window_height)
 
         try:
-            # Load video source
+            # Load video source (initial load to detect dimensions)
             source = media_load(video_path)
+            actual_path = video_path
+
+            # Check if a display-resolution version exists for oversized videos
+            if source.video_format:
+                optimal_path = get_optimal_video_path(
+                    video_path, self.window.width, self.window.height,
+                    source.video_format.width, source.video_format.height
+                )
+                if optimal_path != video_path:
+                    source = media_load(optimal_path)
+                    actual_path = optimal_path
 
             # Create player
             player = Player()
@@ -113,7 +124,7 @@ class ElementLoaderMixin:
 
             if video_format:
                 print(f"✓ Loaded video: {element_id}")
-                print(f"  File: {video_path}")
+                print(f"  File: {actual_path}")
                 print(f"  Resolution: {video_format.width}x{video_format.height}")
                 print(f"  FPS: {source.video_format.frame_rate if hasattr(source.video_format, 'frame_rate') else 'unknown'}")
 

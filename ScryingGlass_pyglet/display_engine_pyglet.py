@@ -39,7 +39,7 @@ from monitor_utils import (
 )
 from config_handler import start_file_watcher, stop_file_watcher
 from element_loaders import ElementLoaderMixin
-from parsing_utils import parse_color
+from parsing_utils import parse_color, get_optimal_video_path
 from fog_manager_pyglet import FogManagerPyglet, MAX_FOG_CLEARED_AREAS
 
 
@@ -113,6 +113,13 @@ class PygletDisplayEngine(ElementLoaderMixin):
         # GC tracking
         self._last_gc_time = time.time()
         self._gc_interval = 60.0
+
+        # Cached projection matrices — recalculated only when zoom/pan changes
+        self._view_matrix = None
+        self._default_matrix = None
+        self._cached_zoom = None
+        self._cached_pan = (None, None)
+        self._cached_window_size = (None, None)
 
         logger.info("Thread safety initialized")
 
@@ -258,10 +265,10 @@ class PygletDisplayEngine(ElementLoaderMixin):
 
             config = gl.Config(
                 double_buffer=True,
-                depth_size=24,
-                stencil_size=8,
-                sample_buffers=1,
-                samples=4,
+                depth_size=0,       # Not needed for 2D rendering
+                stencil_size=8,     # Needed for fog of war
+                sample_buffers=0,   # No MSAA — pure overhead for video/sprite rendering
+                samples=0,
             )
 
             self.window = Window(
@@ -284,10 +291,10 @@ class PygletDisplayEngine(ElementLoaderMixin):
         else:
             config = gl.Config(
                 double_buffer=True,
-                depth_size=24,
-                stencil_size=8,
-                sample_buffers=1,
-                samples=4,
+                depth_size=0,       # Not needed for 2D rendering
+                stencil_size=8,     # Needed for fog of war
+                sample_buffers=0,   # No MSAA — pure overhead for video/sprite rendering
+                samples=0,
             )
 
             window_kwargs = {
@@ -366,6 +373,8 @@ class PygletDisplayEngine(ElementLoaderMixin):
         """Set up OpenGL state for proper alpha blending."""
         gl.glEnable(gl.GL_BLEND)
         gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
+        gl.glDisable(gl.GL_DEPTH_TEST)   # Not needed for 2D rendering
+        gl.glDisable(gl.GL_MULTISAMPLE)  # Disabled in GL config too, but be explicit
         gl.glEnable(gl.GL_LINE_SMOOTH)
         gl.glHint(gl.GL_LINE_SMOOTH_HINT, gl.GL_NICEST)
 
@@ -440,20 +449,29 @@ class PygletDisplayEngine(ElementLoaderMixin):
                 try:
                     print(f"Loading background video: {background}")
                     source = media_load(background)
+                    actual_path = background
 
-                    player = Player()
-                    player.loop = True
-                    player.queue(source)
-                    player.play()
-
-                    needs_rotation = False
-                    rotation_degrees = None
+                    # Check if a display-resolution version exists for oversized videos
                     if source.video_format:
                         video_width = source.video_format.width
                         video_height = source.video_format.height
                         print(f"  Original: {video_width}x{video_height}")
 
-                        if video_height > video_width:
+                        optimal_path = get_optimal_video_path(
+                            background, self.window.width, self.window.height,
+                            video_width, video_height
+                        )
+                        if optimal_path != background:
+                            source = media_load(optimal_path)
+                            actual_path = optimal_path
+
+                    # Determine rotation from the final source
+                    needs_rotation = False
+                    rotation_degrees = None
+                    if source.video_format:
+                        w = source.video_format.width
+                        h = source.video_format.height
+                        if h > w:
                             print(f"  📱➡️🖥️  Portrait detected - will rotate to landscape")
                             needs_rotation = True
                             flip = bg_config.get('flip', 1) if isinstance(bg_config, dict) else 1
@@ -462,13 +480,18 @@ class PygletDisplayEngine(ElementLoaderMixin):
                         else:
                             print(f"  🖥️  Landscape video")
 
+                    player = Player()
+                    player.loop = True
+                    player.queue(source)
+                    player.play()
+
                     self.background_video = {
                         'player': player,
                         'source': source,
                         'needs_rotation': needs_rotation,
                         'rotation_degrees': rotation_degrees,
                     }
-                    print(f"✓ Loaded background video: {background}")
+                    print(f"✓ Loaded background video: {actual_path}")
 
                 except Exception as e:
                     print(f"Error loading background video: {e}")
@@ -613,49 +636,61 @@ class PygletDisplayEngine(ElementLoaderMixin):
     def apply_view_transform(self):
         """Apply zoom and pan transformations using window view projection."""
         width, height = self.window.width, self.window.height
+        current_window_size = (width, height)
 
-        view_width = width / self.zoom_level
-        view_height = height / self.zoom_level
+        # Only recalculate if zoom, pan, or window size changed
+        if (self._view_matrix is None or
+                self.zoom_level != self._cached_zoom or
+                (self.pan_x, self.pan_y) != self._cached_pan or
+                current_window_size != self._cached_window_size):
 
-        center_x = width / 2
-        center_y = height / 2
+            view_width = width / self.zoom_level
+            view_height = height / self.zoom_level
 
-        scaled_pan_x = self.pan_x / self.zoom_level
-        scaled_pan_y = self.pan_y / self.zoom_level
-        center_x += scaled_pan_x
-        center_y += scaled_pan_y
+            center_x = width / 2 + self.pan_x / self.zoom_level
+            center_y = height / 2 + self.pan_y / self.zoom_level
 
-        left = center_x - view_width / 2
-        right = center_x + view_width / 2
-        bottom = center_y - view_height / 2
-        top = center_y + view_height / 2
+            left = center_x - view_width / 2
+            right = center_x + view_width / 2
+            bottom = center_y - view_height / 2
+            top = center_y + view_height / 2
 
-        self.window.projection = pyglet.math.Mat4.orthogonal_projection(
-            left, right, bottom, top, -1, 1
-        )
+            self._view_matrix = pyglet.math.Mat4.orthogonal_projection(
+                left, right, bottom, top, -1, 1
+            )
+            self._default_matrix = pyglet.math.Mat4.orthogonal_projection(
+                0, width, 0, height, -1, 1
+            )
+            self._cached_zoom = self.zoom_level
+            self._cached_pan = (self.pan_x, self.pan_y)
+            self._cached_window_size = current_window_size
+
+        self.window.projection = self._view_matrix
 
     def reset_view_transform(self):
-        """Reset view transformation to default."""
-        width, height = self.window.width, self.window.height
-        self.window.projection = pyglet.math.Mat4.orthogonal_projection(
-            0, width, 0, height, -1, 1
-        )
+        """Reset view transformation to default (uses cached matrix)."""
+        if self._default_matrix is None:
+            width, height = self.window.width, self.window.height
+            self._default_matrix = pyglet.math.Mat4.orthogonal_projection(
+                0, width, 0, height, -1, 1
+            )
+        self.window.projection = self._default_matrix
 
     def on_draw(self):
         """Draw all elements with thread safety and error handling."""
         if self._is_reloading:
             gl.glClearColor(0.0, 0.0, 0.0, 1.0)
-            self.window.clear()
+            gl.glClear(gl.GL_COLOR_BUFFER_BIT)
             return
 
         try:
-            # Clear with background color or black
+            # Clear color buffer only — no depth (unused in 2D) or stencil (fog handles its own)
             if hasattr(self, 'background_color') and self.background_color is not None:
                 r, g, b, a = parse_color(self.background_color)
                 gl.glClearColor(r/255.0, g/255.0, b/255.0, a/255.0)
             else:
                 gl.glClearColor(0.0, 0.0, 0.0, 1.0)
-            self.window.clear()
+            gl.glClear(gl.GL_COLOR_BUFFER_BIT)
 
             # Apply zoom and pan transformations
             self.apply_view_transform()
@@ -672,24 +707,34 @@ class PygletDisplayEngine(ElementLoaderMixin):
                 rotation_degrees = self.background_video.get('rotation_degrees')
 
                 if texture:
-                    if needs_rotation and rotation_degrees is not None:
-                        texture = texture.get_transform(rotate=rotation_degrees)
-                        texture.anchor_x = 0
-                        texture.anchor_y = 0
+                    last_texture = self.background_video.get('_last_texture')
+                    if texture is not last_texture:
+                        # New video frame — update sprite
+                        self.background_video['_last_texture'] = texture
 
-                    scale_x = self.window.width / texture.width
-                    scale_y = self.window.height / texture.height
+                        if needs_rotation and rotation_degrees is not None:
+                            texture = texture.get_transform(rotate=rotation_degrees)
+                            texture.anchor_x = 0
+                            texture.anchor_y = 0
+                            self.background_video['_display_texture'] = texture
+                        else:
+                            self.background_video['_display_texture'] = texture
 
-                    if 'sprite' not in self.background_video:
-                        self.background_video['sprite'] = pyglet.sprite.Sprite(texture, x=0, y=0)
-                        self.background_video['sprite'].scale_x = scale_x
-                        self.background_video['sprite'].scale_y = scale_y
-                    else:
-                        self.background_video['sprite'].image = texture
-                        self.background_video['sprite'].scale_x = scale_x
-                        self.background_video['sprite'].scale_y = scale_y
+                        display_texture = self.background_video['_display_texture']
 
-                    self.background_video['sprite'].draw()
+                        if 'sprite' not in self.background_video:
+                            # Calculate scale once — video and window dimensions don't change
+                            scale_x = self.window.width / display_texture.width
+                            scale_y = self.window.height / display_texture.height
+                            self.background_video['sprite'] = pyglet.sprite.Sprite(display_texture, x=0, y=0)
+                            self.background_video['sprite'].scale_x = scale_x
+                            self.background_video['sprite'].scale_y = scale_y
+                        else:
+                            # Only update image — scale never changes for a fixed video
+                            self.background_video['sprite'].image = display_texture
+
+                    if 'sprite' in self.background_video:
+                        self.background_video['sprite'].draw()
 
             # Draw batch (images, text, shapes)
             self.batch.draw()
@@ -710,10 +755,10 @@ class PygletDisplayEngine(ElementLoaderMixin):
                 texture = player.texture
 
                 if texture:
-                    texture.anchor_x = texture.width // 2
-                    texture.anchor_y = texture.height // 2
-
                     if 'sprite' not in video_data:
+                        texture.anchor_x = texture.width // 2
+                        texture.anchor_y = texture.height // 2
+
                         scaled_width = texture.width * scale_x
                         scaled_height = texture.height * scale_y
 
@@ -726,10 +771,18 @@ class PygletDisplayEngine(ElementLoaderMixin):
                         video_data['sprite'].scale_y = scale_y
                         video_data['sprite'].opacity = opacity
                         video_data['sprite'].rotation = -rotation
+                        video_data['_last_texture'] = texture
                     else:
-                        video_data['sprite'].image = texture
-                        video_data['sprite'].opacity = opacity
-                        video_data['sprite'].rotation = -rotation
+                        # Only update sprite when a new video frame is available
+                        if texture is not video_data.get('_last_texture'):
+                            video_data['sprite'].image = texture
+                            video_data['_last_texture'] = texture
+                        # Update dynamic properties only if changed
+                        sprite = video_data['sprite']
+                        if sprite.opacity != opacity:
+                            sprite.opacity = opacity
+                        if sprite.rotation != -rotation:
+                            sprite.rotation = -rotation
 
                     video_data['sprite'].draw()
 
