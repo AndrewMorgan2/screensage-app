@@ -17,19 +17,8 @@ Complete installation guide for setting up Screen Sage on Ubuntu/Linux systems.
 ## Prerequisites
 
 ### Operating System
-- Ubuntu 20.04+ or compatible Linux distribution
-- Recommended: Ubuntu 22.04 LTS
-
-### Hardware Requirements
-- **Minimum:**
-  - 2GB RAM
-  - 2 CPU cores
-  - 5GB disk space
-- **Recommended:**
-  - 4GB+ RAM
-  - 4+ CPU cores
-  - 10GB disk space
-  - Multiple displays (for full functionality)
+- Omarchy (Arch Linux) — the primary supported platform
+- Other distros may work but are not officially supported
 
 ## System Setup
 

@@ -38,17 +38,6 @@ ScreenSage/
   - JSON operations
   - Error handling patterns
 
-### Feature Documentation
-
-- **[WiFi & Hotspot Management](wifi_hotspot_feature.md)** - Comprehensive guide to the WiFi and hotspot features
-  - Dual-interface WiFi support (client + hotspot)
-  - Network scanning and connection management
-  - Hotspot configuration and control
-  - Internet sharing setup
-  - API endpoints
-  - ISO installation integration
-  - Troubleshooting guide
-
 ## Quick Start
 
 For developers new to the codebase:
@@ -64,7 +53,6 @@ ScreenSage is a virtual tabletop (VTT) system designed to run on dedicated hardw
 - **Media Browser** - Image and video file management
 - **AI Image Generation** - Stability AI integration for generating game assets
 - **E-ink Display Support** - Optimized rendering for e-ink screens
-- **WiFi Management** - Dual-interface networking with hotspot support
 - **Virtual Tabletop** - Full VTT interface with drawing tools and token management
 
 ## Architecture
@@ -103,9 +91,6 @@ ScreenSage/
 
 ## Configuration
 
-### WiFi Configuration
-See [WiFi & Hotspot Management](wifi_hotspot_feature.md#configuration) for details on configuring network interfaces.
-
 ### API Configuration
 API keys and endpoints are stored in `storage/api_config.json`:
 ```json
@@ -127,9 +112,6 @@ ScreenSage provides RESTful APIs for all major features:
 ### Core Routes
 - `GET /` - Main dashboard
 - `GET /api/config` - Read configuration files
-
-### WiFi & Hotspot
-See [WiFi API Documentation](wifi_hotspot_feature.md#api-endpoints)
 
 ### Battle Tracker
 - `POST /api/battle/save` - Save battle state
@@ -159,17 +141,6 @@ Server runs on `http://0.0.0.0:8080`
 
 ### Testing
 The application can be tested in a browser or deployed to custom hardware running the ScreenSage ISO.
-
-## ISO Deployment
-
-ScreenSage includes a custom Arch Linux ISO for dedicated hardware deployment. The ISO includes:
-- Pre-compiled ScreenSage binary
-- Offline Rust toolchain
-- WiFi hotspot pre-configured
-- Systemd service integration
-- Disk installation script
-
-See [WiFi & Hotspot Feature - ISO Installation](wifi_hotspot_feature.md#iso-installation) for hotspot setup details.
 
 ## Contributing
 

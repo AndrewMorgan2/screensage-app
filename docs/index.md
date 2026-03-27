@@ -28,7 +28,6 @@ ScreenSage provides powerful tools for Game Masters to manage combat, display me
 - **Media Browser** - Browse and display images/videos to screens
 - **Virtual Tabletop (VTT) Editor** - Full-featured battlemap interface
 - **AI Image Generation** - Stability AI API integration
-- **WiFi & Hotspot Management** - Dual-interface networking with internet sharing
 - **SageSlate E-Ink Manager** - Player aids and character sheets. See [SageSlate](https://github.com/AndrewMorgan2/SageSlate)
 
 [Full documentation](FEATURES.md)
@@ -61,12 +60,10 @@ Open browser: **http://localhost:8080**
 
 **Features:**
 - [ScryingGlass Display System](ScryingGlass_pyglet/README.md) - Multi-display rendering
-- [WiFi & Hotspot Management](src/wifi_hotspot_feature.md) - Network control
 - [SageSlate E-Ink Manager](https://github.com/AndrewMorgan2/SageSlate) - E-ink displays
 
 **Setup Guides:**
 - [Touchscreen Setup](TOUCHSCREEN_SETUP.md) - Configure touch input
-- [WiFi Hotspot Setup](WIFI_HOTSPOT_SETUP.md) - Portable network
 - [Useful Commands](USEFUL_COMMANDS.md) - Quick reference
 
 **Developer Documentation:**
