@@ -384,56 +384,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#system-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        System Setup
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="System Setup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-install-base-system" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Install Base System
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-install-git" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Install Git
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-setup-ssh-keys-for-github" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Setup SSH Keys for GitHub
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#screen-sage-installation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1414,56 +1364,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#system-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        System Setup
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="System Setup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-install-base-system" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Install Base System
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-install-git" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Install Git
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-setup-ssh-keys-for-github" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Setup SSH Keys for GitHub
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#screen-sage-installation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1880,117 +1780,89 @@
 <li>Omarchy (Arch Linux) — the primary supported platform</li>
 <li>Other distros may work but are not officially supported</li>
 </ul>
-<h2 id="system-setup">System Setup<a class="headerlink" href="#system-setup" title="Permanent link">&para;</a></h2>
-<h3 id="1-install-base-system">1. Install Base System<a class="headerlink" href="#1-install-base-system" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Update system packages</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>-y
-</code></pre></div>
-<h3 id="2-install-git">2. Install Git<a class="headerlink" href="#2-install-git" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>-y
-</code></pre></div>
-<h3 id="3-setup-ssh-keys-for-github">3. Setup SSH Keys for GitHub<a class="headerlink" href="#3-setup-ssh-keys-for-github" title="Permanent link">&para;</a></h3>
-<p>Generate SSH key:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;your_email@example.com&quot;</span>
-</code></pre></div>
-<p><strong>Follow the prompts:</strong>
-- Press Enter to accept default location
-- Enter passphrase (optional but recommended)</p>
-<p><strong>Display your public key:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>cat<span class="w"> </span>~/.ssh/id_ed25519.pub
-</code></pre></div></p>
-<p><strong>Add to GitHub:</strong>
-1. Go to <a href="https://github.com/settings/keys">GitHub SSH Keys Settings</a>
-2. Click "New SSH key"
-3. Paste your public key
-4. Click "Add SSH key"</p>
-<p><strong>Test connection:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ssh<span class="w"> </span>-T<span class="w"> </span>git@github.com
-</code></pre></div></p>
-<p>You should see: <code>Hi &lt;username&gt;! You've successfully authenticated...</code></p>
 <h2 id="screen-sage-installation">Screen Sage Installation<a class="headerlink" href="#screen-sage-installation" title="Permanent link">&para;</a></h2>
 <h3 id="1-clone-repository">1. Clone Repository<a class="headerlink" href="#1-clone-repository" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Create GitHub directory</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/GitHub
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Clone Screen Sage</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:AndrewMorgan2/ScreenSage.git
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nb">cd</span><span class="w"> </span>ScreenSage
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Create GitHub directory</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/GitHub
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Clone Screen Sage</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git@github.com:AndrewMorgan2/screensage-app.git
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nb">cd</span><span class="w"> </span>screensage-app
 </code></pre></div>
 <h3 id="2-install-rust">2. Install Rust<a class="headerlink" href="#2-install-rust" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Install Cargo and Rustup</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>cargo<span class="w"> </span>rustup<span class="w"> </span>-y
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Set default toolchain to stable</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>rustup<span class="w"> </span>default<span class="w"> </span>stable
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Install Cargo and Rustup</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>cargo<span class="w"> </span>rustup<span class="w"> </span>-y
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Set default toolchain to stable</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>rustup<span class="w"> </span>default<span class="w"> </span>stable
 </code></pre></div>
 <p><strong>Verify installation:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>rustc<span class="w"> </span>--version
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>cargo<span class="w"> </span>--version
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>rustc<span class="w"> </span>--version
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>cargo<span class="w"> </span>--version
 </code></pre></div></p>
 <h3 id="3-install-build-dependencies">3. Install Build Dependencies<a class="headerlink" href="#3-install-build-dependencies" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Update package list</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Install required packages</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>pkg-config<span class="w"> </span>libssl-dev<span class="w"> </span>-y
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Update package list</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Install required packages</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>pkg-config<span class="w"> </span>libssl-dev<span class="w"> </span>-y
 </code></pre></div>
 <h3 id="4-build-screen-sage">4. Build Screen Sage<a class="headerlink" href="#4-build-screen-sage" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Navigate to Screen Sage directory</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub/ScreenSage
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Build release version (optimized)</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>cargo<span class="w"> </span>build<span class="w"> </span>--release
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Navigate to Screen Sage directory</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub/ScreenSage
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Build release version (optimized)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>cargo<span class="w"> </span>build<span class="w"> </span>--release
 </code></pre></div>
 <p><strong>This will take several minutes.</strong> The compiled binary will be at:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>~/GitHub/ScreenSage/target/release/screen-sage
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>~/GitHub/ScreenSage/target/release/screen-sage
 </code></pre></div></p>
 <h3 id="5-setup-python-environment">5. Setup Python Environment<a class="headerlink" href="#5-setup-python-environment" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Install Python and venv</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3<span class="w"> </span>python3-venv<span class="w"> </span>python3-pip<span class="w"> </span>-y
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Create virtual environment</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub/ScreenSage
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>python-env
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="c1"># Activate environment</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="nb">source</span><span class="w"> </span>python-env/bin/activate
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="c1"># Install dependencies</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>python-env/bin/pip<span class="w"> </span>install<span class="w"> </span>pygame<span class="w"> </span>pillow<span class="w"> </span>requests<span class="w"> </span>numpy<span class="w"> </span>matlabplot
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="c1"># Deactivate</span>
-<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>deactivate
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Install Python and venv</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3<span class="w"> </span>python3-venv<span class="w"> </span>python3-pip<span class="w"> </span>-y
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Create virtual environment</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub/ScreenSage
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>python-env
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># Activate environment</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nb">source</span><span class="w"> </span>python-env/bin/activate
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1"># Install dependencies</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>python-env/bin/pip<span class="w"> </span>install<span class="w"> </span>pyglet<span class="w"> </span>watchdog<span class="w"> </span>Pillow
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1"># Deactivate</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>deactivate
 </code></pre></div>
 <h2 id="network-file-sharing-nfs">Network File Sharing (NFS)<a class="headerlink" href="#network-file-sharing-nfs" title="Permanent link">&para;</a></h2>
 <p>Share media files between your main computer (server) and gaming computer (client) using NFS.</p>
 <h3 id="server-setup-media-storage-computer">Server Setup (Media Storage Computer)<a class="headerlink" href="#server-setup-media-storage-computer" title="Permanent link">&para;</a></h3>
 <h4 id="1-install-nfs-server">1. Install NFS Server<a class="headerlink" href="#1-install-nfs-server" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Ubuntu/Debian</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nfs-kernel-server<span class="w"> </span>-y
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># Start and enable NFS</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nfs-server
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>nfs-server
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Ubuntu/Debian</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nfs-kernel-server<span class="w"> </span>-y
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># Start and enable NFS</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nfs-server
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>nfs-server
 </code></pre></div>
 <h4 id="2-create-shared-directory">2. Create Shared Directory<a class="headerlink" href="#2-create-shared-directory" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Clone DnD Images repository (or use your own directory)</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:AndrewMorgan2/DnD_Images.git
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1"># Or create your own media directory</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Media/DnD
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Clone DnD Images repository (or use your own directory)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:username/DnD_Images.git
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># Or create your own media directory</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Media/DnD
 </code></pre></div>
 <h4 id="3-configure-nfs-exports">3. Configure NFS Exports<a class="headerlink" href="#3-configure-nfs-exports" title="Permanent link">&para;</a></h4>
 <p>Edit exports file:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/exports
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/exports
 </code></pre></div>
 <p>Add your shares (replace with your actual paths and network):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a># Format: &lt;directory&gt; &lt;network&gt;(options)
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>/home/jp19060/GitHub/DnD_Images    192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>/media/jp19060/Expansion           192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a># Format: &lt;directory&gt; &lt;network&gt;(options)
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>/home/jp19060/GitHub/DnD_Images    192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>/media/jp19060/Expansion           192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)
 </code></pre></div>
 <p><strong>Options explained:</strong>
 - <code>rw</code>: Read-write access
@@ -1998,55 +1870,55 @@
 - <code>no_subtree_check</code>: Improve reliability
 - <code>no_root_squash</code>: Allow root access</p>
 <h4 id="4-apply-configuration">4. Apply Configuration<a class="headerlink" href="#4-apply-configuration" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Apply the changes</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>sudo<span class="w"> </span>exportfs<span class="w"> </span>-arv
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Verify exports</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>sudo<span class="w"> </span>exportfs<span class="w"> </span>-v
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Apply the changes</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>sudo<span class="w"> </span>exportfs<span class="w"> </span>-arv
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Verify exports</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>sudo<span class="w"> </span>exportfs<span class="w"> </span>-v
 </code></pre></div>
 <h4 id="5-configure-firewall">5. Configure Firewall<a class="headerlink" href="#5-configure-firewall" title="Permanent link">&para;</a></h4>
 <p><strong>Ubuntu/Debian (UFW):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span>from<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>to<span class="w"> </span>any<span class="w"> </span>port<span class="w"> </span>nfs
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>reload
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span>from<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>to<span class="w"> </span>any<span class="w"> </span>port<span class="w"> </span>nfs
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>sudo<span class="w"> </span>ufw<span class="w"> </span>reload
 </code></pre></div></p>
 <p><strong>Fedora/RHEL (firewalld):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-service<span class="o">=</span>nfs
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-service<span class="o">=</span>rpc-bind
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-service<span class="o">=</span>mountd
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--reload
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-service<span class="o">=</span>nfs
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-service<span class="o">=</span>rpc-bind
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-service<span class="o">=</span>mountd
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>sudo<span class="w"> </span>firewall-cmd<span class="w"> </span>--reload
 </code></pre></div></p>
 <h3 id="client-setup-gaming-computer">Client Setup (Gaming Computer)<a class="headerlink" href="#client-setup-gaming-computer" title="Permanent link">&para;</a></h3>
 <h4 id="1-install-nfs-client">1. Install NFS Client<a class="headerlink" href="#1-install-nfs-client" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Ubuntu/Debian</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nfs-common<span class="w"> </span>-y
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="c1"># Fedora/RHEL/CentOS</span>
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>nfs-utils<span class="w"> </span>-y
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Ubuntu/Debian</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nfs-common<span class="w"> </span>-y
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="c1"># Fedora/RHEL/CentOS</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>nfs-utils<span class="w"> </span>-y
 </code></pre></div>
 <h4 id="2-create-mount-points">2. Create Mount Points<a class="headerlink" href="#2-create-mount-points" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Create directories for mounting</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/GitHub/DnD_Images
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Media/Expansion
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Create directories for mounting</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/GitHub/DnD_Images
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Media/Expansion
 </code></pre></div>
 <h4 id="3-test-mount">3. Test Mount<a class="headerlink" href="#3-test-mount" title="Permanent link">&para;</a></h4>
 <p>Test mounting before making permanent:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Replace &#39;it101641&#39; with your server hostname or IP</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>sudo<span class="w"> </span>mount<span class="w"> </span>-t<span class="w"> </span>nfs<span class="w"> </span>it101641:/home/jp19060/GitHub/DnD_Images<span class="w"> </span>~/GitHub/DnD_Images
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>sudo<span class="w"> </span>mount<span class="w"> </span>-t<span class="w"> </span>nfs<span class="w"> </span>it101641:/media/jp19060/Expansion<span class="w"> </span>~/Media/Expansion
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Replace &#39;it101641&#39; with your server hostname or IP</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>sudo<span class="w"> </span>mount<span class="w"> </span>-t<span class="w"> </span>nfs<span class="w"> </span>it101641:/home/jp19060/GitHub/DnD_Images<span class="w"> </span>~/GitHub/DnD_Images
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>sudo<span class="w"> </span>mount<span class="w"> </span>-t<span class="w"> </span>nfs<span class="w"> </span>it101641:/media/jp19060/Expansion<span class="w"> </span>~/Media/Expansion
 </code></pre></div>
 <p><strong>Verify mounts:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>nfs
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>ls<span class="w"> </span>~/GitHub/DnD_Images
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>nfs
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>ls<span class="w"> </span>~/GitHub/DnD_Images
 </code></pre></div></p>
 <h4 id="4-make-mounts-permanent">4. Make Mounts Permanent<a class="headerlink" href="#4-make-mounts-permanent" title="Permanent link">&para;</a></h4>
 <p>Edit fstab:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/fstab
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/fstab
 </code></pre></div>
 <p>Add mount entries:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a># NFS mounts for Screen Sage
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>it101641:/home/jp19060/GitHub/DnD_Images  /home/amorgan/GitHub/DnD_Images  nfs  _netdev,auto,nofail,x-systemd.automount,x-systemd.mount-timeout=10  0  0
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>it101641:/media/jp19060/Expansion         /home/amorgan/GitHub/Expansion  nfs  _netdev,auto,nofail,x-systemd.automount,x-systemd.mount-timeout=10  0  0
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a># NFS mounts for Screen Sage
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>it101641:/home/jp19060/GitHub/DnD_Images  /home/amorgan/GitHub/DnD_Images  nfs  _netdev,auto,nofail,x-systemd.automount,x-systemd.mount-timeout=10  0  0
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>it101641:/media/jp19060/Expansion         /home/amorgan/GitHub/Expansion  nfs  _netdev,auto,nofail,x-systemd.automount,x-systemd.mount-timeout=10  0  0
 </code></pre></div>
 <p><strong>Mount options explained:</strong>
 - <code>_netdev</code>: Wait for network before mounting
@@ -2055,47 +1927,47 @@
 - <code>x-systemd.automount</code>: Lazy mount (mount when accessed)
 - <code>x-systemd.mount-timeout=10</code>: Timeout after 10 seconds</p>
 <h4 id="5-apply-fstab-changes">5. Apply fstab Changes<a class="headerlink" href="#5-apply-fstab-changes" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Reload systemd</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
-<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
-<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Mount all from fstab</span>
-<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>sudo<span class="w"> </span>mount<span class="w"> </span>-a
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Reload systemd</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Mount all from fstab</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>sudo<span class="w"> </span>mount<span class="w"> </span>-a
 </code></pre></div>
 <p><strong>Verify:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>nfs
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>df<span class="w"> </span>-h<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>nfs
 </code></pre></div></p>
 <h3 id="nfs-troubleshooting">NFS Troubleshooting<a class="headerlink" href="#nfs-troubleshooting" title="Permanent link">&para;</a></h3>
 <h4 id="server-issues">Server Issues<a class="headerlink" href="#server-issues" title="Permanent link">&para;</a></h4>
 <p><strong>NFS server not starting:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Start rpcbind first (required dependency)</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>rpcbind
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>rpcbind
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="c1"># Start NFS related services in order</span>
-<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nfs-idmapd
-<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nfs-mountd
-<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nfs-server
-<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>
-<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="c1"># Check status</span>
-<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>nfs-server
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Start rpcbind first (required dependency)</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>rpcbind
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>rpcbind
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="c1"># Start NFS related services in order</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nfs-idmapd
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nfs-mountd
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nfs-server
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="c1"># Check status</span>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>nfs-server
 </code></pre></div></p>
 <p><strong>Check what's being exported:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>sudo<span class="w"> </span>exportfs<span class="w"> </span>-v
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>sudo<span class="w"> </span>exportfs<span class="w"> </span>-v
 </code></pre></div></p>
 <p><strong>Show current connections:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>sudo<span class="w"> </span>showmount<span class="w"> </span>-a
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>sudo<span class="w"> </span>showmount<span class="w"> </span>-a
 </code></pre></div></p>
 <h4 id="client-issues">Client Issues<a class="headerlink" href="#client-issues" title="Permanent link">&para;</a></h4>
 <p><strong>Can't see exports:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Check if server is reachable</span>
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>showmount<span class="w"> </span>-e<span class="w"> </span>name
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Check if server is reachable</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>showmount<span class="w"> </span>-e<span class="w"> </span>name
 </code></pre></div></p>
 <p><strong>Mount fails:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Check if NFS ports are open</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>nc<span class="w"> </span>-zv<span class="w"> </span>name<span class="w"> </span><span class="m">2049</span>
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="c1"># Try manual mount with verbose</span>
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>sudo<span class="w"> </span>mount<span class="w"> </span>-v<span class="w"> </span>-t<span class="w"> </span>nfs<span class="w"> </span>name:/home/jp19060/GitHub/DnD_Images<span class="w"> </span>~/GitHub/DnD_Images
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Check if NFS ports are open</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>nc<span class="w"> </span>-zv<span class="w"> </span>name<span class="w"> </span><span class="m">2049</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Try manual mount with verbose</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>sudo<span class="w"> </span>mount<span class="w"> </span>-v<span class="w"> </span>-t<span class="w"> </span>nfs<span class="w"> </span>name:/home/jp19060/GitHub/DnD_Images<span class="w"> </span>~/GitHub/DnD_Images
 </code></pre></div></p>
 <p><strong>Permission denied:</strong>
 - Check server exports configuration
@@ -2105,43 +1977,43 @@
 <p>Use Tailscale to access your gaming setup remotely or across networks.</p>
 <h3 id="install-tailscale">Install Tailscale<a class="headerlink" href="#install-tailscale" title="Permanent link">&para;</a></h3>
 <p><strong>Ubuntu/Debian:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://tailscale.com/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://tailscale.com/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </code></pre></div></p>
 <p><strong>Manual installation:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Add Tailscale repository</span>
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://pkgs.tailscale.com/stable/ubuntu/<span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span>.gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>apt-key<span class="w"> </span>add<span class="w"> </span>-
-<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://pkgs.tailscale.com/stable/ubuntu/<span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span>.list<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/tailscale.list
-<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>
-<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="c1"># Install</span>
-<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
-<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>tailscale<span class="w"> </span>-y
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Add Tailscale repository</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://pkgs.tailscale.com/stable/ubuntu/<span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span>.gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>apt-key<span class="w"> </span>add<span class="w"> </span>-
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://pkgs.tailscale.com/stable/ubuntu/<span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span>.list<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/tailscale.list
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="c1"># Install</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>tailscale<span class="w"> </span>-y
 </code></pre></div></p>
 <h3 id="setup-tailscale">Setup Tailscale<a class="headerlink" href="#setup-tailscale" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Enable and start service</span>
-<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>tailscaled
-<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>tailscaled
-<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>
-<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="c1"># Connect to Tailscale network</span>
-<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>sudo<span class="w"> </span>tailscale<span class="w"> </span>up
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Enable and start service</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>tailscaled
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>tailscaled
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="c1"># Connect to Tailscale network</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>sudo<span class="w"> </span>tailscale<span class="w"> </span>up
 </code></pre></div>
 <p>Follow the link provided to authenticate with your Tailscale account.</p>
 <h3 id="use-tailscale-with-nfs">Use Tailscale with NFS<a class="headerlink" href="#use-tailscale-with-nfs" title="Permanent link">&para;</a></h3>
 <p>Update fstab to use Tailscale hostname:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/fstab
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/fstab
 </code></pre></div>
 <p>Replace IP with Tailscale hostname:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>&lt;tailscale-hostname&gt;:/media/videos    /mnt/shared_videos    nfs    defaults,_netdev    0 0
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>&lt;tailscale-hostname&gt;:/media/videos    /mnt/shared_videos    nfs    defaults,_netdev    0 0
 </code></pre></div>
 <h2 id="verification">Verification<a class="headerlink" href="#verification" title="Permanent link">&para;</a></h2>
 <h3 id="test-screen-sage">Test Screen Sage<a class="headerlink" href="#test-screen-sage" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub/ScreenSage
-<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>
-<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="c1"># Run the server</span>
-<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>./target/release/screen-sage
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub/ScreenSage
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="c1"># Run the server</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>./target/release/screen-sage
 </code></pre></div>
 <p><strong>Expected output:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>Starting Screen Sage server...
-<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>Server running on http://0.0.0.0:8080
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>Starting Screen Sage server...
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>Server running on http://0.0.0.0:8080
 </code></pre></div></p>
 <p>Open browser and navigate to: <strong>http://localhost:8080</strong></p>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
@@ -2153,13 +2025,13 @@
 <li><strong>Explore ScryingGlass:</strong> See ScryingGlass documentation</li>
 </ol>
 <h2 id="quick-start-after-installation">Quick Start After Installation<a class="headerlink" href="#quick-start-after-installation" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># Terminal 1: Start the web server</span>
-<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub/ScreenSage
-<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>./target/release/screen-sage
-<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>
-<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="c1"># Terminal 2: Launch a display</span>
-<a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="nb">source</span><span class="w"> </span>python-env/bin/activate
-<a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a>python<span class="w"> </span>ScryingGlass/display_engine.py<span class="w"> </span>storage/scrying_glasses/battlemap.json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Terminal 1: Start the web server</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="nb">cd</span><span class="w"> </span>~/GitHub/ScreenSage
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>./target/release/screen-sage
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="c1"># Terminal 2: Launch a display</span>
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a><span class="nb">source</span><span class="w"> </span>python-env/bin/activate
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>python<span class="w"> </span>ScryingGlass/display_engine.py<span class="w"> </span>storage/scrying_glasses/battlemap.json
 </code></pre></div>
 <p>Open browser: <strong>http://localhost:8080</strong></p>
 <h2 id="related-documentation">Related Documentation<a class="headerlink" href="#related-documentation" title="Permanent link">&para;</a></h2>
@@ -2170,7 +2042,7 @@
 <li><a href="../USEFUL_COMMANDS/">Useful Commands</a> - Common commands reference</li>
 </ul>
 <hr />
-<p><em>For issues or questions, visit the <a href="https://github.com/AndrewMorgan2/ScreenSage">GitHub repository</a>.</em></p>
+<p><em>For issues or questions, visit the <a href="https://github.com/username/ScreenSage">GitHub repository</a>.</em></p>
 
 
 
