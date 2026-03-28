@@ -726,17 +726,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#api-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#display-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -791,17 +780,6 @@
     <span class="md-ellipsis">
       
         Media Management
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ai-image-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        AI Image Generation
       
     </span>
   </a>
@@ -1253,17 +1231,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#api-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#display-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1318,17 +1285,6 @@
     <span class="md-ellipsis">
       
         Media Management
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ai-image-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        AI Image Generation
       
     </span>
   </a>
@@ -1453,7 +1409,6 @@
 <li>Data models and handlers</li>
 <li>Battle tracker system</li>
 <li>Media handling and serving</li>
-<li>AI image generation</li>
 <li>File upload system</li>
 <li>Template system</li>
 <li>JSON operations</li>
@@ -1469,7 +1424,6 @@
 <ul>
 <li><strong>Battle Tracker</strong> - Initiative tracking and combat management</li>
 <li><strong>Media Browser</strong> - Image and video file management</li>
-<li><strong>AI Image Generation</strong> - Stability AI integration for generating game assets</li>
 <li><strong>E-ink Display Support</strong> - Optimized rendering for e-ink screens</li>
 <li><strong>Virtual Tabletop</strong> - Full VTT interface with drawing tools and token management</li>
 </ul>
@@ -1487,29 +1441,21 @@
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    models.rs                # Data structures
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    battle_handlers.rs       # Combat tracking
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    image_handlers.rs        # Media serving
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    image_gen_handlers.rs    # AI image generation
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    sageslate_handlers.rs    # E-ink display control
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    vtt_handler.rs           # Virtual tabletop
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    templates/               # HTML templates
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    docs/                    # This documentation
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a> static/
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    css/                     # Stylesheets
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    js/                      # Frontend JavaScript
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a> storage/
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    wifi_config.json         # WiFi configuration
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    scrying_glasses/         # Display configurations
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    templates/               # VTT templates
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a> iso/
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>     iso-build/               # Custom Arch Linux ISO
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    sageslate_handlers.rs    # E-ink display control
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    vtt_handler.rs           # Virtual tabletop
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    templates/               # HTML templates
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    docs/                    # This documentation
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a> static/
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    css/                     # Stylesheets
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    js/                      # Frontend JavaScript
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a> storage/
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    wifi_config.json         # WiFi configuration
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    scrying_glasses/         # Display configurations
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    templates/               # VTT templates
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a> iso/
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>     iso-build/               # Custom Arch Linux ISO
 </code></pre></div>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<h3 id="api-configuration">API Configuration<a class="headerlink" href="#api-configuration" title="Permanent link">&para;</a></h3>
-<p>API keys and endpoints are stored in <code>storage/api_config.json</code>:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;api_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;your-stability-ai-key&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;endpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.stability.ai/v2beta/stable-image/generate/ultra&quot;</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">}</span>
-</code></pre></div></p>
 <h3 id="display-configuration">Display Configuration<a class="headerlink" href="#display-configuration" title="Permanent link">&para;</a></h3>
 <p>Display settings are stored in JSON files under <code>storage/scrying_glasses/</code>:
 - <code>battlemap.json</code> - Battle map display configuration
@@ -1531,17 +1477,12 @@
 <li><code>GET /api/images/list</code> - List directory contents</li>
 <li><code>GET /api/images/serve</code> - Serve media files</li>
 </ul>
-<h3 id="ai-image-generation">AI Image Generation<a class="headerlink" href="#ai-image-generation" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>POST /api/image-gen/generate</code> - Generate image from prompt</li>
-<li><code>POST /api/image-gen/check-credits</code> - Check API credits</li>
-</ul>
 <h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
 <h3 id="building">Building<a class="headerlink" href="#building" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>cargo<span class="w"> </span>build<span class="w"> </span>--release
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cargo<span class="w"> </span>build<span class="w"> </span>--release
 </code></pre></div>
 <h3 id="running">Running<a class="headerlink" href="#running" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>./target/release/screen-sage
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>./target/release/screen-sage
 </code></pre></div>
 <p>Server runs on <code>http://0.0.0.0:8080</code></p>
 <h3 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h3>
