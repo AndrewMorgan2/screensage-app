@@ -187,4 +187,4 @@ python ScryingGlass/display_engine.py storage/scrying_glasses/battlemap.json &
 
 ---
 
-*For issues or questions, check the [GitHub Issues](https://github.com/AndrewMorgan2/ScreenSage/issues) page.*
+*For issues or questions, check the [GitHub Issues](https://github.com/username/ScreenSage/issues) page.*

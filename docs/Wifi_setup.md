@@ -526,7 +526,7 @@ For issues:
 - Check the ScreenSage terminal for error messages
 - Review create_ap logs: `cat /tmp/hotspot.log`
 - Verify sudoers permissions: `sudo visudo -c`
-- GitHub: [ScreenSage Issues](https://github.com/AndrewMorgan2/ScreenSage/issues)
+- GitHub: [ScreenSage Issues](https://github.com/username/ScreenSage/issues)
 - linux-wifi-hotspot: [GitHub](https://github.com/lakinduakash/linux-wifi-hotspot)
 
 ---

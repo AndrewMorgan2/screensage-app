@@ -870,4 +870,4 @@ const char* password = "your_new_password";
 
 ---
 
-*For issues or questions, visit the [GitHub repository](https://github.com/AndrewMorgan2/ScreenSage) or check the [linux-wifi-hotspot documentation](https://github.com/lakinduakash/linux-wifi-hotspot).*
+*For issues or questions, visit the [GitHub repository](https://github.com/username/ScreenSage) or check the [linux-wifi-hotspot documentation](https://github.com/lakinduakash/linux-wifi-hotspot).*

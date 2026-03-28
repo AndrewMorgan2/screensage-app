@@ -20,52 +20,6 @@ Complete installation guide for setting up Screen Sage on Ubuntu/Linux systems.
 - Omarchy (Arch Linux) — the primary supported platform
 - Other distros may work but are not officially supported
 
-## System Setup
-
-### 1. Install Base System
-
-```bash
-# Update system packages
-sudo apt update
-sudo apt upgrade -y
-```
-
-### 2. Install Git
-
-```bash
-sudo apt install git -y
-```
-
-### 3. Setup SSH Keys for GitHub
-
-Generate SSH key:
-
-```bash
-ssh-keygen -t ed25519 -C "your_email@example.com"
-```
-
-**Follow the prompts:**
-- Press Enter to accept default location
-- Enter passphrase (optional but recommended)
-
-**Display your public key:**
-```bash
-cat ~/.ssh/id_ed25519.pub
-```
-
-**Add to GitHub:**
-1. Go to [GitHub SSH Keys Settings](https://github.com/settings/keys)
-2. Click "New SSH key"
-3. Paste your public key
-4. Click "Add SSH key"
-
-**Test connection:**
-```bash
-ssh -T git@github.com
-```
-
-You should see: `Hi <username>! You've successfully authenticated...`
-
 ## Screen Sage Installation
 
 ### 1. Clone Repository
@@ -76,8 +30,8 @@ mkdir -p ~/GitHub
 cd ~/GitHub
 
 # Clone Screen Sage
-git clone git@github.com:AndrewMorgan2/ScreenSage.git
-cd ScreenSage
+git@github.com:AndrewMorgan2/screensage-app.git
+cd screensage-app
 ```
 
 ### 2. Install Rust
@@ -135,7 +89,7 @@ python3 -m venv python-env
 source python-env/bin/activate
 
 # Install dependencies
-python-env/bin/pip install pygame pillow requests numpy matlabplot
+python-env/bin/pip install pyglet watchdog Pillow
 
 # Deactivate
 deactivate
@@ -164,7 +118,7 @@ sudo systemctl enable nfs-server
 ```bash
 # Clone DnD Images repository (or use your own directory)
 cd ~/GitHub
-git clone git@github.com:AndrewMorgan2/DnD_Images.git
+git clone git@github.com:username/DnD_Images.git
 
 # Or create your own media directory
 mkdir -p ~/Media/DnD
@@ -444,4 +398,4 @@ Open browser: **http://localhost:8080**
 
 ---
 
-*For issues or questions, visit the [GitHub repository](https://github.com/AndrewMorgan2/ScreenSage).*
+*For issues or questions, visit the [GitHub repository](https://github.com/username/ScreenSage).*

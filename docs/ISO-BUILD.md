@@ -438,7 +438,7 @@ To improve the ISO builder:
 
 - [Arch Linux](https://archlinux.org/)
 - [archiso documentation](https://wiki.archlinux.org/title/Archiso)
-- [ScreenSage GitHub](https://github.com/AndrewMorgan2/ScreenSage)
+- [ScreenSage GitHub](https://github.com/username/ScreenSage)
 - [create_ap](https://github.com/oblique/create_ap)
 
 ## License

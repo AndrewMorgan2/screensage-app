@@ -28,7 +28,7 @@ ScreenSage provides powerful tools for Game Masters to manage combat, display me
 - **Media Browser** - Browse and display images/videos to screens
 - **Virtual Tabletop (VTT) Editor** - Full-featured battlemap interface
 - **AI Image Generation** - Stability AI API integration
-- **SageSlate E-Ink Manager** - Player aids and character sheets. See [SageSlate](https://github.com/AndrewMorgan2/SageSlate)
+- **SageSlate E-Ink Manager** - Player aids and character sheets. See previous version here [SageSlate](https://github.com/username/SageSlate)
 
 [Full documentation](FEATURES.md)
 
@@ -38,7 +38,7 @@ ScreenSage provides powerful tools for Game Masters to manage combat, display me
 
 ```bash
 # Clone repository
-git clone git@github.com:AndrewMorgan2/ScreenSage.git
+git clone git@github.com:username/ScreenSage.git
 cd ScreenSage
 
 # Install dependencies (Ubuntu/Debian)
@@ -60,7 +60,7 @@ Open browser: **http://localhost:8080**
 
 **Features:**
 - [ScryingGlass Display System](ScryingGlass_pyglet/README.md) - Multi-display rendering
-- [SageSlate E-Ink Manager](https://github.com/AndrewMorgan2/SageSlate) - E-ink displays
+- [SageSlate E-Ink Manager](https://github.com/username/SageSlate) - E-ink displays
 
 **Setup Guides:**
 - [Touchscreen Setup](TOUCHSCREEN_SETUP.md) - Configure touch input
