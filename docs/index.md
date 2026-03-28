@@ -144,8 +144,6 @@ Support for complex multi-screen configurations:
 
 Edit `ESP32_wifi_code/Loader_esp32wf.ino` to change.
 
-**Network File Sharing:**
-See [INSTALLATION.md](INSTALLATION.md) for NFS setup.
 
 ## License
 
