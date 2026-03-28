@@ -27,7 +27,6 @@ ScreenSage provides powerful tools for Game Masters to manage combat, display me
 - **Combat Tracker** - Initiative tracking with overlay and display
 - **Media Browser** - Browse and display images/videos to screens
 - **Virtual Tabletop (VTT) Editor** - Full-featured battlemap interface
-- **AI Image Generation** - Stability AI API integration
 - **SageSlate E-Ink Manager** - Player aids and character sheets. See previous version here [SageSlate](https://github.com/username/SageSlate)
 
 [Full documentation](FEATURES.md)
@@ -133,7 +132,6 @@ Support for complex multi-screen configurations:
 - **`display_configs/`** - Display templates for Display tab
 - **`templates/`** - E-ink JSON templates
 - **`images/`** - Image assets for the project
-- **`ai_images/`** - AI-generated images
 - **`generated_images/`** - E-ink processed images
 
 ### Environment Configuration
@@ -154,7 +152,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 **Technologies:**
 - [Actix Web](https://actix.rs/) - Rust web framework
 - [Pyglet](https://pyglet.readthedocs.io/) - Pyglet game library
-- [Stability AI](https://stability.ai/) - AI image generation
 
 ## Roadmap
 

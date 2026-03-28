@@ -32,7 +32,6 @@ ScreenSage/
   - Data models and handlers
   - Battle tracker system
   - Media handling and serving
-  - AI image generation
   - File upload system
   - Template system
   - JSON operations
@@ -51,7 +50,6 @@ ScreenSage is a virtual tabletop (VTT) system designed to run on dedicated hardw
 
 - **Battle Tracker** - Initiative tracking and combat management
 - **Media Browser** - Image and video file management
-- **AI Image Generation** - Stability AI integration for generating game assets
 - **E-ink Display Support** - Optimized rendering for e-ink screens
 - **Virtual Tabletop** - Full VTT interface with drawing tools and token management
 
@@ -73,7 +71,6 @@ ScreenSage/
     models.rs                # Data structures
     battle_handlers.rs       # Combat tracking
     image_handlers.rs        # Media serving
-    image_gen_handlers.rs    # AI image generation
     sageslate_handlers.rs    # E-ink display control
     vtt_handler.rs           # Virtual tabletop
     templates/               # HTML templates
@@ -90,15 +87,6 @@ ScreenSage/
 ```
 
 ## Configuration
-
-### API Configuration
-API keys and endpoints are stored in `storage/api_config.json`:
-```json
-{
-  "api_key": "your-stability-ai-key",
-  "endpoint": "https://api.stability.ai/v2beta/stable-image/generate/ultra"
-}
-```
 
 ### Display Configuration
 Display settings are stored in JSON files under `storage/scrying_glasses/`:
@@ -120,10 +108,6 @@ ScreenSage provides RESTful APIs for all major features:
 ### Media Management
 - `GET /api/images/list` - List directory contents
 - `GET /api/images/serve` - Serve media files
-
-### AI Image Generation
-- `POST /api/image-gen/generate` - Generate image from prompt
-- `POST /api/image-gen/check-credits` - Check API credits
 
 ## Development
 
