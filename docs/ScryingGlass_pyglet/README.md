@@ -1,8 +1,10 @@
 ---
-title: "Pyglet Display Engine"
+title: "ScryingGlass"
 ---
 
-# Pyglet Display Engine - Hardware-Accelerated Alternative
+# ScryingGlass
+
+![ScryingGlass](../images/ScryingGlass.png)
 
 ## Overview
 

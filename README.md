@@ -4,9 +4,17 @@
 
 ScreenSage provides powerful tools for Game Masters to manage combat, display media across multiple screens and control e-ink displays. Built and run on [Omarchy](https://omarchy.org) (Arch Linux), controllable locally or remotely via web browser.
 
+![ScreenSage Overview](storage/images/exp_smaller.png)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)](https://www.rust-lang.org/)
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
+
+## ScryingGlass
+
+ScryingGlass is the Python-based display engine that powers ScreenSage's multi-screen output. It renders battlemaps, media, and fog of war onto connected displays using hardware-accelerated OpenGL via Pyglet, and hot-reloads whenever the Game Master updates content from the web interface.
+
+![ScryingGlass](storage/images/ScryingGlass.png)
 
 ## Quick Start
 
