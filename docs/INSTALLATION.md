@@ -71,7 +71,7 @@ cargo build --release
 
 **This will take several minutes.** The compiled binary will be at:
 ```
-~/GitHub/ScreenSage/target/release/screen-sage
+cargo run
 ```
 
 ### 5. Setup Python Environment
@@ -94,40 +94,9 @@ python-env/bin/pip install pyglet watchdog Pillow
 deactivate
 ```
 
-## Optional: Tailscale VPN
+## Remote Access
 
-Use Tailscale to access your gaming setup remotely or across networks.
-
-### Install Tailscale
-
-**Ubuntu/Debian:**
-```bash
-curl -fsSL https://tailscale.com/install.sh | sh
-```
-
-**Manual installation:**
-```bash
-# Add Tailscale repository
-curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/$(lsb_release -cs).gpg | sudo apt-key add -
-curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/$(lsb_release -cs).list | sudo tee /etc/apt/sources.list.d/tailscale.list
-
-# Install
-sudo apt update
-sudo apt install tailscale -y
-```
-
-### Setup Tailscale
-
-```bash
-# Enable and start service
-sudo systemctl enable tailscaled
-sudo systemctl start tailscaled
-
-# Connect to Tailscale network
-sudo tailscale up
-```
-
-Follow the link provided to authenticate with your Tailscale account.
+[Tailscale](https://tailscale.com) is recommended for accessing ScreenSage remotely or across networks.
 
 ## Verification
 
@@ -137,7 +106,7 @@ Follow the link provided to authenticate with your Tailscale account.
 cd ~/GitHub/ScreenSage
 
 # Run the server
-./target/release/screen-sage
+cargo run
 ```
 
 **Expected output:**
@@ -153,16 +122,15 @@ Open browser and navigate to: **http://localhost:8080**
 After installation:
 
 1. **Configure displays:** See [TOUCHSCREEN_SETUP.md](TOUCHSCREEN_SETUP.md)
-2. **Setup WiFi hotspot** (optional): See [WIFI_HOTSPOT_SETUP.md](WIFI_HOTSPOT_SETUP.md)
-3. **Read the usage guide:** See main [README.md](index.md)
-4. **Explore ScryingGlass:** See ScryingGlass documentation
+2. **Read the usage guide:** See main [README.md](index.md)
+3. **Explore ScryingGlass:** See ScryingGlass documentation
 
 ## Quick Start After Installation
 
 ```bash
 # Terminal 1: Start the web server
 cd ~/GitHub/ScreenSage
-./target/release/screen-sage
+cargo run
 
 # Terminal 2: Launch a display
 source python-env/bin/activate
@@ -175,7 +143,6 @@ Open browser: **http://localhost:8080**
 
 - [README](index.md) - Screen Sage overview and features
 - [Touchscreen Setup](TOUCHSCREEN_SETUP.md) - Configure touchscreen displays
-- [WiFi Hotspot Setup](WIFI_HOTSPOT_SETUP.md) - Mobile hotspot for e-ink devices
 - [Useful Commands](USEFUL_COMMANDS.md) - Common commands reference
 
 ---

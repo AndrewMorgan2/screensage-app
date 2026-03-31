@@ -26,7 +26,6 @@ sudo /usr/bin/wihotspot
 
 - [Installation Guide](INSTALLATION.md) - System setup and installation
 - [Touchscreen Setup](TOUCHSCREEN_SETUP.md) - Configure touchscreen displays
-- [WiFi Hotspot Setup](WIFI_HOTSPOT_SETUP.md) - Mobile hotspot configuration
 
 ---
 

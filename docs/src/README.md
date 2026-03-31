@@ -118,7 +118,7 @@ cargo build --release
 
 ### Running
 ```bash
-./target/release/screen-sage
+cargo run
 ```
 
 Server runs on `http://0.0.0.0:8080`
