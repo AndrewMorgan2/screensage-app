@@ -83,7 +83,6 @@ Track ongoing development, completed features, and future plans for Screen Sage.
 ### User Documentation
 - [x] Touchscreen setup guide 
 - [x] Installation guide 
-- [x] WiFi hotspot setup 
 - [x] Useful commands reference 
 - [ ] Video tutorials
 - [ ] Quick start guide

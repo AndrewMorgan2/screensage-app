@@ -8,8 +8,8 @@
       "src": "./storage/images/battle_display_top.png",
       "type": "image",
       "width": "94.15507792801336%",
-      "x": 47.5972738874257,
-      "y": -70,
+      "x": "1.86%",
+      "y": "-4.86%",
       "keepAspectRatio": true
     },
     {
@@ -23,8 +23,8 @@
       "size": "5%",
       "text": "Roll Initative",
       "type": "text",
-      "x": 965.656412066578,
-      "y": 20
+      "x": "37.72%",
+      "y": "1.39%"
     },
     {
       "alignment": "left",
@@ -37,8 +37,8 @@
       "size": "7%",
       "text": "Turn: 1",
       "type": "text",
-      "x": 24,
-      "y": 974
+      "x": "0.94%",
+      "y": "67.64%"
     }
   ]
 }

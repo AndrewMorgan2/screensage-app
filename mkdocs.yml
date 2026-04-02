@@ -19,24 +19,16 @@ theme:
 
 nav:
   - Overview: index.md
-  - Getting Started:
-    - Installation: INSTALLATION.md
-    - Features: FEATURES.md
-  - Setup Guides:
-    - Touchscreen: TOUCHSCREEN_SETUP.md
-    - Useful Commands: USEFUL_COMMANDS.md
-  - Developer Docs:
-    - Backend (Rust): src/code_documentation.md
-    - Frontend (JS): static/code_documetation.md
-    - Docs Index: src/README.md
-  - Display Engine:
-    - Pyglet Engine: ScryingGlass_pyglet/README.md
-    - Implementation: ScryingGlass_pyglet/IMPLEMENTATION_SUMMARY.md
-  - SageSlate E-Ink:
-    - Hardware Build Guide: SAGESLATE_HARDWARE.md
-  - Project:
-    - Roadmap: TODO.md
-    - ISO Builder: ISO-BUILD.md
+  - Installation: INSTALLATION.md
+  - Features: FEATURES.md
+  - WiFi Hotspot: WIFI_HOTSPOT_SETUP.md
+  - Useful Commands: USEFUL_COMMANDS.md
+  - ScryingGlass Display Engine: ScryingGlass_pyglet/README.md
+  - SageSlate E-Ink Hardware: SAGESLATE_HARDWARE.md
+  - Backend (Rust): src/code_documentation.md
+  - Frontend (JS): static/code_documetation.md
+  - Display Engine Internals: ScryingGlass_pyglet/IMPLEMENTATION_SUMMARY.md
+  - Roadmap: TODO.md
 
 plugins:
   - search

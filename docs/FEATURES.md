@@ -224,70 +224,6 @@ Preview scale is saved to localStorage:
 - **Coordinate Display**: Shows position and size
 - **Grid Overlay**: Optional alignment grid
 
-## Recent Implementations
-
-### 2024 Q4 Features
-
-#### JavaScript Module Refactoring 
-- Consolidated VTT modules
-- Reduced code by 318 lines (70% reduction)
-- Improved maintainability
-- Added comprehensive documentation
-
-**Files:**
-- `static/js/vtt/vtt-main.js`
-- `static/js/vtt/display-main.js`
-- `static/js/vtt/vtt-initializer.js`
-- `static/js/vtt/vtt-controls-module.js`
-- `static/js/vtt/vtt-preview-module.js`
-- `static/js/vtt/vtt-draggable-module.js`
-
-#### Percentage Coordinate System 
-- Support for three coordinate formats
-- All element types updated
-- Preview rendering enhanced
-- Python backend compatible
-
-**Implementation:** PERCENTAGE_COORDINATES_IMPLEMENTATION.md
-
-#### Percentage Slider Toggles 
-- Toggle between px and % modes
-- Automatic value conversion
-- Visual feedback (blue/green)
-- Per-property memory
-
-**Location:** vtt-controls-module.js:411-584
-
-#### Fog System Improvements 
-- Template loading system
-- Add/Remove buttons
-- Clear property fix
-- Zoom coordinate transformation
-
-**Files Modified:**
-- `static/js/vtt/vtt-initializer.js` (fog buttons)
-- `ScryingGlass/display_engine.py` (clear flag check)
-- `ScryingGlass/event_handler.py` (zoom transformation)
-
-#### Display Tab Fixes 
-- Fixed button IDs mismatch
-- Added debug logging
-- Template integration
-- Fog controls
-
-**Fix:** DISPLAY_BUTTONS_FIX.md
-
-#### Preview Scale Persistence 
-- localStorage integration
-- Per-tab independence
-- Auto-restoration
-- UI synchronization
-
-**Implementation:**
-- vtt-preview-module.js:51-55 - Load from storage
-- vtt-preview-module.js:67-68 - Save to storage
-- vtt-initializer.js:144-152 - Restore on load
-
 ## Usage Examples
 
 ### Creating a Responsive Layout
@@ -404,5 +340,3 @@ Players can click to clear fog, and walls block visibility.
 Have ideas for new features? See [TODO.md](TODO.md) or open an issue on GitHub!
 
 ---
-
-*Last updated: 2024-10-13*

@@ -27,7 +27,7 @@ ScreenSage provides powerful tools for Game Masters to manage combat, display me
 - **Combat Tracker** - Initiative tracking with overlay and display
 - **Media Browser** - Browse and display images/videos to screens
 - **Virtual Tabletop (VTT) Editor** - Full-featured battlemap interface
-- **SageSlate E-Ink Manager** - Player aids and character sheets. See previous version here [SageSlate](https://github.com/username/SageSlate)
+- **SageSlate E-Ink Manager** - Player aids and character sheets. See [SageSlate on GitHub](https://github.com/AndrewMorgan2/SageSlate)
 
 [Full documentation](FEATURES.md)
 
@@ -59,7 +59,7 @@ Open browser: **http://localhost:8080**
 
 **Features:**
 - [ScryingGlass Display System](ScryingGlass_pyglet/README.md) - Multi-display rendering
-- [SageSlate E-Ink Manager](https://github.com/username/SageSlate) - E-ink displays
+- [SageSlate E-Ink Manager](https://github.com/AndrewMorgan2/SageSlate) - E-ink displays
 
 **Setup Guides:**
 - [Touchscreen Setup](TOUCHSCREEN_SETUP.md) - Configure touch input

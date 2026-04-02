@@ -17,9 +17,6 @@ ScreenSage/
     code_documentation.md 
        WiFi Management section → Cross-references
                                       
-    wifi_hotspot_feature.md 
-        See Also section
-
  Other documentation files (setup guides, etc.)
 ```
 
@@ -82,8 +79,6 @@ ScreenSage/
     wifi_config.json         # WiFi configuration
     scrying_glasses/         # Display configurations
     templates/               # VTT templates
- iso/
-     iso-build/               # Custom Arch Linux ISO
 ```
 
 ## Configuration
