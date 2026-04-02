@@ -1,0 +1,1699 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A web-based control center for tabletop RPG management and multimedia display.">
+      
+      
+      
+      
+        <link rel="prev" href="../ScryingGlass_pyglet/IMPLEMENTATION_SUMMARY/">
+      
+      
+        <link rel="next" href="../TODO/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images/new_logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>SageSlate E-Ink Hardware Guide - ScreenSage</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sageslate-e-ink-hardware-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ScreenSage" class="md-header__button md-logo" aria-label="ScreenSage" data-md-component="logo">
+      
+  <img src="../images/new_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ScreenSage
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SageSlate E-Ink Hardware Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ScreenSage" class="md-nav__button md-logo" aria-label="ScreenSage" data-md-component="logo">
+      
+  <img src="../images/new_logo.png" alt="logo">
+
+    </a>
+    ScreenSage
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INSTALLATION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FEATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Setup Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TOUCHSCREEN_SETUP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Touchscreen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../USEFUL_COMMANDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Useful Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../src/code_documentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backend (Rust)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../static/code_documetation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend (JS)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../src/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Display Engine
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Display Engine
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ScryingGlass_pyglet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pyglet Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ScryingGlass_pyglet/IMPLEMENTATION_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SageSlate E-Ink
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SageSlate E-Ink
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware Build Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware Build Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#parts-list-per-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parts List (per screen)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3d-printing-the-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3D Printing the Case
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wiring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flashing-the-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flashing the ESP32
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Flashing the ESP32">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-install-arduino-ide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Install Arduino IDE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-configure-wifi-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Configure WiFi credentials
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-set-a-static-ip-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Set a static IP address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-set-the-display-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Set the display type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Upload
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sending-images-over-wifi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sending Images Over WiFi
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sending Images Over WiFi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#send-an-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Send an image
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#finished-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Finished Build
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TODO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ISO-BUILD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISO Builder
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#parts-list-per-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parts List (per screen)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3d-printing-the-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3D Printing the Case
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wiring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flashing-the-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flashing the ESP32
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Flashing the ESP32">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-install-arduino-ide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Install Arduino IDE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-configure-wifi-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Configure WiFi credentials
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-set-a-static-ip-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Set a static IP address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-set-the-display-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Set the display type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Upload
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sending-images-over-wifi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sending Images Over WiFi
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sending Images Over WiFi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#send-an-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Send an image
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#finished-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Finished Build
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="sageslate-e-ink-hardware-guide">SageSlate E-Ink Hardware Guide<a class="headerlink" href="#sageslate-e-ink-hardware-guide" title="Permanent link">&para;</a></h1>
+<p>SageSlate turns cheap e-ink panels and an ESP32 into wireless player handout screens for your TTRPG sessions. Each screen connects to your WiFi network and receives images pushed from the ScreenSage app over a TCP connection — no Bluetooth, no pairing, no fuss.</p>
+<p><img alt="SageSlate system overview" src="../images/sageslate-diagram.png" /></p>
+<hr />
+<h2 id="parts-list-per-screen">Parts List (per screen)<a class="headerlink" href="#parts-list-per-screen" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Waveshare 4.2" e-ink display + driver board</td>
+<td>400×300, black/white</td>
+</tr>
+<tr>
+<td>ESP32 development board (e.g. ESP32-WROOM-32)</td>
+<td>Any standard 38-pin board works</td>
+</tr>
+<tr>
+<td>3.7 V LiPo battery (LP402535 or similar)</td>
+<td>Shown in build photo</td>
+</tr>
+<tr>
+<td>TP4056 USB-C charging module</td>
+<td>Optional — lets you charge without opening the case</td>
+</tr>
+<tr>
+<td>Toggle switch</td>
+<td>For power on/off</td>
+</tr>
+<tr>
+<td>Jumper/dupont wires</td>
+<td>For wiring ESP32 to driver board</td>
+</tr>
+<tr>
+<td>3D printed case</td>
+<td>STL files provided (see below)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3d-printing-the-case">3D Printing the Case<a class="headerlink" href="#3d-printing-the-case" title="Permanent link">&para;</a></h2>
+<p>Four STL files are in <code>SageSlate/stls/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Part</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>case_4_2_v5.stl</code></td>
+<td>Main body</td>
+</tr>
+<tr>
+<td><code>case_4_2_v5_stand.stl</code></td>
+<td>Desk stand (print ×2)</td>
+</tr>
+<tr>
+<td><code>lid.stl</code></td>
+<td>Back cover</td>
+</tr>
+</tbody>
+</table>
+<p>Print in PLA or PETG. The body holds the e-ink panel face-down, the ESP32, and the battery. The two triangular stands clip on the sides so the screen can sit at an angle on a table.</p>
+<hr />
+<h2 id="wiring">Wiring<a class="headerlink" href="#wiring" title="Permanent link">&para;</a></h2>
+<p>Connect the Waveshare e-ink driver board to the ESP32 using the SPI pins defined in <code>SageSlate/ESP32_wifi_code/epd.h</code>:</p>
+<table>
+<thead>
+<tr>
+<th>ESP32 GPIO</th>
+<th>Driver board pin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>13</td>
+<td>SCK (CLK)</td>
+</tr>
+<tr>
+<td>14</td>
+<td>DIN (MOSI)</td>
+</tr>
+<tr>
+<td>15</td>
+<td>CS</td>
+</tr>
+<tr>
+<td>25</td>
+<td>BUSY</td>
+</tr>
+<tr>
+<td>26</td>
+<td>RST</td>
+</tr>
+<tr>
+<td>27</td>
+<td>DC</td>
+</tr>
+<tr>
+<td>3.3 V</td>
+<td>VCC</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>GND</td>
+</tr>
+</tbody>
+</table>
+<p>The battery connects via the TP4056 module so it can be charged over USB-C. Wire a toggle switch in series on the positive line for a physical power switch.</p>
+<p><img alt="Electronics inside the case" src="../images/sageslate_electronics.JPG" /></p>
+<hr />
+<h2 id="flashing-the-esp32">Flashing the ESP32<a class="headerlink" href="#flashing-the-esp32" title="Permanent link">&para;</a></h2>
+<h3 id="1-install-arduino-ide">1. Install Arduino IDE<a class="headerlink" href="#1-install-arduino-ide" title="Permanent link">&para;</a></h3>
+<p>Download from <a href="https://www.arduino.cc/en/software">arduino.cc</a>. Install the <strong>ESP32 board package</strong>:</p>
+<ol>
+<li>Open <strong>File → Preferences</strong></li>
+<li>Add to <em>Additional Boards Manager URLs</em>:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+</code></pre></div></li>
+<li>Open <strong>Tools → Board → Boards Manager</strong>, search <em>esp32</em>, install <strong>esp32 by Espressif Systems</strong>.</li>
+</ol>
+<h3 id="2-configure-wifi-credentials">2. Configure WiFi credentials<a class="headerlink" href="#2-configure-wifi-credentials" title="Permanent link">&para;</a></h3>
+<p>Open <code>SageSlate/ESP32_wifi_code/srvr.h</code> and update these three lines near the top:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ssid</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;your_wifi_name&quot;</span><span class="p">;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;your_wifi_password&quot;</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">hostname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;einkScreen0&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// unique name per display</span>
+</code></pre></div>
+<p>Give each screen a different hostname (<code>einkScreen0</code>, <code>einkScreen1</code>, etc.) so you can tell them apart on your network.</p>
+<h3 id="3-set-a-static-ip-address">3. Set a static IP address<a class="headerlink" href="#3-set-a-static-ip-address" title="Permanent link">&para;</a></h3>
+<p>Still in <code>srvr.h</code>, set a static IP that doesn't conflict with other devices:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">IPAddress</span><span class="w"> </span><span class="nf">staticIP</span><span class="p">(</span><span class="mi">192</span><span class="p">,</span><span class="w"> </span><span class="mi">168</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">);</span><span class="w">  </span><span class="c1">// change to suit your network</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">IPAddress</span><span class="w"> </span><span class="nf">gateway</span><span class="p">(</span><span class="mi">192</span><span class="p">,</span><span class="w"> </span><span class="mi">168</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">IPAddress</span><span class="w"> </span><span class="nf">subnet</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">IPAddress</span><span class="w"> </span><span class="nf">dns</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">);</span>
+</code></pre></div>
+<p>Use a different last octet for each screen (e.g. <code>.200</code>, <code>.201</code>, <code>.202</code>).</p>
+<h3 id="4-set-the-display-type">4. Set the display type<a class="headerlink" href="#4-set-the-display-type" title="Permanent link">&para;</a></h3>
+<p>In <code>SageSlate/ESP32_wifi_code/Loader_esp32wf.ino</code>, the display type is set in <code>setup()</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">EPD_dispIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">44</span><span class="p">;</span><span class="w">  </span><span class="c1">// 4.2 inch (400×300)</span>
+</code></pre></div>
+<p>Supported indices:</p>
+<table>
+<thead>
+<tr>
+<th>Index</th>
+<th>Display</th>
+<th>Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1.54 inch</td>
+<td>200×200</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2.13 inch</td>
+<td>250×122</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2.7 inch</td>
+<td>264×176</td>
+</tr>
+<tr>
+<td>9</td>
+<td>2.9 inch</td>
+<td>296×128</td>
+</tr>
+<tr>
+<td><strong>44</strong></td>
+<td><strong>4.2 inch</strong></td>
+<td><strong>400×300</strong></td>
+</tr>
+<tr>
+<td>19</td>
+<td>7.5 inch</td>
+<td>800×480</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-upload">5. Upload<a class="headerlink" href="#5-upload" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Select <strong>Tools → Board → ESP32 Dev Module</strong></li>
+<li>Select the correct <strong>Port</strong></li>
+<li>Click <strong>Upload</strong></li>
+</ol>
+<p>Watch the Serial Monitor (115200 baud) — on boot you should see:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>WiFi connected
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>IP address: 192.168.1.200
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>TCP server started
+</code></pre></div>
+<hr />
+<h2 id="sending-images-over-wifi">Sending Images Over WiFi<a class="headerlink" href="#sending-images-over-wifi" title="Permanent link">&para;</a></h2>
+<p>With the ESP32 running, use the provided Python script to push any image to the screen.</p>
+<h3 id="install-dependencies">Install dependencies<a class="headerlink" href="#install-dependencies" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip<span class="w"> </span>install<span class="w"> </span>Pillow<span class="w"> </span>numpy
+</code></pre></div>
+<h3 id="send-an-image">Send an image<a class="headerlink" href="#send-an-image" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>python<span class="w"> </span>SageSlate/ESP32_wifi_code/your_image.py<span class="w"> </span>&lt;ip_address&gt;<span class="w"> </span>&lt;path_to_image&gt;
+</code></pre></div>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>python<span class="w"> </span>SageSlate/ESP32_wifi_code/your_image.py<span class="w"> </span><span class="m">192</span>.168.1.200<span class="w"> </span>~/handouts/map.png
+</code></pre></div>
+<p>The script will:
+1. Open and resize the image to the display's resolution (default 400×300 for 4.2")
+2. Convert it to 1-bit black and white
+3. Pack the pixels into bytes and send them over TCP port 8080
+4. The ESP32 receives the data and refreshes the e-ink panel</p>
+<p><strong>Optional flags:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>python<span class="w"> </span>your_image.py<span class="w"> </span>&lt;ip&gt;<span class="w"> </span>&lt;image&gt;<span class="w"> </span>--port<span class="w"> </span><span class="m">8080</span><span class="w"> </span>--width<span class="w"> </span><span class="m">400</span><span class="w"> </span>--height<span class="w"> </span><span class="m">300</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--port</code></td>
+<td>8080</td>
+<td>TCP port</td>
+</tr>
+<tr>
+<td><code>--width</code></td>
+<td>400</td>
+<td>Target image width in pixels</td>
+</tr>
+<tr>
+<td><code>--height</code></td>
+<td>300</td>
+<td>Target image height in pixels</td>
+</tr>
+</tbody>
+</table>
+<p>Match <code>--width</code> and <code>--height</code> to your display's resolution (see table above).</p>
+<hr />
+<h2 id="finished-build">Finished Build<a class="headerlink" href="#finished-build" title="Permanent link">&para;</a></h2>
+<p><img alt="Finished SageSlate e-ink screen with stands" src="../images/sageslate_finished.png" /></p>
+<p>The completed screen sits on its printed triangle stands. E-ink holds the last image indefinitely with zero power draw — the battery only matters while the image is being updated.</p>
+<hr />
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<p><strong>Screen doesn't connect to WiFi</strong>
+- Double-check SSID/password in <code>srvr.h</code> and re-flash.
+- Check that your router's 2.4 GHz band is enabled — ESP32 does not support 5 GHz.</p>
+<p><strong>Python script errors "Connection refused"</strong>
+- Confirm the static IP in <code>srvr.h</code> matches the address you're sending to.
+- Check the Serial Monitor to verify the ESP32 printed its IP on boot.</p>
+<p><strong>Image looks wrong (inverted or garbled)</strong>
+- Make sure <code>--width</code> and <code>--height</code> match your actual display resolution.
+- The 2.7" display (index 7) automatically inverts its bits — this is handled in firmware.</p>
+<p><strong>Screen doesn't refresh</strong>
+- E-ink can take 2–3 seconds to fully refresh. Wait before assuming it failed.
+- If using a 3-colour display, the red channel is sent as all-white by default — only black and white content will appear.</p>
+<hr />
+<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://github.com/AndrewMorgan2/SageSlate">SageSlate GitHub repository</a></li>
+<li><a href="../INSTALLATION/">ScreenSage Installation</a></li>
+<li><a href="../FEATURES/">Features overview</a></li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
