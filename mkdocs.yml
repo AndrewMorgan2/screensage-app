@@ -32,6 +32,8 @@ nav:
   - Display Engine:
     - Pyglet Engine: ScryingGlass_pyglet/README.md
     - Implementation: ScryingGlass_pyglet/IMPLEMENTATION_SUMMARY.md
+  - SageSlate E-Ink:
+    - Hardware Build Guide: SAGESLATE_HARDWARE.md
   - Project:
     - Roadmap: TODO.md
     - ISO Builder: ISO-BUILD.md

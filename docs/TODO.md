@@ -21,7 +21,7 @@ Track ongoing development, completed features, and future plans for Screen Sage.
 - [ ] Review all documentation in `/docs` folders
 - [ ] Add all current features to documentation
 - [ ] Improve code documentation and examples
-- [ ] Create clear documentation for wall fog feature
+- [ ] Feature to have tick box so taht an image is loaded into a "fresh" json config
 
 ## High Priority
 
