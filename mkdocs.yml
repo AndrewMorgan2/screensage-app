@@ -21,7 +21,6 @@ nav:
   - Overview: index.md
   - Installation: INSTALLATION.md
   - Features: FEATURES.md
-  - WiFi Hotspot: WIFI_HOTSPOT_SETUP.md
   - Useful Commands: USEFUL_COMMANDS.md
   - ScryingGlass Display Engine: ScryingGlass_pyglet/README.md
   - SageSlate E-Ink Hardware: SAGESLATE_HARDWARE.md

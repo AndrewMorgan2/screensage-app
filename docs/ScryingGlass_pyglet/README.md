@@ -8,21 +8,7 @@ title: "ScryingGlass"
 
 ## Overview
 
-This is a **complete reimplementation** of ScreenSage using **Pyglet** instead of Pygame. It provides **native hardware acceleration** and **transparent video support** without the complexity of hybrid rendering.
-
-## Why Pyglet?
-
-### The Problem with Pygame
-- **Software rendering**: Slow CPU-based alpha blending
-- **No native transparent video**: Requires complex workarounds
-- **Performance bottleneck**: Especially for 1080p+ transparent videos
-
-### Pyglet Advantages
--  **Native OpenGL**: Hardware-accelerated by default
--  **Transparent video**: Built-in alpha channel support via `pyglet.media`
--  **Zero overhead**: No CPU↔GPU transfer for videos
--  **Better performance**: 60 FPS for 1080p transparent videos
--  **Simpler code**: No hybrid rendering complexity
+ScryingGlass renders scene configs onto a fullscreen window using **Pyglet** (OpenGL). It provides **native hardware acceleration** and **transparent video support**.
 
 ## Installation
 
@@ -127,8 +113,6 @@ cd /home/amorgan/GitHub/ScreenSage/ScryingGlass_pyglet
 -  Live config reloading
 -  **Zoom and Pan controls**
 
-**100% feature parity with pygame version achieved!**
-
 ## Documentation
 
 - **QUICK_START.md** - Quick start guide and feature overview
@@ -186,15 +170,9 @@ ffprobe -v error -show_entries stream=pix_fmt output.webm
 # Should show: pix_fmt=yuva420p
 ```
 
-## Performance Comparison
+## Performance
 
-| Implementation | Transparent 1080p Video | CPU Usage | GPU Usage |
-|---------------|-------------------------|-----------|-----------|
-| **Pygame** (software) | 10-20 FPS | 90% | 5% |
-| **Pygame + ModernGL** (hybrid) | 30-45 FPS | 40% | 60% |
-| **Pyglet** (native OpenGL) | **60 FPS** | **10%** | **80%** |
-
-Pyglet offloads everything to the GPU, where it belongs!
+Pyglet offloads everything to the GPU — transparent 1080p video runs at 60 FPS with ~10% CPU usage.
 
 ## Architecture
 
@@ -229,11 +207,8 @@ Pyglet offloads everything to the GPU, where it belongs!
 
 ## Current Limitations
 
-### Pyglet Quirks
-- **Coordinate system**: Origin is bottom-left (not top-left like pygame)
-  - You may need to adjust Y coordinates: `y_pyglet = window_height - y_pygame`
-- **Text rendering**: Different from pygame fonts
-- **No rotation for videos**: Pyglet doesn't support video texture rotation (can add with shaders)
+- **No video rotation**: Pyglet doesn't support video texture rotation (would need shaders)
+- **Coordinate origin**: Bottom-left — Y increases upward
 
 ## Extending This Implementation
 
@@ -265,25 +240,6 @@ class ConfigHandler(FileSystemEventHandler):
             self.load_elements()
 ```
 
-## Migration from Pygame
-
-### Config Changes
-
-**No changes needed!** Just update Y coordinates if needed:
-
-```python
-# In your config processor:
-if using_pyglet:
-    element['y'] = window_height - element['y']
-```
-
-### Performance Expectations
-
-- **Videos**: 3-6x faster than pygame
-- **Images**: 2-3x faster than pygame
-- **Text**: Similar or slightly faster
-- **Overall**: Dramatically smoother, especially with transparency
-
 ## Troubleshooting
 
 ### "No video formats found"
@@ -314,14 +270,6 @@ sudo apt install ffmpeg libavformat-dev libavcodec-dev
 2. Try disabling MSAA: Remove `samples=4` from window config
 3. Check video resolution - 4K videos may struggle on older GPUs
 
-## Future Enhancements
-
-All core features are complete! Possible future additions:
-- [ ] Shader-based effects (glow, blur, particle effects)
-- [ ] Video rotation (custom shader)
-- [ ] Multi-video composition layers
-- [ ] Performance monitoring overlay (FPS, memory usage)
-- [ ] Minimap view
 - [ ] Gamepad/controller support
 
 ## License

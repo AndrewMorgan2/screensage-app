@@ -312,7 +312,10 @@ async function displayMediaInVTT(screen) {
     // const escapedPath = newPath.replace(/"/g, '\\"');
     // const command = `sed -i '/"background":/,/}/ s|"src"[[:space:]]*:[[:space:]]*"[^"]*"|"src": "${escapedPath}"|' ./storage/scrying_glasses/${jsonFile}`;
 
-    const safeCommand = `jq --arg newSrc ${JSON.stringify(newPath)} '.background.src = $newSrc' ./storage/scrying_glasses/${jsonFile} > tmp.json && mv tmp.json ./storage/scrying_glasses/${jsonFile}`;
+    const clearConfig = document.getElementById('clear-config-checkbox')?.checked;
+    const safeCommand = clearConfig
+        ? `jq --null-input --arg newSrc ${JSON.stringify(newPath)} '{"background":{"src":$newSrc},"elements":[]}' > tmp.json && mv tmp.json ./storage/scrying_glasses/${jsonFile}`
+        : `jq --arg newSrc ${JSON.stringify(newPath)} '.background.src = $newSrc' ./storage/scrying_glasses/${jsonFile} > tmp.json && mv tmp.json ./storage/scrying_glasses/${jsonFile}`;
 
     fetch(`/run/command`, {
         method: 'POST',

@@ -8,9 +8,7 @@ Complete installation guide for setting up Screen Sage on Ubuntu/Linux systems.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
-- [System Setup](#system-setup)
 - [Screen Sage Installation](#screen-sage-installation)
-- [Optional: Tailscale VPN](#optional-tailscale-vpn)
 - [Verification](#verification)
 
 ## Prerequisites
@@ -121,9 +119,8 @@ Open browser and navigate to: **http://localhost:8080**
 
 After installation:
 
-1. **Configure displays:** See [TOUCHSCREEN_SETUP.md](TOUCHSCREEN_SETUP.md)
-2. **Read the usage guide:** See main [README.md](index.md)
-3. **Explore ScryingGlass:** See ScryingGlass documentation
+1. **Read the usage guide:** See main [README.md](index.md)
+2. **Explore ScryingGlass:** See [ScryingGlass documentation](ScryingGlass_pyglet/README.md)
 
 ## Quick Start After Installation
 
@@ -142,7 +139,6 @@ Open browser: **http://localhost:8080**
 ## Related Documentation
 
 - [README](index.md) - Screen Sage overview and features
-- [Touchscreen Setup](TOUCHSCREEN_SETUP.md) - Configure touchscreen displays
 - [Useful Commands](USEFUL_COMMANDS.md) - Common commands reference
 
 ---

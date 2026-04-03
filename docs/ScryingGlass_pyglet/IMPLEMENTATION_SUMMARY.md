@@ -43,7 +43,7 @@ Pyglet uses OpenGL under the hood. All rendering goes through a **batch** — Py
 5. Apply fog overlay via stencil buffer
 6. Flip
 
-**Why Pyglet instead of Pygame?** Pygame does alpha blending on the CPU. Pyglet pushes it to the GPU. For transparent 1080p videos this is the difference between 10 FPS and 60 FPS.
+Pyglet pushes alpha blending to the GPU — transparent 1080p video runs at 60 FPS with ~10% CPU usage.
 
 ---
 

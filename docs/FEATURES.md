@@ -11,7 +11,6 @@ Comprehensive guide to all Screen Sage features, with implementation details and
 - [Fog of War System](#fog-of-war-system)
 - [Display Controls](#display-controls)
 - [Preview System](#preview-system)
-- [Recent Implementations](#recent-implementations)
 
 ## VTT Coordinate Systems
 

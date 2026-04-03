@@ -354,6 +354,31 @@ button:hover {
     margin-bottom: 10px;
 }
 
+.clear-config-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    white-space: nowrap;
+    color: var(--primary-color);
+    transition: background-color 0.2s, color 0.2s;
+    user-select: none;
+}
+
+.clear-config-label:has(input:checked) {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.clear-config-label input[type="checkbox"] {
+    accent-color: white;
+    cursor: pointer;
+}
+
 .device-container {
     display: flex;
     justify-content: center;

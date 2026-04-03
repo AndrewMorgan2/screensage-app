@@ -7,7 +7,6 @@ title: "Development Roadmap"
 Track ongoing development, completed features, and future plans for Screen Sage.
 
 ## Table of Contents
-- [Recently Completed](#recently-completed)
 - [In Progress](#in-progress)
 - [High Priority](#high-priority)
 - [Future Features](#future-features)

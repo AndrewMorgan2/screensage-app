@@ -2,7 +2,7 @@
 
 **A web-based control center for tabletop RPG management and multimedia display.**
 
-ScreenSage provides powerful tools for Game Masters to manage combat, display media across multiple screens and control e-ink displays. Built and run on [Omarchy](https://omarchy.org) (Arch Linux), controllable locally or remotely via web browser.
+ScreenSage provides powerful tools for Game Masters to manage combat, display media across multiple screens and control e-ink displays. Built and run on Linux, controllable locally or remotely via web browser. Might work with WSL but this isn't tested
 
 ![ScreenSage Overview](storage/images/exp_smaller.png)
 

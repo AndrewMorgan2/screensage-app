@@ -62,7 +62,6 @@ Open browser: **http://localhost:8080**
 - [SageSlate E-Ink Manager](https://github.com/AndrewMorgan2/SageSlate) - E-ink displays
 
 **Setup Guides:**
-- [Touchscreen Setup](TOUCHSCREEN_SETUP.md) - Configure touch input
 - [Useful Commands](USEFUL_COMMANDS.md) - Quick reference
 
 **Developer Documentation:**
@@ -85,8 +84,6 @@ Open browser: **http://localhost:8080**
 - Real-time preview system
 
 **Hardware Integration:**
-- Xinput for touchscreen mapping
-- Xrandr for display configuration
 - ESP32 for wireless e-ink displays
 
 ### Directory Structure
@@ -120,8 +117,6 @@ Support for complex multi-screen configurations:
 2. **Player Battlemap**: Touch-enabled combat display
 3. **E-Ink Displays**: Character sheets and handouts
 4. **Secondary Displays**: Additional media screens
-
-[Setup guide](TOUCHSCREEN_SETUP.md)
 
 ## Configuration
 
