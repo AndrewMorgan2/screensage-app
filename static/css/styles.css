@@ -37,7 +37,7 @@ body {
     font-size: 2rem;
     font-weight: bold;
     color: var(--primary-color);
-    margin-right: 40px;
+    margin-right: 16px;
 }
 
 .nav-links {
@@ -457,23 +457,75 @@ button:hover {
 .refresh-button:hover {
     background-color: var(--secondary-color);
 }
-.json-container {
+/* ── VTT / Display layout ─────────────────────────────────────────── */
+.vtt-layout {
     display: flex;
-    gap: 20px;
-}
-.json-input {
-    flex: 1;
-}
-.controls-container {
-    flex: 1;
-    position: relative;
+    flex-direction: column;
+    gap: 12px;
 }
 
-#controlsArea {
-    max-height: 500px;
-    overflow-y: auto;
-    padding-right: 10px;
+
+.element-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
 }
+
+.element-buttons .primary-btn,
+.element-buttons .secondary-btn {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+}
+
+#controlsArea,
+#controlsArea2 {
+    overflow-y: auto;
+    max-height: 60vh;
+    padding-right: 6px;
+}
+
+/* ── Collapsible sections ─────────────────────────────────────────── */
+.collapsible-section {
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    background: #1e1e1e;
+}
+
+.collapsible-toggle {
+    list-style: none;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.collapsible-toggle::-webkit-details-marker { display: none; }
+
+.collapsible-toggle::before {
+    content: '▶';
+    font-size: 0.7rem;
+    transition: transform 0.15s ease;
+}
+
+details[open] > .collapsible-toggle::before {
+    transform: rotate(90deg);
+}
+
+.collapsible-content {
+    padding: 12px 14px 14px;
+    border-top: 1px solid #3a3a3a;
+}
+
+
+/* Keep old names working for any page that still uses them */
+.json-container { display: flex; gap: 20px; }
+.json-input { flex: 1; }
+.controls-container { flex: 1; position: relative; }
 textarea {
     width: 100%;
     height: 300px;

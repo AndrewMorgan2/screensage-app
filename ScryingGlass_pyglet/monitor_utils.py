@@ -1,9 +1,11 @@
 """
 Monitor detection and workspace management utilities.
 
-Supports Hyprland (Wayland) and X11 (xrandr) for multi-monitor setups.
+Supports Hyprland (Wayland), X11 (xrandr), Windows (ctypes), macOS (AppKit),
+and screeninfo as a universal cross-platform fallback.
 """
 
+import sys
 import json
 import subprocess
 from typing import Optional, Tuple
@@ -11,8 +13,13 @@ from typing import Optional, Tuple
 
 def get_monitor_dimensions(monitor_idx: int) -> Optional[Tuple[int, int, int, int]]:
     """
-    Get the dimensions for a specific monitor using system tools.
-    Tries hyprctl first (Wayland/Hyprland), then xrandr (X11), then returns None.
+    Get the dimensions for a specific monitor.
+
+    Tries platform-native methods in order:
+      Linux  — hyprctl (Hyprland/Wayland), then xrandr (X11)
+      Windows — ctypes EnumDisplayMonitors
+      macOS   — AppKit NSScreen
+    Falls back to the screeninfo package on any platform if all else fails.
 
     Args:
         monitor_idx: Index of the monitor (0-based)
@@ -20,46 +27,104 @@ def get_monitor_dimensions(monitor_idx: int) -> Optional[Tuple[int, int, int, in
     Returns:
         tuple: (width, height, x, y) or None if not found
     """
-    # Try hyprctl first (Hyprland/Wayland)
-    try:
-        result = subprocess.run(
-            ['hyprctl', 'monitors', '-j'],
-            capture_output=True,
-            text=True,
-            timeout=2
-        )
-        if result.returncode == 0:
-            monitors = json.loads(result.stdout)
-            if monitor_idx < len(monitors):
-                mon = monitors[monitor_idx]
-                width = mon.get('width', 1920)
-                height = mon.get('height', 1080)
-                x = mon.get('x', 0)
-                y = mon.get('y', 0)
-                print(f"  hyprctl: Monitor {monitor_idx} = {width}x{height} at ({x}, {y})")
-                return (width, height, x, y)
-    except (FileNotFoundError, subprocess.TimeoutExpired, json.JSONDecodeError, KeyError):
-        pass
+    # ── Linux: Hyprland / Wayland ─────────────────────────────────────────────
+    if sys.platform == 'linux':
+        try:
+            result = subprocess.run(
+                ['hyprctl', 'monitors', '-j'],
+                capture_output=True, text=True, timeout=2
+            )
+            if result.returncode == 0:
+                monitors = json.loads(result.stdout)
+                if monitor_idx < len(monitors):
+                    mon = monitors[monitor_idx]
+                    width  = mon.get('width',  1920)
+                    height = mon.get('height', 1080)
+                    x      = mon.get('x', 0)
+                    y      = mon.get('y', 0)
+                    print(f"  hyprctl: Monitor {monitor_idx} = {width}x{height} at ({x}, {y})")
+                    return (width, height, x, y)
+        except (FileNotFoundError, subprocess.TimeoutExpired, json.JSONDecodeError, KeyError):
+            pass
 
-    # Try xrandr (X11)
-    try:
-        result = subprocess.run(
-            ['xrandr', '--query'],
-            capture_output=True,
-            text=True,
-            timeout=2
-        )
-        if result.returncode == 0:
-            import re
-            # Parse xrandr output: "HDMI-1 connected 1920x1080+0+0"
-            pattern = r'(\S+) connected(?: primary)? (\d+)x(\d+)\+(\d+)\+(\d+)'
-            matches = re.findall(pattern, result.stdout)
-            if monitor_idx < len(matches):
-                name, width, height, x, y = matches[monitor_idx]
-                width, height, x, y = int(width), int(height), int(x), int(y)
-                print(f"  xrandr: Monitor {monitor_idx} ({name}) = {width}x{height} at ({x}, {y})")
+        # ── Linux: X11 / xrandr ───────────────────────────────────────────────
+        try:
+            result = subprocess.run(
+                ['xrandr', '--query'],
+                capture_output=True, text=True, timeout=2
+            )
+            if result.returncode == 0:
+                import re
+                pattern = r'(\S+) connected(?: primary)? (\d+)x(\d+)\+(\d+)\+(\d+)'
+                matches = re.findall(pattern, result.stdout)
+                if monitor_idx < len(matches):
+                    name, width, height, x, y = matches[monitor_idx]
+                    width, height, x, y = int(width), int(height), int(x), int(y)
+                    print(f"  xrandr: Monitor {monitor_idx} ({name}) = {width}x{height} at ({x}, {y})")
+                    return (width, height, x, y)
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            pass
+
+    # ── Windows: ctypes EnumDisplayMonitors ──────────────────────────────────
+    elif sys.platform == 'win32':
+        try:
+            import ctypes
+            monitors = []
+
+            def _monitor_cb(hmon, hdc, lprect, lparam):
+                rect = lprect.contents
+                monitors.append((
+                    rect.right  - rect.left,   # width
+                    rect.bottom - rect.top,    # height
+                    rect.left,                 # x
+                    rect.top,                  # y
+                ))
+                return 1  # continue enumeration
+
+            class RECT(ctypes.Structure):
+                _fields_ = [('left', ctypes.c_long), ('top', ctypes.c_long),
+                             ('right', ctypes.c_long), ('bottom', ctypes.c_long)]
+
+            MonitorEnumProc = ctypes.WINFUNCTYPE(
+                ctypes.c_bool,
+                ctypes.c_ulong, ctypes.c_ulong,
+                ctypes.POINTER(RECT), ctypes.c_double
+            )
+            cb = MonitorEnumProc(_monitor_cb)
+            ctypes.windll.user32.EnumDisplayMonitors(None, None, cb, 0)
+
+            if monitor_idx < len(monitors):
+                width, height, x, y = monitors[monitor_idx]
+                print(f"  ctypes: Monitor {monitor_idx} = {width}x{height} at ({x}, {y})")
                 return (width, height, x, y)
-    except (FileNotFoundError, subprocess.TimeoutExpired):
+        except Exception:
+            pass
+
+    # ── macOS: AppKit NSScreen ────────────────────────────────────────────────
+    elif sys.platform == 'darwin':
+        try:
+            from AppKit import NSScreen  # type: ignore
+            screens = NSScreen.screens()
+            if monitor_idx < len(screens):
+                frame = screens[monitor_idx].frame()
+                width  = int(frame.size.width)
+                height = int(frame.size.height)
+                x      = int(frame.origin.x)
+                y      = int(frame.origin.y)
+                print(f"  NSScreen: Monitor {monitor_idx} = {width}x{height} at ({x}, {y})")
+                return (width, height, x, y)
+        except (ImportError, Exception):
+            pass
+
+    # ── Universal fallback: screeninfo ────────────────────────────────────────
+    try:
+        from screeninfo import get_monitors  # type: ignore
+        monitors = get_monitors()
+        if monitor_idx < len(monitors):
+            mon = monitors[monitor_idx]
+            print(f"  screeninfo: Monitor {monitor_idx} = {mon.width}x{mon.height} at ({mon.x}, {mon.y})")
+            return (mon.width, mon.height, mon.x, mon.y)
+    except (ImportError, Exception):
         pass
 
     return None

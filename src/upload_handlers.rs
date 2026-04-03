@@ -6,7 +6,7 @@ use std::path::Path;
 use uuid::Uuid;
 
 // Constants for file paths
-pub const UPLOAD_DIR: &str = "/home/amorgan/GitHub/Upload";
+pub const UPLOAD_DIR: &str = "/home/amorgan/Github/Upload";
 pub const UPLOAD_OVERLAY_DIR: &str = "overlays";
 
 // Response types

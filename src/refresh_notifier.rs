@@ -4,6 +4,8 @@ use std::collections::HashMap;
 use std::sync::Mutex;
 use std::time::{SystemTime, UNIX_EPOCH};
 
+use crate::ws_handler::WsBroadcast;
+
 #[derive(Clone, Serialize, Deserialize)]
 pub struct RefreshState {
     pub timestamp: u64,
@@ -21,6 +23,7 @@ pub struct TriggerRefreshRequest {
 
 pub async fn trigger_refresh(
     data: web::Data<RefreshStates>,
+    ws_tx: web::Data<WsBroadcast>,
     req: web::Json<TriggerRefreshRequest>,
 ) -> impl Responder {
     let timestamp = SystemTime::now()
@@ -42,6 +45,16 @@ pub async fn trigger_refresh(
         timestamp = %timestamp,
         "Refresh triggered"
     );
+
+    // Broadcast to all connected WebSocket clients
+    let event = serde_json::json!({
+        "type": "refresh",
+        "target": req.target,
+        "timestamp": timestamp,
+        "source": state.source
+    }).to_string();
+    // Ignore send errors — no clients connected is fine
+    let _ = ws_tx.send(event);
 
     HttpResponse::Ok().json(serde_json::json!({
         "success": true,

@@ -54,10 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
             token: 'addTokenBtn2',
             area: 'addAreaBtn2',
             text: 'addTextBtn2',
-            video: 'addVideoBtn2',
-            gif: 'addGifBtn2',
-            image: 'addImageBtn2',
-            svg: 'addSvgBtn2',
             line: 'addLineBtn2',
             cone: 'addConeBtn2',
             bar: 'addBarBtn2'

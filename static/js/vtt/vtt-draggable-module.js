@@ -482,6 +482,11 @@ class DraggableModule {
                         console.error('❌ Cannot save: no controlsModule or writeConfig method');
                     }
 
+                    // Notify the page so it can show the last-moved element panel
+                    document.dispatchEvent(new CustomEvent('vttElementMoved', {
+                        detail: { element: JSON.parse(JSON.stringify(elementToUpdate)) }
+                    }));
+
                     console.log('═══════════════════════════════════════════════════════════');
                     console.log('✅ DRAG FINALIZE COMPLETE');
                     console.log('═══════════════════════════════════════════════════════════');

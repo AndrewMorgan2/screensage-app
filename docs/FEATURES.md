@@ -8,6 +8,7 @@ Comprehensive guide to all Screen Sage features, with implementation details and
 
 ## Table of Contents
 - [VTT Coordinate Systems](#vtt-coordinate-systems)
+- [Element Types](#element-types)
 - [Fog of War System](#fog-of-war-system)
 - [Display Controls](#display-controls)
 - [Preview System](#preview-system)
@@ -66,6 +67,35 @@ The VTT interface includes toggle buttons for each slider:
 - Excludes opacity, rotation, and angle properties
 
 **Full Documentation:** PERCENTAGE_COORDINATES_IMPLEMENTATION.md
+
+## Element Types
+
+### Area
+
+Rectangular overlay region, typically used for spell effects, zones, or highlighted areas.
+
+| Property | Type | Description |
+|---|---|---|
+| `x`, `y` | number/% | Top-left position |
+| `width`, `height` | number/% | Dimensions |
+| `color` | hex string | Fill color |
+| `alpha` | 0–100 | Fill opacity percentage |
+| `rotation` | 0–360 | Rotation in degrees (around center) |
+| `label` | string | Optional label text |
+| `labelDisplay` | boolean | Show/hide label |
+| `keepAspectRatio` | boolean | Lock aspect ratio when resizing |
+
+```json
+{
+  "type": "area",
+  "x": 200, "y": 150,
+  "width": 300, "height": 200,
+  "color": "#2ecc71",
+  "alpha": 30,
+  "rotation": 45,
+  "label": "Danger Zone"
+}
+```
 
 ## Fog of War System
 

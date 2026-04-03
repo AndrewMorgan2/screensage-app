@@ -16,11 +16,13 @@ mod process_handlers;
 mod process_manager;
 mod refresh_notifier;
 mod sageslate_handlers;
+mod ws_handler;
 mod template_loader;
 mod upload_handlers;
 mod vtt_handler;
 mod display_handler;
 mod draw_handler;
+mod file_manager_handlers;
 mod template_renderers;
 
 use debug_stats::ServerStats;
@@ -53,6 +55,11 @@ async fn main() -> std::io::Result<()> {
         HashMap::<String, refresh_notifier::RefreshState>::new(),
     ));
     tracing::info!("Refresh notifier initialized");
+
+    // WebSocket broadcast channel — capacity 32 queued events per client
+    let (ws_tx, _) = tokio::sync::broadcast::channel::<String>(32);
+    let ws_tx = web::Data::new(ws_tx);
+    tracing::info!("WebSocket broadcast channel initialized");
 
     // Initialize process manager
     let process_manager = Arc::new(process_manager::ProcessManager::new());
@@ -87,8 +94,11 @@ async fn main() -> std::io::Result<()> {
             .app_data(refresh_states.clone())
             .app_data(web::Data::new(process_manager.clone()))
             .app_data(web::Data::new(server_stats.clone()))
+            .app_data(ws_tx.clone())
             // Routes for static files
             .service(fs::Files::new("/static", "./static").show_files_listing())
+            // WebSocket endpoint
+            .route("/ws", web::get().to(ws_handler::ws_handler))
             // Main routes
             .route("/", web::get().to(handlers::index))
             .route("/images", web::get().to(image_handlers::image_browser))
@@ -226,6 +236,7 @@ async fn main() -> std::io::Result<()> {
             )
             .route("/json/read", web::get().to(json_handlers::read_json))
             .route("/json/save", web::post().to(json_handlers::save_json))
+            .route("/api/files/move", web::post().to(file_manager_handlers::move_file))
             // Refresh notifier endpoints
             .route(
                 "/api/refresh/trigger",

@@ -136,8 +136,15 @@ def resolve_font_name(font_name: str) -> str:
         pyglet.font.load(resolved)
         return resolved
     except Exception:
-        # Font not found, try fallbacks
-        fallbacks = ['Arial', 'Liberation Sans', 'DejaVu Sans', 'FreeSans']
+        # Font not found — try platform-appropriate fallbacks first
+        import sys
+        if sys.platform == 'win32':
+            platform_fallbacks = ['Segoe UI', 'Calibri', 'Arial']
+        elif sys.platform == 'darwin':
+            platform_fallbacks = ['Helvetica Neue', 'Helvetica', 'Arial']
+        else:
+            platform_fallbacks = ['Liberation Sans', 'DejaVu Sans', 'FreeSans']
+        fallbacks = platform_fallbacks + ['Arial', 'Liberation Sans', 'DejaVu Sans', 'FreeSans']
         for fallback in fallbacks:
             try:
                 pyglet.font.load(fallback)

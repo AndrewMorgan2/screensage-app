@@ -11,8 +11,8 @@
       "radius": 41.89202195019,
       "transparency": 49.837219533656,
       "type": "circle",
-      "x": 133,
-      "y": 42
+      "x": 107,
+      "y": 119
     },
     {
       "collapsed": false,
@@ -44,14 +44,14 @@
       "transparency": 19.9516058073031,
       "type": "bar",
       "width": 200,
-      "x": 100,
-      "y": 140
+      "x": 94,
+      "y": 230
     }
   ],
   "image": {
+    "height": 300,
     "src": "../DnD_Images/eink_images/base/turle.jpg",
-    "width": 400,
-    "height": 300
+    "width": 400
   },
   "zoom": {
     "collapsed": false,

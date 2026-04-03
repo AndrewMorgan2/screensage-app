@@ -1,57 +1,92 @@
-<div id="previewArea2" style="width: 100%; position: relative;">
-    <!-- Add scale control for Display tab -->
-    <div id="previewScalePanel2" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
-        <div id="previewScaleContent2" style="display: flex; align-items: center; gap: 10px;">
-            <label style="color: white; font-size: 12px;">Preview Scale:</label>
-            <input type="range" id="previewScaleSlider2" min="10" max="200" value="100" step="5" style="width: 150px;">
-            <span id="previewScaleDisplay2" style="color: white;">100%</span>
-        </div>
-        <button id="minimizeScaleBtn2" style="position: absolute; top: 5px; right: 5px; padding: 2px 8px; font-size: 14px; font-weight: bold;" title="Minimize">−</button>
+<div class="vtt-layout">
+
+    <!-- Button toolbar -->
+    <div class="element-buttons">
+        <button id="addTokenBtn2"    class="primary-btn">Add Token</button>
+        <button id="addAreaBtn2"     class="primary-btn">Add Area</button>
+        <button id="addTextBtn2"     class="primary-btn">Add Text</button>
+        <button id="addLineBtn2"     class="primary-btn">Add Line</button>
+        <button id="addConeBtn2"     class="primary-btn">Add Cone</button>
+        <button id="addBarBtn2"      class="primary-btn">Add Bar</button>
+        <button id="addFogBtn2"      class="secondary-btn">Add Fog</button>
+        <button id="resetFogBtn2"    class="secondary-btn">Reset Fog</button>
+        <button id="removeFogBtn2"   class="secondary-btn">Remove Fog</button>
+        <button id="collapseAllBtn2" class="secondary-btn">Collapse All</button>
     </div>
-    <!-- Preview elements will be placed here -->
-</div>
-<div class="container">
-    <div class="json-container">
-        <div class="json-input">
-            <textarea id="jsonInput2" placeholder="Enter your JSON configuration here..."> </textarea>
-            <div class="file-browser-container">
-                <div class="file-browser-header">
-                    <h3>File Browser</h3>
-                </div>
-                <div class="file-browser" id="fileBrowser2">
-                    <!-- Files and folders will be listed here -->
-                </div>
-                <div class="file-actions">
-                    <div class="save-container">
-                        <input type="text" id="saveFilename2" placeholder="filename.json" />
-                        <button id="saveFileBtn2" class="action-button">Save Current JSON</button>
-                        <button id="parseButton2">Parse JSON & Generate Controls</button>
-                        <p id="jsonError2" class="error"></p>
-                    </div>
-                </div>
+
+    <!-- Preview window -->
+    <div id="previewArea2" style="position: relative;">
+        <div id="previewScalePanel2" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
+            <div id="previewScaleContent2" style="display: flex; align-items: center; gap: 10px;">
+                <label style="color: white; font-size: 12px;">Preview Scale:</label>
+                <input type="range" id="previewScaleSlider2" min="10" max="200" value="100" step="5" style="width: 150px;">
+                <span id="previewScaleDisplay2" style="color: white;">100%</span>
             </div>
+            <button id="minimizeScaleBtn2" style="position: absolute; top: 5px; right: 5px; padding: 2px 8px; font-size: 14px; font-weight: bold;" title="Minimize">−</button>
         </div>
-        <div class="controls-container">
+    </div>
+
+    <!-- Last moved element -->
+    <div id="lastMovedSection2" style="display:none;">
+        <div id="lastMovedContent2"></div>
+    </div>
+
+    <!-- Element controls -->
+    <details class="collapsible-section">
+        <summary class="collapsible-toggle">Elements</summary>
+        <div class="collapsible-content">
             <div id="controlsArea2">
                 <p>Controls will appear here after parsing JSON...</p>
             </div>
-             <!-- Main element buttons -->
-            <button id="addTokenBtn2" class="primary-btn">Add Token</button>
-            <button id="addAreaBtn2" class="primary-btn">Add Area</button>
-            <button id="addTextBtn2" class="primary-btn">Add Text</button>
-            <button id="addVideoBtn2" class="primary-btn">Add Video</button>
-            <button id="addGifBtn2" class="primary-btn">Add GIF</button>
-            <button id="addImageBtn2" class="primary-btn">Add Image</button>
-            <button id="addSvgBtn2" class="primary-btn">Add SVG</button>
-            <button id="addLineBtn2" class="primary-btn">Add Line</button>
-            <button id="addConeBtn2" class="primary-btn">Add Cone</button>
-            <button id="addBarBtn2" class="primary-btn">Add Bar</button>
-
-            <!-- Utility buttons -->
-            <button id="addFogBtn2" class="secondary-btn" style="margin-left: auto;">Add Fog</button>
-            <button id="resetFogBtn2" class="secondary-btn">Reset Fog</button>
-            <button id="removeFogBtn2" class="secondary-btn">Remove Fog</button>
-            <button id="collapseAllBtn2" class="secondary-btn">Collapse All</button>
         </div>
-    </div>
+    </details>
+
+    <!-- Collapsible: JSON Editor -->
+    <details class="collapsible-section">
+        <summary class="collapsible-toggle">JSON Editor</summary>
+        <div class="collapsible-content">
+            <textarea id="jsonInput2" placeholder="Enter your JSON configuration here..."> </textarea>
+            <div class="save-container">
+                <input type="text" id="saveFilename2" placeholder="filename.json" />
+                <button id="saveFileBtn2" class="action-button">Save Current JSON</button>
+                <button id="parseButton2">Parse JSON &amp; Generate Controls</button>
+                <p id="jsonError2" class="error"></p>
+            </div>
+        </div>
+    </details>
+
+    <!-- Collapsible: Saved JSONs -->
+    <details class="collapsible-section">
+        <summary class="collapsible-toggle">Saved JSONs</summary>
+        <div class="collapsible-content">
+            <div class="file-browser" id="fileBrowser2"></div>
+        </div>
+    </details>
+
 </div>
+
+<script>
+document.addEventListener('vttElementMoved', function(e) {
+    const el = e.detail.element;
+    const section = document.getElementById('lastMovedSection2');
+    const content = document.getElementById('lastMovedContent2');
+    const module  = window.controlsModule2;
+    if (!section || !content || !module) return;
+
+    content.innerHTML = '';
+
+    let index = 0;
+    try {
+        const jsonData = JSON.parse(module.elements.jsonInput.value);
+        const found = jsonData.elements.findIndex(elem => elem.id === el.id);
+        if (found !== -1) index = found;
+    } catch {}
+
+    const savedArea = module.elements.controlsArea;
+    module.elements.controlsArea = content;
+    module.generateControlsForElement(el, index);
+    module.elements.controlsArea = savedArea;
+
+    section.style.display = '';
+});
+</script>

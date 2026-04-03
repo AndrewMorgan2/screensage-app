@@ -180,8 +180,8 @@ class PygletDisplayEngine(ElementLoaderMixin):
         width = screen_config.get('width', 1920)
         height = screen_config.get('height', 1080)
 
-        # Set environment hints for multi-monitor
-        if monitor_idx > 0:
+        # Set environment hints for multi-monitor (Linux/X11 only)
+        if monitor_idx > 0 and sys.platform == 'linux':
             os.environ['SDL_VIDEO_FULLSCREEN_HEAD'] = str(monitor_idx)
             os.environ['SDL_VIDEO_FULLSCREEN_DISPLAY'] = str(monitor_idx)
             print(f"  Trying X11 display hint (monitor {monitor_idx})")

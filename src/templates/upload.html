@@ -25,6 +25,253 @@
     </div>
 </div>
 
+<div class="upload-container" style="margin-top: 30px;">
+    <h2>File Manager</h2>
+    <p style="color:#999; font-size:13px;">Browse and move uploaded files to another location.</p>
+
+    <div class="fm-layout">
+
+        <!-- Source panel -->
+        <div class="fm-panel">
+            <div class="fm-panel-header">
+                <span class="fm-panel-label">Source</span>
+                <span class="fm-path" id="fmSrcPath">/home/amorgan/Github/Upload</span>
+            </div>
+            <div class="fm-list" id="fmSrcList">Loading...</div>
+        </div>
+
+        <!-- Action column -->
+        <div class="fm-actions">
+            <div class="fm-selected" id="fmSelectedDisplay">No file selected</div>
+            <button class="fm-move-btn" id="fmMoveBtn" disabled>Move →</button>
+            <div class="fm-status" id="fmStatus"></div>
+        </div>
+
+        <!-- Destination panel -->
+        <div class="fm-panel">
+            <div class="fm-panel-header">
+                <span class="fm-panel-label">Destination</span>
+                <span class="fm-path" id="fmDstPath">/home/amorgan/Github/Upload</span>
+            </div>
+            <div class="fm-list" id="fmDstList">Loading...</div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.fm-layout {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+.fm-panel {
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #1a1a1a;
+}
+
+.fm-panel-header {
+    background: #252525;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-bottom: 1px solid #3a3a3a;
+}
+
+.fm-panel-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+}
+
+.fm-path {
+    font-size: 12px;
+    color: var(--primary-color);
+    font-family: monospace;
+    word-break: break-all;
+}
+
+.fm-list {
+    max-height: 340px;
+    overflow-y: auto;
+}
+
+.fm-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #ccc;
+    border-bottom: 1px solid #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fm-item:hover { background: #2a2a2a; }
+.fm-item.selected { background: #1e3a5f; color: #fff; }
+
+.fm-item-icon { flex-shrink: 0; font-size: 14px; }
+
+.fm-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-top: 48px;
+}
+
+.fm-selected {
+    font-size: 12px;
+    color: #aaa;
+    text-align: center;
+    max-width: 120px;
+    word-break: break-all;
+}
+
+.fm-move-btn {
+    padding: 8px 16px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.fm-move-btn:disabled {
+    background: #444;
+    cursor: not-allowed;
+}
+
+.fm-move-btn:not(:disabled):hover { opacity: 0.85; }
+
+.fm-status {
+    font-size: 12px;
+    text-align: center;
+    max-width: 120px;
+    min-height: 16px;
+}
+
+.fm-status.ok  { color: #4caf50; }
+.fm-status.err { color: #f44336; }
+</style>
+
+<script>
+(function () {
+    const UPLOAD_DIR = '/home/amorgan/Github/Upload';
+
+    let srcPath = UPLOAD_DIR;
+    let dstPath = UPLOAD_DIR;
+    let selectedFile = null; // full path of the selected file
+
+    const srcList     = document.getElementById('fmSrcList');
+    const dstList     = document.getElementById('fmDstList');
+    const srcPathEl   = document.getElementById('fmSrcPath');
+    const dstPathEl   = document.getElementById('fmDstPath');
+    const selectedEl  = document.getElementById('fmSelectedDisplay');
+    const moveBtn     = document.getElementById('fmMoveBtn');
+    const statusEl    = document.getElementById('fmStatus');
+
+    async function listDir(path) {
+        const res = await fetch(`/api/images/list?path=${encodeURIComponent(path)}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+    }
+
+    async function renderPanel(panel, path, isSrc) {
+        panel.textContent = 'Loading...';
+        try {
+            const data = await listDir(path);
+            panel.innerHTML = '';
+
+            for (const item of data.items) {
+                const el = document.createElement('div');
+                el.className = 'fm-item';
+                el.innerHTML = `<span class="fm-item-icon">${item.is_dir ? '📁' : '📄'}</span><span>${item.name}</span>`;
+
+                if (item.is_dir) {
+                    el.addEventListener('click', () => {
+                        if (isSrc) { srcPath = item.path; renderSrc(); }
+                        else       { dstPath = item.path; renderDst(); }
+                    });
+                } else if (isSrc) {
+                    el.addEventListener('click', () => {
+                        // Deselect previous
+                        srcList.querySelectorAll('.fm-item.selected').forEach(e => e.classList.remove('selected'));
+                        el.classList.add('selected');
+                        selectedFile = item.path;
+                        selectedEl.textContent = item.name;
+                        moveBtn.disabled = false;
+                        statusEl.textContent = '';
+                        statusEl.className = 'fm-status';
+                    });
+                }
+
+                panel.appendChild(el);
+            }
+
+            if (panel.children.length === 0) {
+                panel.innerHTML = '<div class="fm-item" style="color:#666;cursor:default;">Empty folder</div>';
+            }
+        } catch (e) {
+            panel.innerHTML = `<div class="fm-item" style="color:#f44336;cursor:default;">Error: ${e.message}</div>`;
+        }
+    }
+
+    function renderSrc() { srcPathEl.textContent = srcPath; renderPanel(srcList, srcPath, true); }
+    function renderDst() { dstPathEl.textContent = dstPath; renderPanel(dstList, dstPath, false); }
+
+    moveBtn.addEventListener('click', async () => {
+        if (!selectedFile) return;
+        const filename = selectedFile.split('/').pop();
+        const dest = `${dstPath}/${filename}`;
+
+        moveBtn.disabled = true;
+        statusEl.textContent = 'Moving...';
+        statusEl.className = 'fm-status';
+
+        try {
+            const res = await fetch('/api/files/move', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ from: selectedFile, to: dest })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                statusEl.textContent = 'Moved!';
+                statusEl.className = 'fm-status ok';
+                selectedFile = null;
+                selectedEl.textContent = 'No file selected';
+                renderSrc();
+                renderDst();
+            } else {
+                statusEl.textContent = data.error || 'Failed';
+                statusEl.className = 'fm-status err';
+                moveBtn.disabled = false;
+            }
+        } catch (e) {
+            statusEl.textContent = e.message;
+            statusEl.className = 'fm-status err';
+            moveBtn.disabled = false;
+        }
+    });
+
+    renderSrc();
+    renderDst();
+})();
+</script>
+
 <style>
 .upload-container {
     max-width: 1200px;
@@ -205,7 +452,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const STORAGE_KEY = 'uploadHistory';
     const DIRECTORY_KEY = 'mediaDirectory';
-    const UPLOAD_DIR = '/home/amorgan/GitHub/Upload';
+    const UPLOAD_DIR = '/home/amorgan/Github/Upload';
 
     // Save upload directory to localStorage so Media tab shows it
     localStorage.setItem(DIRECTORY_KEY, UPLOAD_DIR);

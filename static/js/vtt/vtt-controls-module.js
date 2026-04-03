@@ -208,43 +208,42 @@ class ControlsModule {
     }
 
     /**
-     * Setup refresh listener for external updates
-     * Polls the server for refresh notifications
+     * Setup refresh listener for external updates via WebSocket.
+     * Falls back to polling if the WebSocket connection fails.
      */
     setupRefreshListener() {
         const target = this.moduleName.toLowerCase();
-        let lastCheckTimestamp = 0;
+        console.log(`Setting up WebSocket refresh listener for ${this.moduleName} (target: ${target})`);
 
-        console.log(`🎯 Setting up refresh listener for ${this.moduleName} (target: ${target})`);
+        const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const ws = new WebSocket(`${protocol}//${location.host}/ws`);
 
-        // Poll every 1 second for refresh notifications
-        const pollInterval = setInterval(() => {
-            fetch(`/api/refresh/check?target=${target}&last_check=${lastCheckTimestamp}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Server returned ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Only log when refresh is needed to reduce noise
-                    if (data.needs_refresh) {
-                        console.log(`🔄 Refresh needed for ${this.moduleName} (source: ${data.source}, timestamp: ${data.timestamp})`);
-                        lastCheckTimestamp = data.timestamp;
+        ws.onopen = () => {
+            console.log(`WebSocket connected for ${this.moduleName}`);
+        };
 
-                        // Delay to ensure file writes are complete and media dimensions are available
-                        setTimeout(() => {
-                            console.log(`⚡ Executing reload for ${this.moduleName}`);
-                            this.reloadCurrentConfig();
-                        }, 500); // Increased to 500ms to allow media to load
-                    }
-                })
-                .catch(error => {
-                    console.error(`❌ Error checking for refresh (${target}):`, error);
-                });
-        }, 1000); // Check every second
+        ws.onmessage = (event) => {
+            let data;
+            try {
+                data = JSON.parse(event.data);
+            } catch {
+                return;
+            }
+            if (data.type === 'refresh' && data.target === target) {
+                console.log(`Refresh received for ${this.moduleName} (source: ${data.source})`);
+                // Delay to ensure file writes are complete and media dimensions are available
+                setTimeout(() => this.reloadCurrentConfig(), 500);
+            }
+        };
 
-        console.log(`✓ Refresh polling started for ${this.moduleName} (interval ID: ${pollInterval})`);
+        ws.onclose = () => {
+            console.warn(`WebSocket closed for ${this.moduleName}, reconnecting in 2s...`);
+            setTimeout(() => this.setupRefreshListener(), 2000);
+        };
+
+        ws.onerror = (err) => {
+            console.error(`WebSocket error for ${this.moduleName}:`, err);
+        };
     }
 
     /**
@@ -493,6 +492,9 @@ class ControlsModule {
                 }
                 if (!hiddenProps.includes('alpha')) {
                     this.addSliderControl(contentDiv, element, 'alpha', 'Opacity (%)', 0, 100);
+                }
+                if (!hiddenProps.includes('rotation')) {
+                    this.addSliderControl(contentDiv, element, 'rotation', 'Rotation (degrees)', 0, 360);
                 }
                 if (!hiddenProps.includes('label')) {
                     this.addTextControl(contentDiv, element, 'label', 'Label');
@@ -1414,6 +1416,7 @@ class ControlsModule {
                         keepAspectRatio: defaults.keepAspectRatio !== undefined ? defaults.keepAspectRatio : true,
                         color: defaults.color || '#2ecc71',
                         alpha: defaults.alpha !== undefined ? defaults.alpha : 30,
+                        rotation: defaults.rotation || 0,
                         label: defaults.label !== undefined ? defaults.label : '',
                         labelDisplay: defaults.labelDisplay !== undefined ? defaults.labelDisplay : true,
                         hiddenProperties: defaults.hiddenProperties || ["x", "y"],
@@ -1607,6 +1610,11 @@ class ControlsModule {
 
             // Write config immediately to update battlemap display
             this.writeConfigImmediate();
+
+            // Show the new element in the Last Moved section
+            document.dispatchEvent(new CustomEvent('vttElementMoved', {
+                detail: { element: JSON.parse(JSON.stringify(newElement)) }
+            }));
 
         } catch (error) {
             console.error("Failed to add new element:", error);

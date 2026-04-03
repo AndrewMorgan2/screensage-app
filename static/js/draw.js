@@ -71,11 +71,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Load elements
+            const MEDIA_TYPES = ['image', 'gif', 'svg'];
+            const SHAPE_TYPES = ['token', 'area', 'text', 'line', 'cone'];
             if (config.elements && Array.isArray(config.elements)) {
                 for (const element of config.elements) {
-                    if (element.type === 'image' && element.src) {
+                    if (MEDIA_TYPES.includes(element.type) && element.src) {
                         await loadElementImage(element);
+                    } else if (SHAPE_TYPES.includes(element.type)) {
+                        loadedElements.push({ image: null, element });
                     }
+                    // video: not renderable on a 2D canvas without frame extraction
                 }
             }
 
@@ -208,17 +213,133 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
         }
 
-        // Draw each element
+        // Draw each element dispatched by type
         for (const { image, element } of loadedElements) {
-            const x = parseValue(element.x, canvas.width);
-            const y = parseValue(element.y, canvas.height);
-            const width = parseValue(element.width, canvas.width);
-            const height = parseValue(element.height, canvas.height);
             const opacity = (element.opacity ?? 100) / 100;
-
             ctx.save();
             ctx.globalAlpha = opacity;
-            ctx.drawImage(image, x, y, width, height);
+
+            switch (element.type) {
+
+                case 'image':
+                case 'gif':
+                case 'svg': {
+                    if (!image) break;
+                    const x = parseValue(element.x, canvas.width);
+                    const y = parseValue(element.y, canvas.height);
+                    const w = parseValue(element.width, canvas.width);
+                    const h = parseValue(element.height, canvas.height);
+                    const rot = (element.rotation || 0) * Math.PI / 180;
+                    if (rot !== 0) {
+                        ctx.translate(x + w / 2, y + h / 2);
+                        ctx.rotate(rot);
+                        ctx.drawImage(image, -w / 2, -h / 2, w, h);
+                    } else {
+                        ctx.drawImage(image, x, y, w, h);
+                    }
+                    break;
+                }
+
+                case 'token': {
+                    const cx = parseValue(element.x, canvas.width);
+                    const cy = parseValue(element.y, canvas.height);
+                    const r  = parseValue(element.size ?? 50, Math.min(canvas.width, canvas.height)) / 2;
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                    ctx.fillStyle = element.color || '#3498db';
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    if (element.label) {
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = `bold ${Math.max(10, Math.floor(r * 0.6))}px Arial`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(element.label, cx, cy);
+                    }
+                    break;
+                }
+
+                case 'area': {
+                    const x = parseValue(element.x, canvas.width);
+                    const y = parseValue(element.y, canvas.height);
+                    const w = parseValue(element.width, canvas.width);
+                    const h = parseValue(element.height, canvas.height);
+                    const rotation = element.rotation || 0;
+                    ctx.save();
+                    if (rotation !== 0) {
+                        ctx.translate(x + w / 2, y + h / 2);
+                        ctx.rotate(rotation * Math.PI / 180);
+                        ctx.translate(-(x + w / 2), -(y + h / 2));
+                    }
+                    ctx.fillStyle = element.color || 'rgba(46, 204, 113, 0.3)';
+                    ctx.fillRect(x, y, w, h);
+                    ctx.strokeStyle = (element.color || 'rgba(46,204,113,1)').replace(/[\d.]+\)$/, '0.8)');
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(x, y, w, h);
+                    if (element.label) {
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = 'bold 13px Arial';
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'top';
+                        ctx.fillText(element.label, x + 4, y + 4);
+                    }
+                    ctx.restore();
+                    break;
+                }
+
+                case 'text': {
+                    const x = parseValue(element.x, canvas.width);
+                    const y = parseValue(element.y, canvas.height);
+                    ctx.fillStyle = element.color || '#ffffff';
+                    ctx.font = `${element.size || 24}px ${element.font || 'Arial'}`;
+                    ctx.textAlign = element.alignment || 'left';
+                    ctx.textBaseline = 'top';
+                    ctx.fillText(element.text || '', x, y);
+                    break;
+                }
+
+                case 'line': {
+                    const x1 = parseValue(element.x,    canvas.width);
+                    const y1 = parseValue(element.y,    canvas.height);
+                    const x2 = parseValue(element.endX, canvas.width);
+                    const y2 = parseValue(element.endY, canvas.height);
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    ctx.strokeStyle = element.color || '#ff0000';
+                    ctx.lineWidth = element.thickness || 3;
+                    ctx.lineCap = 'round';
+                    ctx.stroke();
+                    break;
+                }
+
+                case 'cone': {
+                    const cx      = parseValue(element.x, canvas.width);
+                    const cy      = parseValue(element.y, canvas.height);
+                    const radius  = parseValue(element.radius || 150, canvas.width);
+                    const halfAng = ((element.angle || 90) / 2) * Math.PI / 180;
+                    // direction 0 = up, increases clockwise — match display engine convention
+                    const dir     = ((element.direction || 0) - 90) * Math.PI / 180;
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy);
+                    ctx.arc(cx, cy, radius, dir - halfAng, dir + halfAng);
+                    ctx.closePath();
+                    ctx.fillStyle = element.color || 'rgba(255, 165, 0, 0.5)';
+                    ctx.fill();
+                    if (element.borderColor) {
+                        ctx.strokeStyle = element.borderColor;
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    }
+                    break;
+                }
+
+                default:
+                    break;
+            }
+
             ctx.restore();
         }
     }
@@ -315,11 +436,41 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Clear canvas (but keep elements)
-    clearBtn.addEventListener('click', function() {
+    clearBtn.addEventListener('click', async function() {
         strokes = [];
-        redrawCanvas(); // This redraws elements but clears strokes
-        if (isRunning) {
-            sendUpdate();
+        uploadedImagePath = null;
+        redrawCanvas();
+
+        // Remove the draw_overlay element from the config — works whether draw is running or not
+        const target = targetSelect.value;
+        const configPath = target === 'display'
+            ? './storage/scrying_glasses/display.json'
+            : './storage/scrying_glasses/battlemap.json';
+
+        try {
+            const readResponse = await fetch(`/json/read?path=${encodeURIComponent(configPath)}`);
+            if (!readResponse.ok) return;
+            const config = await readResponse.json();
+            if (!config || !Array.isArray(config.elements)) return;
+
+            const before = config.elements.length;
+            config.elements = config.elements.filter(el => el.id !== 'draw_overlay');
+            if (config.elements.length === before) return; // nothing was there
+
+            await fetch('/json/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ path: configPath, content: JSON.stringify(config, null, 2) })
+            });
+
+            const refreshTarget = target === 'display' ? 'display' : 'vtt';
+            await fetch('/api/refresh/trigger', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ target: refreshTarget, source: 'draw_clear' })
+            });
+        } catch (error) {
+            console.error('Error clearing overlay:', error);
         }
     });
 
@@ -520,7 +671,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     y: '0%',
                     width: '100%',
                     height: '100%',
-                    opacity: 100
+                    opacity: 100,
+                    locked: true
                 };
                 config.elements.push(overlayElement);
                 console.log('sendUpdate: Created new overlay element');

@@ -5,12 +5,97 @@
     "type": "image",
     "width": 4340
   },
-  "elements": [],
+  "elements": [
+    {
+      "collapsed": true,
+      "color": "#3498db",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "token_1775200939568",
+      "label": "",
+      "labelDisplay": true,
+      "size": 50,
+      "type": "token",
+      "x": 1390,
+      "y": 460
+    },
+    {
+      "alpha": 30,
+      "collapsed": true,
+      "color": "#2ecc71",
+      "height": 417.310981618228,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "area_1775200950372",
+      "invisible": false,
+      "keepAspectRatio": true,
+      "label": "",
+      "labelDisplay": true,
+      "type": "area",
+      "width": 418.7066705199612,
+      "x": 355,
+      "y": 575
+    },
+    {
+      "collapsed": false,
+      "height": "100%",
+      "id": "draw_overlay",
+      "locked": true,
+      "opacity": 100,
+      "src": "/home/amorgan/GitHub/Upload/overlays/093a58cd-4f68-4ec2-aabf-a22f94e5b33c.png",
+      "type": "image",
+      "width": "100%",
+      "x": 0,
+      "y": 13
+    },
+    {
+      "alpha": 30,
+      "collapsed": true,
+      "color": "#2ecc71",
+      "height": 299,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "area_1775205569231",
+      "keepAspectRatio": true,
+      "label": "",
+      "labelDisplay": true,
+      "type": "area",
+      "width": 300,
+      "x": 1059,
+      "y": 554
+    },
+    {
+      "type": "cone",
+      "id": "cone_1775206085157",
+      "x": 960,
+      "y": 540,
+      "radius": 300,
+      "angle": 360,
+      "direction": 0,
+      "rotation": 0,
+      "color": "#ffa500",
+      "alpha": 50,
+      "borderColor": "#ff7700",
+      "label": "",
+      "labelDisplay": true,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "collapsed": false
+    }
+  ],
   "screen": {
     "fullscreen": true,
-    "height": 1440,
-    "monitor": 2,
-    "width": 2560
+    "height": 1080,
+    "monitor": 1,
+    "width": 1920
   },
   "zoom": {
     "collapsed": false,
