@@ -285,33 +285,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../WIFI_HOTSPOT_SETUP.md" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    WiFi Hotspot
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../USEFUL_COMMANDS/" class="md-nav__link">
         
   
@@ -801,7 +774,7 @@
 4. Draw all scene elements via batch (sprites, shapes, text)
 5. Apply fog overlay via stencil buffer
 6. Flip</p>
-<p><strong>Why Pyglet instead of Pygame?</strong> Pygame does alpha blending on the CPU. Pyglet pushes it to the GPU. For transparent 1080p videos this is the difference between 10 FPS and 60 FPS.</p>
+<p>Pyglet pushes alpha blending to the GPU — transparent 1080p video runs at 60 FPS with ~10% CPU usage.</p>
 <hr />
 <h2 id="element-types">Element Types<a class="headerlink" href="#element-types" title="Permanent link">&para;</a></h2>
 <p>All elements are defined in the JSON config. The engine reads the type field and constructs the appropriate Pyglet object:</p>
