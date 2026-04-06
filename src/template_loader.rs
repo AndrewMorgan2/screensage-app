@@ -143,7 +143,6 @@ fn load_template(path: &str) -> io::Result<String> {
             "src/static/templates/command_center.html" => Ok(include_str!("templates/command_center.html").to_string()),
             "src/static/templates/image_browser.html" => Ok(include_str!("templates/image_browser.html").to_string()),
             "src/static/templates/battle.html" => Ok(include_str!("templates/battle.html").to_string()),
-            "src/static/templates/image_generator.html" => Ok(include_str!("templates/image_generator.html").to_string()),
             "src/static/templates/sageslate.html" => Ok(include_str!("templates/sageslate.html").to_string()),
             "src/static/templates/vtt.html" => Ok(include_str!("templates/vtt.html").to_string()),
             "src/static/templates/display.html" => Ok(include_str!("templates/display.html").to_string()),

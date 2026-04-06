@@ -88,7 +88,7 @@ class PreviewModule {
      * @param {number} scale - Scale factor (0.1 to 2.0, where 1.0 = 100%)
      */
     setPreviewScale(scale) {
-        this.previewScale = Math.max(0.1, Math.min(2.0, scale));
+        this.previewScale = Math.max(0.1, Math.min(5.0, scale));
 
         // Save to localStorage for persistence
         localStorage.setItem(this.storageKey, this.previewScale.toString());
