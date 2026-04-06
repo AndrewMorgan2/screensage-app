@@ -1344,6 +1344,15 @@ class ControlsModule {
                 // Remove the preview element
                 this.previewModule.removePreviewElement(elementId);
 
+                // Clear the "last moved" section if it is showing the removed element
+                const suffix = this.moduleName === 'Display' ? '2' : '';
+                const lastMovedSection = document.getElementById(`lastMovedSection${suffix}`);
+                const lastMovedContent = document.getElementById(`lastMovedContent${suffix}`);
+                if (lastMovedSection && lastMovedContent) {
+                    lastMovedContent.innerHTML = '';
+                    lastMovedSection.style.display = 'none';
+                }
+
                 // Re-generate controls (but this shouldn't clear the preview since we're managing elements individually now)
                 this.parseJsonAndGenerateControls();
 

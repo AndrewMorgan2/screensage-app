@@ -38,17 +38,6 @@ pub fn render_image_browser() -> String {
     TEMPLATE_LOADER.render_with_base("image_browser", context, "Media Browser", "images")
 }
 
-/// Render the image generator page
-pub fn render_image_generator() -> String {
-    let context = HashMap::new();
-    TEMPLATE_LOADER.render_with_base(
-        "image_generator",
-        context,
-        "AI Image Generator",
-        "image-gen",
-    )
-}
-
 /// Render the SageSlate page
 pub fn render_sageslate() -> String {
     let mut context = HashMap::new();

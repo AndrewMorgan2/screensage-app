@@ -19,7 +19,6 @@ impl TemplateLoader {
         templates.insert("command_center".to_string(), load_template("src/static/templates/command_center.html")?);
         templates.insert("image_browser".to_string(), load_template("src/static/templates/image_browser.html")?);
         templates.insert("battle".to_string(), load_template("src/static/templates/battle.html")?);
-        templates.insert("image_generator".to_string(), load_template("src/static/templates/image_generator.html")?);
         templates.insert("sageslate".to_string(), load_template("src/static/templates/sageslate.html")?);
         templates.insert("vtt".to_string(), load_template("src/static/templates/vtt.html")?);
         templates.insert("display".to_string(), load_template("src/static/templates/display.html")?);

@@ -8,7 +8,6 @@ mod commands;
 mod debug_stats;
 mod handlers;
 mod health_monitor;
-mod image_gen_handlers;
 mod image_handlers;
 mod json_handlers;
 mod models;
@@ -212,27 +211,6 @@ async fn main() -> std::io::Result<()> {
             .route(
                 "/api/battle/delete",
                 web::get().to(battle_handlers::delete_battle_state),
-            )
-            // Then in the HttpServer::new function:
-            .route(
-                "/image-gen",
-                web::get().to(image_gen_handlers::image_generator),
-            )
-            .route(
-                "/api/image-gen/generate",
-                web::post().to(image_gen_handlers::generate_image),
-            )
-            .route(
-                "/api/image-gen/view",
-                web::get().to(image_gen_handlers::serve_generated_image),
-            )
-            .route(
-                "/api/image-gen/list",
-                web::get().to(image_gen_handlers::list_generated_images),
-            )
-            .route(
-                "/api/image-gen/check-credits",
-                web::post().to(image_gen_handlers::check_credits),
             )
             .route("/json/read", web::get().to(json_handlers::read_json))
             .route("/json/save", web::post().to(json_handlers::save_json))

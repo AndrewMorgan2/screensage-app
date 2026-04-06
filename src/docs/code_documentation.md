@@ -9,7 +9,6 @@ src/
 ├── handlers.rs            # Core HTTP handlers and command execution
 ├── battle_handlers.rs     # Combat tracker functionality
 ├── image_handlers.rs      # Media file browser and serving
-├── image_gen_handlers.rs  # AI image generation integration
 ├── upload_handlers.rs     # File upload handling
 ├── json_handlers.rs       # JSON file read/write operations
 ├── sageslate_handlers.rs  # E-ink display controller
@@ -85,24 +84,6 @@ pub struct PredefinedCommand {
     pub name: String,
     pub command: String,
     pub args: Vec<String>,
-}
-```
-
-### AI Image Generation
-```rust
-#[derive(Serialize, Deserialize)]
-pub struct ApiConfig {
-    pub api_key: Option<String>,
-    pub endpoint: String,
-}
-
-impl Default for ApiConfig {
-    fn default() -> Self {
-        Self {
-            api_key: None,
-            endpoint: "https://api.stability.ai/v2beta/stable-image/generate/ultra".to_string(),
-        }
-    }
 }
 ```
 
@@ -365,134 +346,6 @@ pub async fn serve_media(req: web::Query<DirectoryRequest>) -> impl Responder {
                 .body(file_bytes)
         },
         Err(e) => HttpResponse::InternalServerError().body(format!("Failed to read file: {}", e))
-    }
-}
-```
-
-## AI Image Generation (`image_gen_handlers.rs`)
-
-### Constants and Configuration
-```rust
-const GENERATED_IMAGES_DIR: &str = "./storage/ai_images";
-```
-
-### Image Generation Pipeline
-```rust
-pub async fn generate_image(req: web::Json<GenerateImageRequest>) -> impl Responder {
-    // Ensure storage directory exists
-    if !Path::new(GENERATED_IMAGES_DIR).exists() {
-        fs::create_dir_all(GENERATED_IMAGES_DIR)?;
-    }
-    
-    // Generate unique filename
-    let filename = format!("{}.{}", Uuid::new_v4(), req.output_format);
-    let file_path = format!("{}/{}", GENERATED_IMAGES_DIR, filename);
-    
-    // Configure HTTP client
-    let client = Client::new();
-    let mut headers = header::HeaderMap::new();
-    headers.insert(
-        header::AUTHORIZATION, 
-        header::HeaderValue::from_str(&format!("Bearer {}", req.api_key))?
-    );
-    headers.insert(header::ACCEPT, header::HeaderValue::from_static("image/*"));
-    
-    // Build multipart form payload
-    let payload = serde_json::json!({
-        "prompt": req.prompt,
-        "output_format": req.output_format,
-        "aspect_ratio": "16:9"
-    });
-    
-    let mut form = reqwest::multipart::Form::new();
-    if let Some(obj) = payload.as_object() {
-        for (key, value) in obj {
-            form = form.text(key.clone(), value.to_string());
-        }
-    }
-    
-    // Send request and handle response
-    match client.post(&req.endpoint).headers(headers).multipart(form).send().await {
-        Ok(response) if response.status().is_success() => {
-            // Save binary response to file
-            let bytes = response.bytes().await?;
-            let mut file = fs::File::create(&file_path)?;
-            file.write_all(&bytes)?;
-            
-            // Return success response with viewing URL
-            HttpResponse::Ok().json(GenerateImageResponse {
-                success: true,
-                message: "Image generated successfully".to_string(),
-                image_path: Some(file_path),
-                image_url: Some(format!("/api/image-gen/view?path={}", filename)),
-            })
-        },
-        Ok(response) => {
-            // Handle API errors
-            let error_text = response.text().await.unwrap_or_default();
-            HttpResponse::BadRequest().json(GenerateImageResponse {
-                success: false,
-                message: format!("API Error: {}", error_text),
-                image_path: None,
-                image_url: None,
-            })
-        },
-        Err(e) => {
-            HttpResponse::InternalServerError().json(GenerateImageResponse {
-                success: false,
-                message: format!("Request failed: {}", e),
-                image_path: None,
-                image_url: None,
-            })
-        }
-    }
-}
-```
-
-### Credit Monitoring
-```rust
-pub async fn check_credits(req: web::Json<CheckCreditsRequest>) -> impl Responder {
-    let client = Client::new();
-    let mut headers = header::HeaderMap::new();
-    headers.insert(
-        header::AUTHORIZATION, 
-        header::HeaderValue::from_str(&format!("Bearer {}", req.api_key))?
-    );
-    
-    // Query Stability AI balance endpoint
-    match client.get("https://api.stability.ai/v1/user/balance").headers(headers).send().await {
-        Ok(response) if response.status().is_success() => {
-            let balance_data: serde_json::Value = response.json().await?;
-            
-            if let Some(credits) = balance_data.get("credits").and_then(|c| c.as_f64()) {
-                HttpResponse::Ok().json(CheckCreditsResponse {
-                    success: true,
-                    message: "Successfully retrieved credits".to_string(),
-                    credits: Some(credits),
-                })
-            } else {
-                HttpResponse::Ok().json(CheckCreditsResponse {
-                    success: false,
-                    message: "Could not find credits in response".to_string(),
-                    credits: None,
-                })
-            }
-        },
-        Ok(response) => {
-            let error_text = response.text().await.unwrap_or_default();
-            HttpResponse::BadRequest().json(CheckCreditsResponse {
-                success: false,
-                message: format!("API Error ({}): {}", response.status().as_u16(), error_text),
-                credits: None,
-            })
-        },
-        Err(e) => {
-            HttpResponse::InternalServerError().json(CheckCreditsResponse {
-                success: false,
-                message: format!("Failed to send request: {}", e),
-                credits: None,
-            })
-        }
     }
 }
 ```

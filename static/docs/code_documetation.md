@@ -2,7 +2,7 @@
 
 ## Overview
 
-Screen Sage is a comprehensive tabletop gaming application that provides virtual tabletop (VTT) functionality, image generation, e-ink display management, and combat tracking. The application is built with a modular JavaScript architecture and provides tools for dungeon masters and players to enhance their gaming experience.
+Screen Sage is a comprehensive tabletop gaming application that provides virtual tabletop (VTT) functionality, e-ink display management, and combat tracking. The application is built with a modular JavaScript architecture and provides tools for dungeon masters and players to enhance their gaming experience.
 
 ## Architecture Overview
 
@@ -10,7 +10,7 @@ The application follows a modular architecture with several main components:
 
 1. **Core Modules**: Common utilities and shared functionality
 2. **VTT System**: Virtual tabletop for managing maps and game elements
-3. **Image Management**: File browsing, generation, and display
+3. **Image Management**: File browsing and display
 4. **E-ink Integration**: SageSlate device management
 5. **Combat Tracker**: Initiative and damage tracking system
 
@@ -48,21 +48,6 @@ The application follows a modular architecture with several main components:
 - `displayMedia(path, name, type)`: Shows selected media in viewer
 - `copyMediaPath()`: Copies file path to clipboard
 - `displayMediaInVTT(screen)`: Sends media to VTT display
-
-### image-generator.js
-**Purpose**: AI image generation integration with Stability AI API.
-
-#### Features
-- API key and endpoint management
-- Credit checking functionality
-- Generated image history
-- Direct VTT integration
-
-#### Core Functions
-- `generateImage()`: Creates images using AI API
-- `checkCredits()`: Verifies available API credits
-- `loadRecentImages()`: Shows previously generated images
-- `displayToDisplay(path)`: Sends generated image to display
 
 ## Virtual Tabletop (VTT) System
 
@@ -240,8 +225,6 @@ d20+2 Goblin Chief 15 30
 ### Server Endpoints Used
 - `/api/images/list`: Directory browsing
 - `/api/images/view`: Image/video serving
-- `/api/image-gen/generate`: AI image generation
-- `/api/image-gen/check-credits`: API credit checking
 - `/api/upload/image`: File upload
 - `/json/read`: JSON configuration loading
 - `/json/save`: JSON configuration saving

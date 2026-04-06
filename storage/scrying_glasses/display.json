@@ -6,26 +6,15 @@
   },
   "elements": [
     {
-      "collapsed": false,
-      "height": "50%",
-      "id": "image_1772744956136",
-      "keepAspectRatio": true,
-      "opacity": 100,
-      "src": "../DnD_Images/NPC/Major.jpg",
-      "type": "image",
-      "width": "18.749999999999996%",
-      "x": "25%",
-      "y": "25%"
-    },
-    {
-      "id": "draw_overlay",
-      "type": "image",
-      "src": "/home/amorgan/GitHub/Upload/overlays/2c442ca9-03f4-43df-b31c-ff5f00779745.png",
-      "x": "0%",
-      "y": "0%",
-      "width": "100%",
       "height": "100%",
-      "opacity": 100
+      "id": "draw_overlay",
+      "locked": true,
+      "opacity": 100,
+      "src": "/home/amorgan/Github/Upload/overlays/cdaf49fd-a56d-4d61-8a78-cf685f340575.png",
+      "type": "image",
+      "width": "100%",
+      "x": "0%",
+      "y": "0%"
     }
   ],
   "screen": {
