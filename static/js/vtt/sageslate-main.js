@@ -48,9 +48,6 @@ document.addEventListener('DOMContentLoaded', function () {
         previewScalePanel: 'previewScalePanel',
         previewScaleContent: 'previewScaleContent',
         collapseAllBtn: 'collapseAllBtn',
-        addFogBtn: 'addFogBtn',
-        resetFogBtn: 'resetFogBtn',
-        removeFogBtn: 'removeFogBtn',
         addButtons: {
             box: 'addBoxBtn',
             circle: 'addCircleBtn',
@@ -61,6 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize VTT modules for Sageslate
     const modules = initializeVTT(config, elementIds);
+
+    // Expose for the lastMovedSection script in sageslate.html
+    window.sageslateControlsModule = modules.controlsModule;
 
     console.log('Sageslate initialized with VTT modules successfully', modules);
 

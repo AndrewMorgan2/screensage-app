@@ -12,6 +12,8 @@ Comprehensive guide to all Screen Sage features, with implementation details and
 - [Fog of War System](#fog-of-war-system)
 - [Display Controls](#display-controls)
 - [Preview System](#preview-system)
+- [Draw Page](#draw-page)
+- [SageSlate Player Aid Manager](#sageslate-player-aid-manager)
 
 ## VTT Coordinate Systems
 
@@ -94,6 +96,31 @@ Rectangular overlay region, typically used for spell effects, zones, or highligh
   "alpha": 30,
   "rotation": 45,
   "label": "Danger Zone"
+}
+```
+
+### Cone
+
+Triangular/wedge overlay for area-of-effect spells and abilities.
+
+| Property | Type | Description |
+|---|---|---|
+| `x`, `y` | number/% | Tip position |
+| `radius` | number/% | Cone length |
+| `angle` | 0–360 | Direction in degrees |
+| `spread` | number | Width angle in degrees |
+| `color` | hex string | Fill color |
+| `alpha` | 0–100 | Fill opacity percentage |
+
+```json
+{
+  "type": "cone",
+  "x": 960, "y": 540,
+  "radius": 200,
+  "angle": 45,
+  "spread": 60,
+  "color": "#ff6600",
+  "alpha": 40
 }
 ```
 
@@ -230,11 +257,23 @@ Buttons load element templates from JSON files instead of hardcoded values:
 
 ### Preview Scale
 
-The VTT preview includes a zoom control for the preview area:
+The VTT preview includes a zoom control for the preview area.
 
-- **Slider**: Adjust from 10% to 200%
-- **Display**: Shows current percentage
-- **Reset Button**: Return to 100%
+#### Scale Limits Per Tab
+
+Each tab has its own maximum scale setting:
+
+| Tab | Min | Max | Notes |
+|---|---|---|---|
+| Battlemap (VTT) | 10% | 150% | Standard display scale |
+| Display | 10% | 150% | Mirrors Battlemap range |
+| SageSlate | 10% | 250% | Higher max for small e-ink canvas |
+
+#### Controls
+
+- **Slider**: Drag to adjust scale within the tab's range
+- **Display**: Shows current percentage next to slider
+- **Minimize Button**: Collapse the scale panel to save space
 
 ### Scale Persistence
 
@@ -252,6 +291,93 @@ Preview scale is saved to localStorage:
 - **Drag and Drop**: Move elements visually
 - **Coordinate Display**: Shows position and size
 - **Grid Overlay**: Optional alignment grid
+
+## Draw Page
+
+The Draw page (`/draw`) provides a live annotation overlay for the active battlemap or display output. Changes made here are broadcast via WebSocket and rendered on top of the configured background.
+
+### Live Sync with Battlemap/Display
+
+The draw page listens for WebSocket refresh events from the server. When the active config on the Battlemap or Display tab is changed, the draw page automatically reloads its element list to stay in sync.
+
+- Refresh messages with `source: "draw_tab"` or `source: "draw_clear"` are ignored to prevent feedback loops
+- The draw page reconnects automatically if the WebSocket drops (2 second retry)
+- The target (Battlemap vs Display) is determined by the dropdown at the top of the draw page
+
+### Coordinate Handling
+
+The draw canvas is always rendered at 1920×1080. Elements defined with smaller `screen.width`/`screen.height` values in the config are scaled up proportionally using:
+
+```
+scaleX = canvas.width  / config.screen.width   (default 1920)
+scaleY = canvas.height / config.screen.height  (default 1080)
+```
+
+All three coordinate formats are supported and handled identically to the display engine:
+
+| Format | Example | Interpretation |
+|---|---|---|
+| Absolute pixels (integer) | `200` | 200px |
+| Percentage string | `"50%"` | 50% of the relevant dimension |
+| Relative float (0.0–1.0) | `0.5` | 50% of the relevant dimension |
+
+Values that are non-integer floats between 0 and 1 are treated as relative fractions, matching the `parse_dimension()` logic in the Python display engine.
+
+### Alpha Transparency
+
+Both `area` and `cone` elements honour the `alpha` property on the draw canvas:
+
+- `alpha` is stored as an integer 0–100 in the JSON
+- Converted to 0.0–1.0 when composing the canvas `fillStyle`
+- Hex colour values are decomposed to `rgba(r, g, b, alpha)` before drawing
+
+### Clear Button Behaviour
+
+The **Clear** button on the draw page:
+
+1. Sends a clear command to the server to wipe the draw overlay from the active config
+2. Immediately removes the `draw_overlay` entry from the in-memory element list
+3. Redraws the canvas so the overlay disappears without a page reload
+
+## SageSlate Player Aid Manager
+
+The SageSlate tab includes a Player Aid Manager for composing images to send to e-ink displays. Its layout follows the same pattern as the Battlemap and Display tabs.
+
+### Layout Structure
+
+```
+element-buttons toolbar
+  └─ Add Box | Add Circle | Add Text | Add Bar | Collapse All
+Send Image button + device selector (above preview)
+previewArea  (position: relative, scales up to 250%)
+lastMovedSection  (appears on element drag, shows inline controls)
+<details> Elements        (collapsible)
+<details> JSON Editor     (collapsible)
+<details> Saved JSONs     (collapsible)
+```
+
+### Element Types
+
+The Player Aid Manager supports a simplified element set suited for black-and-white e-ink rendering:
+
+- **Box** — filled or outlined rectangle
+- **Circle** — filled or outlined circle
+- **Text** — label with configurable font size and colour
+- **Bar** — progress/resource bar (e.g. HP tracker)
+
+Fog buttons are not present in the SageSlate tab — fog of war is a Battlemap/Display-only feature.
+
+### Invisible Property
+
+The **Invisible** checkbox available in the Battlemap and Display element controls is suppressed in the SageSlate Player Aid Manager. E-ink layouts do not use the invisible toggle.
+
+### Sending to a Device
+
+Select a device number (0–4) from the dropdown next to **Send Image**, then click **Send Image** to push the current canvas render to that e-ink display over the network.
+
+### Preview Scale
+
+The SageSlate preview slider ranges from **10% to 250%** (higher than the 150% maximum on the Battlemap and Display tabs) because the e-ink canvas is typically much smaller than a 1080p screen and benefits from extra zoom for editing detail.
 
 ## Usage Examples
 

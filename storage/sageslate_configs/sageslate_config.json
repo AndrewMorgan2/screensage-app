@@ -2,50 +2,35 @@
   "elements": [
     {
       "collapsed": false,
-      "grayscale": 54.7250329960405,
-      "hiddenProperties": [
-        "x",
-        "y"
-      ],
-      "id": "circle_1767194794105",
-      "radius": 41.89202195019,
-      "transparency": 49.837219533656,
-      "type": "circle",
-      "x": 155,
-      "y": 158
-    },
-    {
-      "collapsed": false,
-      "grayscale": 100,
+      "grayscale": 0,
       "height": 100,
       "hiddenProperties": [
         "x",
         "y"
       ],
-      "id": "box_1767284336664",
-      "transparency": 54.5798504179499,
+      "id": "box_1776094522891",
+      "transparency": 0,
       "type": "box",
       "width": 100,
-      "x": 150,
-      "y": 100
+      "x": 231,
+      "y": 122
     },
     {
-      "barColor": "#000000",
       "collapsed": false,
-      "currentValue": 50,
       "grayscale": 0,
-      "height": 20,
+      "height": "50%",
       "hiddenProperties": [
         "x",
         "y"
       ],
-      "id": "bar_1767284395766",
-      "maxValue": 100,
-      "transparency": 19.9516058073031,
-      "type": "bar",
-      "width": 200,
-      "x": 94,
-      "y": 230
+      "id": "image_1776094535709",
+      "keepAspectRatio": true,
+      "src": "../DnD_Images/eink_images/resized/lego_man.png",
+      "transparency": 0,
+      "type": "image",
+      "width": "50%",
+      "x": 0,
+      "y": 141
     }
   ],
   "image": {

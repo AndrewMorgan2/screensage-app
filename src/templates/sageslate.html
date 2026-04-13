@@ -1,8 +1,5 @@
 <style>
     /* Hide VTT controls that aren't needed for Sageslate */
-    .add-elements-container {
-        display: none !important;
-    }
     .zoom-group {
         display: none !important;
     }
@@ -12,10 +9,6 @@
     }
     /* Hide Switch Display button */
     #einkSwitchDisplay {
-        display: none !important;
-    }
-    /* Hide fog buttons */
-    #addFogBtn, #removeFogBtn {
         display: none !important;
     }
 </style>
@@ -89,97 +82,106 @@
 <div class="container" id="eink-player-management">
 
     <h1 style="display: block;">Player Aid Manager</h1>
-    <div class="json-container">
-        <div class="json-input">
-            <textarea id="jsonInput" placeholder="Enter your JSON configuration here...">
-{
-  "elements": [
-    {
-      "type": "box",
-      "id": "box1",
-      "x": 50,
-      "y": 50,
-      "width": 100,
-      "height": 100
-    },
-    {
-      "type": "circle",
-      "id": "circle1",
-      "x": 200,
-      "y": 150,
-      "radius": 50
-    },
-    {
-      "type": "text",
-      "id": "text1",
-      "x": 300,
-      "y": 250,
-      "content": "Hello World",
-      "fontSize": 18
-    }
-  ]
-}</textarea>
-            <div class="file-browser-container">
-                <div class="file-browser-header">
-                    <h3>File Browser</h3>
-                </div>
-                <div class="file-browser" id="fileBrowser">
-                    <!-- Files and folders will be listed here -->
-                </div>
-                <div class="file-actions">
-                    <div class="save-container">
-                        <input type="text" id="saveFilename" placeholder="filename.json" />
-                        <button id="saveFileBtn" class="action-button">Save Current JSON</button>
-                        <button id="parseButton">Parse JSON & Generate Controls</button>
-                        <p id="jsonError" class="error"></p>
-                    </div>
-                    <!-- <button id="refreshFilesBtn" class="action-button">Refresh Files</button> -->
-                </div>
-            </div>
 
-        </div>
-        <div class="controls-container">
-            <div id="controlsArea">
-                <p>Controls will appear here after parsing JSON...</p>
-            </div>
-            <div class="button-group">
-                <button class="primary-btn" id="addBoxBtn">Add Box</button>
-                <button class="primary-btn" id="addCircleBtn">Add Circle</button>
-                <button class="primary-btn" id="addTextBtn">Add Text</button>
-                <button class="primary-btn" id="addBarBtn">Add Bar</button>
-                <button class="primary-btn" id="addFogBtn">Add Fog</button>
-                <button class="primary-btn" id="removeFogBtn">Remove Fog</button>
-                <button class="secondary-btn" id="collapseAllBtn">Collapse All</button>
-            </div>
-        </div>
-    </div>
+    <div class="vtt-layout">
 
-    <div class="image-preview">
-        <h2>Preview</h2>
-        <div class="upload-section">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <button id="sendImageBtn" class="action-button">Send Image</button>
-                <select id="eink-select-player" name="numberSelect">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-            </div>
-            <p class="image-dimensions">Canvas: <span id="imageDimensions">400 × 300</span></p>
+        <!-- Button toolbar -->
+        <div class="element-buttons">
+            <button id="addBoxBtn"      class="primary-btn">Add Box</button>
+            <button id="addCircleBtn"   class="primary-btn">Add Circle</button>
+            <button id="addTextBtn"     class="primary-btn">Add Text</button>
+            <button id="addBarBtn"      class="primary-btn">Add Bar</button>
+            <button id="collapseAllBtn" class="secondary-btn">Collapse All</button>
         </div>
-        <div id="previewArea" style="width: 100%; height: 600px; position: relative;">
-            <!-- Add scale control for Sageslate tab -->
+
+        <!-- Send controls sit above the preview -->
+        <div style="display: flex; align-items: center; gap: 10px; padding: 6px 0;">
+            <button id="sendImageBtn" class="action-button">Send Image</button>
+            <select id="eink-select-player" name="numberSelect">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <span class="image-dimensions">Canvas: <span id="imageDimensions">400 × 300</span></span>
+        </div>
+
+        <!-- Preview window -->
+        <div id="previewArea" style="position: relative;">
             <div id="previewScalePanel" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
                 <div id="previewScaleContent" style="display: flex; align-items: center; gap: 10px;">
                     <label style="color: white; font-size: 12px;">Preview Scale:</label>
-                    <input type="range" id="previewScaleSlider" min="10" max="500" value="100" step="5" style="width: 150px;">
+                    <input type="range" id="previewScaleSlider" min="10" max="250" value="100" step="5" style="width: 150px;">
                     <span id="previewScaleDisplay" style="color: white;">100%</span>
                 </div>
                 <button id="minimizeScaleBtn" style="position: absolute; top: 5px; right: 5px; padding: 2px 8px; font-size: 14px; font-weight: bold;" title="Minimize">−</button>
             </div>
-            <!-- Preview elements will be placed here -->
         </div>
+
+        <!-- Last moved element (populated on drag) -->
+        <div id="lastMovedSection" style="display:none;">
+            <div id="lastMovedContent"></div>
+        </div>
+
+        <!-- Collapsible: Element controls -->
+        <details class="collapsible-section">
+            <summary class="collapsible-toggle">Elements</summary>
+            <div class="collapsible-content">
+                <div id="controlsArea">
+                    <p>Controls will appear here after parsing JSON...</p>
+                </div>
+            </div>
+        </details>
+
+        <!-- Collapsible: JSON Editor -->
+        <details class="collapsible-section">
+            <summary class="collapsible-toggle">JSON Editor</summary>
+            <div class="collapsible-content">
+                <textarea id="jsonInput" placeholder="Enter your JSON configuration here..."> </textarea>
+                <div class="save-container">
+                    <input type="text" id="saveFilename" placeholder="filename.json" />
+                    <button id="saveFileBtn" class="action-button">Save Current JSON</button>
+                    <button id="parseButton">Parse JSON &amp; Generate Controls</button>
+                    <p id="jsonError" class="error"></p>
+                </div>
+            </div>
+        </details>
+
+        <!-- Collapsible: Saved JSONs -->
+        <details class="collapsible-section">
+            <summary class="collapsible-toggle">Saved JSONs</summary>
+            <div class="collapsible-content">
+                <div class="file-browser" id="fileBrowser"></div>
+            </div>
+        </details>
+
     </div>
+
 </div>
+
+<script>
+document.addEventListener('vttElementMoved', function(e) {
+    const el = e.detail.element;
+    const section = document.getElementById('lastMovedSection');
+    const content = document.getElementById('lastMovedContent');
+    const module  = window.sageslateControlsModule;
+    if (!section || !content || !module) return;
+
+    content.innerHTML = '';
+
+    let index = 0;
+    try {
+        const jsonData = JSON.parse(module.elements.jsonInput.value);
+        const found = jsonData.elements.findIndex(elem => elem.id === el.id);
+        if (found !== -1) index = found;
+    } catch {}
+
+    const savedArea = module.elements.controlsArea;
+    module.elements.controlsArea = content;
+    module.generateControlsForElement(el, index);
+    module.elements.controlsArea = savedArea;
+
+    section.style.display = '';
+});
+</script>

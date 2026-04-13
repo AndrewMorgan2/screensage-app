@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let backgroundVideo = null; // For video backgrounds
     let animationFrameId = null; // For video animation loop
 
+    // Config screen dimensions — used as the coordinate reference for all elements.
+    // Kept in sync with the loaded config so the canvas scale matches the display engine.
+    let configScreenWidth  = 1920;
+    let configScreenHeight = 1080;
+
     // Initialize canvas with white background
     function initCanvas() {
         ctx.fillStyle = '#ffffff';
@@ -53,6 +58,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const config = await response.json();
             loadedElements = [];
             backgroundImage = null;
+
+            // Sync coordinate reference to this config's screen dimensions so element
+            // positions scale correctly onto the 1920×1080 canvas.
+            configScreenWidth  = config.screen?.width  || 1920;
+            configScreenHeight = config.screen?.height || 1080;
 
             // Stop any existing video
             if (backgroundVideo) {
@@ -194,16 +204,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Parse percentage or pixel value
+    // Parse percentage, relative float (0.0–1.0), or absolute pixel value.
+    // Matches the display engine's parse_dimension() and the VTT preview's parseCoordValue().
     function parseValue(value, maxValue) {
         if (typeof value === 'string' && value.endsWith('%')) {
             return (parseFloat(value) / 100) * maxValue;
         }
-        return parseFloat(value) || 0;
+        const num = parseFloat(value);
+        if (isNaN(num)) return 0;
+        // Non-integer float strictly between 0 and 1 → relative fraction of maxValue
+        if (num > 0 && num < 1 && !Number.isInteger(num)) {
+            return num * maxValue;
+        }
+        return num;
     }
 
     // Draw loaded elements onto canvas
     function drawElements() {
+        // Scale factors: map from config screen coordinate space → canvas pixel space.
+        // When config screen dimensions equal the canvas size (1920×1080) these are 1.0.
+        // For other screen sizes elements are proportionally scaled so they land at the
+        // same relative position as they do on the actual display.
+        const scaleX = canvas.width  / configScreenWidth;
+        const scaleY = canvas.height / configScreenHeight;
+
         // Draw background video frame first (if video)
         if (backgroundVideo && !backgroundVideo.paused) {
             ctx.drawImage(backgroundVideo, 0, 0, canvas.width, canvas.height);
@@ -225,10 +249,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 case 'gif':
                 case 'svg': {
                     if (!image) break;
-                    const x = parseValue(element.x, canvas.width);
-                    const y = parseValue(element.y, canvas.height);
-                    const w = parseValue(element.width, canvas.width);
-                    const h = parseValue(element.height, canvas.height);
+                    const x = parseValue(element.x, configScreenWidth)  * scaleX;
+                    const y = parseValue(element.y, configScreenHeight) * scaleY;
+                    const w = parseValue(element.width,  configScreenWidth)  * scaleX;
+                    const h = parseValue(element.height, configScreenHeight) * scaleY;
                     const rot = (element.rotation || 0) * Math.PI / 180;
                     if (rot !== 0) {
                         ctx.translate(x + w / 2, y + h / 2);
@@ -241,9 +265,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 case 'token': {
-                    const cx = parseValue(element.x, canvas.width);
-                    const cy = parseValue(element.y, canvas.height);
-                    const r  = parseValue(element.size ?? 50, Math.min(canvas.width, canvas.height)) / 2;
+                    const cx = parseValue(element.x, configScreenWidth)  * scaleX;
+                    const cy = parseValue(element.y, configScreenHeight) * scaleY;
+                    const r  = parseValue(element.size ?? 50, Math.min(configScreenWidth, configScreenHeight))
+                               * Math.min(scaleX, scaleY) / 2;
                     ctx.beginPath();
                     ctx.arc(cx, cy, r, 0, Math.PI * 2);
                     ctx.fillStyle = element.color || '#3498db';
@@ -262,22 +287,38 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 case 'area': {
-                    const x = parseValue(element.x, canvas.width);
-                    const y = parseValue(element.y, canvas.height);
-                    const w = parseValue(element.width, canvas.width);
-                    const h = parseValue(element.height, canvas.height);
+                    const x = parseValue(element.x, configScreenWidth)  * scaleX;
+                    const y = parseValue(element.y, configScreenHeight) * scaleY;
+                    const w = parseValue(element.width,  configScreenWidth)  * scaleX;
+                    const h = parseValue(element.height, configScreenHeight) * scaleY;
                     const rotation = element.rotation || 0;
+
+                    // Resolve fill color, honouring the separate alpha property (0-100)
+                    const alpha = element.alpha !== undefined ? element.alpha / 100 : 0.3;
+                    let baseColor = element.color || '#2ecc71';
+                    let fillColor;
+                    if (baseColor.startsWith('#') && baseColor.length >= 7) {
+                        const r2 = parseInt(baseColor.slice(1, 3), 16);
+                        const g2 = parseInt(baseColor.slice(3, 5), 16);
+                        const b2 = parseInt(baseColor.slice(5, 7), 16);
+                        fillColor = `rgba(${r2},${g2},${b2},${alpha})`;
+                    } else {
+                        fillColor = baseColor;
+                    }
+
                     ctx.save();
                     if (rotation !== 0) {
                         ctx.translate(x + w / 2, y + h / 2);
                         ctx.rotate(rotation * Math.PI / 180);
                         ctx.translate(-(x + w / 2), -(y + h / 2));
                     }
-                    ctx.fillStyle = element.color || 'rgba(46, 204, 113, 0.3)';
+                    ctx.fillStyle = fillColor;
                     ctx.fillRect(x, y, w, h);
-                    ctx.strokeStyle = (element.color || 'rgba(46,204,113,1)').replace(/[\d.]+\)$/, '0.8)');
+                    ctx.strokeStyle = baseColor;
+                    ctx.globalAlpha = opacity * 0.8;
                     ctx.lineWidth = 2;
                     ctx.strokeRect(x, y, w, h);
+                    ctx.globalAlpha = opacity;
                     if (element.label) {
                         ctx.fillStyle = '#ffffff';
                         ctx.font = 'bold 13px Arial';
@@ -290,8 +331,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 case 'text': {
-                    const x = parseValue(element.x, canvas.width);
-                    const y = parseValue(element.y, canvas.height);
+                    const x = parseValue(element.x, configScreenWidth)  * scaleX;
+                    const y = parseValue(element.y, configScreenHeight) * scaleY;
                     ctx.fillStyle = element.color || '#ffffff';
                     ctx.font = `${element.size || 24}px ${element.font || 'Arial'}`;
                     ctx.textAlign = element.alignment || 'left';
@@ -301,32 +342,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 case 'line': {
-                    const x1 = parseValue(element.x,    canvas.width);
-                    const y1 = parseValue(element.y,    canvas.height);
-                    const x2 = parseValue(element.endX, canvas.width);
-                    const y2 = parseValue(element.endY, canvas.height);
+                    const x1 = parseValue(element.x,    configScreenWidth)  * scaleX;
+                    const y1 = parseValue(element.y,    configScreenHeight) * scaleY;
+                    const x2 = parseValue(element.endX, configScreenWidth)  * scaleX;
+                    const y2 = parseValue(element.endY, configScreenHeight) * scaleY;
                     ctx.beginPath();
                     ctx.moveTo(x1, y1);
                     ctx.lineTo(x2, y2);
                     ctx.strokeStyle = element.color || '#ff0000';
-                    ctx.lineWidth = element.thickness || 3;
+                    ctx.lineWidth = (element.thickness || 3) * Math.min(scaleX, scaleY);
                     ctx.lineCap = 'round';
                     ctx.stroke();
                     break;
                 }
 
                 case 'cone': {
-                    const cx      = parseValue(element.x, canvas.width);
-                    const cy      = parseValue(element.y, canvas.height);
-                    const radius  = parseValue(element.radius || 150, canvas.width);
+                    const cx     = parseValue(element.x, configScreenWidth)  * scaleX;
+                    const cy     = parseValue(element.y, configScreenHeight) * scaleY;
+                    const radius = parseValue(element.radius || 150, configScreenWidth) * scaleX;
                     const halfAng = ((element.angle || 90) / 2) * Math.PI / 180;
                     // direction 0 = up, increases clockwise — match display engine convention
-                    const dir     = ((element.direction || 0) - 90) * Math.PI / 180;
+                    const dir = ((element.direction || 0) - 90) * Math.PI / 180;
+
+                    // Resolve fill colour, honouring the separate alpha property (0-100)
+                    const coneAlpha = element.alpha !== undefined ? element.alpha / 100 : 0.5;
+                    let coneFill = element.color || '#ffa500';
+                    if (coneFill.startsWith('#') && coneFill.length >= 7) {
+                        const r2 = parseInt(coneFill.slice(1, 3), 16);
+                        const g2 = parseInt(coneFill.slice(3, 5), 16);
+                        const b2 = parseInt(coneFill.slice(5, 7), 16);
+                        coneFill = `rgba(${r2},${g2},${b2},${coneAlpha})`;
+                    }
+
                     ctx.beginPath();
                     ctx.moveTo(cx, cy);
                     ctx.arc(cx, cy, radius, dir - halfAng, dir + halfAng);
                     ctx.closePath();
-                    ctx.fillStyle = element.color || 'rgba(255, 165, 0, 0.5)';
+                    ctx.fillStyle = coneFill;
                     ctx.fill();
                     if (element.borderColor) {
                         ctx.strokeStyle = element.borderColor;
@@ -439,6 +491,9 @@ document.addEventListener('DOMContentLoaded', function() {
     clearBtn.addEventListener('click', async function() {
         strokes = [];
         uploadedImagePath = null;
+        // Remove the overlay from the in-memory element list so redrawCanvas doesn't
+        // repaint the old overlay image on top of the now-empty canvas.
+        loadedElements = loadedElements.filter(({ element }) => element.id !== 'draw_overlay');
         redrawCanvas();
 
         // Remove the draw_overlay element from the config — works whether draw is running or not
@@ -802,6 +857,60 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 2000);
     });
+
+    // WebSocket refresh listener — keeps the canvas in sync with external config changes
+    // (e.g. tokens moved in the VTT editor, background swapped, elements added/removed)
+    function setupRefreshListener() {
+        const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const ws = new WebSocket(`${protocol}//${location.host}/ws`);
+
+        ws.onopen = () => {
+            console.log('Draw: WebSocket connected for refresh listener');
+        };
+
+        ws.onmessage = (event) => {
+            let data;
+            try {
+                data = JSON.parse(event.data);
+            } catch {
+                return;
+            }
+
+            // Map the current target selection to the refresh target string
+            const currentRefreshTarget = targetSelect.value === 'display' ? 'display' : 'vtt';
+
+            if (data.type === 'refresh' && data.target === currentRefreshTarget) {
+                // Ignore refreshes triggered by the draw page itself — they don't change the
+                // background/elements, only the overlay, so reloading would be a no-op that
+                // briefly clears the preview.
+                if (data.source === 'draw_tab' || data.source === 'draw_clear') {
+                    return;
+                }
+
+                console.log(`Draw: refresh received for ${currentRefreshTarget} (source: ${data.source}), reloading elements`);
+
+                // Reload elements from config (strokes are preserved; only loadedElements
+                // and backgroundImage are reset by loadElementsFromConfig)
+                loadElementsFromConfig().then(() => {
+                    if (isRunning) {
+                        drawStatus.textContent = 'Live';
+                        drawStatus.style.color = '#4CAF50';
+                    }
+                });
+            }
+        };
+
+        ws.onclose = () => {
+            console.warn('Draw: WebSocket closed, reconnecting in 2s...');
+            setTimeout(setupRefreshListener, 2000);
+        };
+
+        ws.onerror = (err) => {
+            console.error('Draw: WebSocket error:', err);
+        };
+    }
+
+    setupRefreshListener();
 
     // Cleanup on page unload
     window.addEventListener('beforeunload', () => {

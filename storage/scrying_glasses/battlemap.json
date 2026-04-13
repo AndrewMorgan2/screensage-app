@@ -41,18 +41,6 @@
       "y": 575
     },
     {
-      "collapsed": false,
-      "height": "100%",
-      "id": "draw_overlay",
-      "locked": true,
-      "opacity": 100,
-      "src": "/home/amorgan/GitHub/Upload/overlays/093a58cd-4f68-4ec2-aabf-a22f94e5b33c.png",
-      "type": "image",
-      "width": "100%",
-      "x": 0,
-      "y": 13
-    },
-    {
       "alpha": 30,
       "collapsed": true,
       "color": "#2ecc71",
@@ -71,24 +59,35 @@
       "y": 554
     },
     {
-      "type": "cone",
-      "id": "cone_1775206085157",
-      "x": 960,
-      "y": 540,
-      "radius": 300,
-      "angle": 360,
-      "direction": 0,
-      "rotation": 0,
-      "color": "#ffa500",
       "alpha": 50,
+      "angle": 359,
       "borderColor": "#ff7700",
-      "label": "",
-      "labelDisplay": true,
+      "collapsed": false,
+      "color": "#ffa500",
+      "direction": 0,
       "hiddenProperties": [
         "x",
         "y"
       ],
-      "collapsed": false
+      "id": "cone_1775206085157",
+      "label": "",
+      "labelDisplay": true,
+      "radius": 300,
+      "rotation": 0,
+      "type": "cone",
+      "x": 883,
+      "y": 498
+    },
+    {
+      "height": "100%",
+      "id": "draw_overlay",
+      "locked": true,
+      "opacity": 100,
+      "src": "/home/amorgan/Github/Upload/overlays/0d28edc6-7bef-4328-8fa1-64d328a5e8fb.png",
+      "type": "image",
+      "width": "100%",
+      "x": "0%",
+      "y": "0%"
     }
   ],
   "screen": {

@@ -457,7 +457,7 @@ class ControlsModule {
         if (!hiddenProps.includes('y')) {
             this.addSliderControl(contentDiv, element, 'y', 'Y Position', 0, mapHeight);
         }
-        if (!hiddenProps.includes('invisible')) {
+        if (this.moduleName !== 'Sageslate' && !hiddenProps.includes('invisible')) {
             this.addBoolControl(contentDiv, element, 'invisible', 'Invisible');
         }
 

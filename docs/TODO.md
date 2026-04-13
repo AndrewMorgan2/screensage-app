@@ -18,9 +18,9 @@ Track ongoing development, completed features, and future plans for Screen Sage.
 ### Documentation 
 - [ ] Update README.md to be a comprehensive GitHub page
 - [ ] Review all documentation in `/docs` folders
-- [ ] Add all current features to documentation
+- [x] Add all current features to documentation
 - [ ] Improve code documentation and examples
-- [ ] Feature to have tick box so taht an image is loaded into a "fresh" json config
+- [ ] Feature to have tick box so that an image is loaded into a "fresh" json config
 
 ## High Priority
 
@@ -50,7 +50,9 @@ Track ongoing development, completed features, and future plans for Screen Sage.
   - WebSocket for real-time updates?
 
 ### UI/UX Improvements
-- [ ] UI controls to toggle between absolute/percentage in VTT
+- [x] UI controls to toggle between absolute/percentage in VTT
+- [x] SageSlate Player Aid Manager — collapsible layout matching VTT/Display pattern
+- [x] Per-tab preview scale limits (SageSlate 250%, Battlemap/Display 150%)
 - [ ] Fog color picker in Add Fog dialog
 - [ ] Visual fog preview in VTT preview area
 
@@ -67,6 +69,7 @@ Track ongoing development, completed features, and future plans for Screen Sage.
   - Works well with current setup
 
 ### E-Ink Displays
+- [x] SageSlate Player Aid Manager UI overhaul
 - [ ] Improved SageSlate features
   - Partial refresh support
   - Battery monitoring
@@ -96,18 +99,18 @@ Track ongoing development, completed features, and future plans for Screen Sage.
 - [ ] Code style guide
 
 ### Feature Documentation
-- [ ] VTT coordinate system guide
+- [x] VTT coordinate system guide (FEATURES.md)
   - Absolute vs percentage
-  - When to use each
-  - Conversion tools
+  - Relative float handling
+  - Canvas scale factor
+- [x] Element types reference — area, cone alpha transparency documented
+- [x] Draw page documentation — live sync, coordinate handling, clear behaviour
+- [x] SageSlate Player Aid Manager documented
 - [ ] Fog system complete guide
   - Wall fog mechanics
   - Configuration options
   - Best practices
-- [ ] Element types reference
-  - All supported element types
-  - Properties for each type
-  - Examples for each
+- [ ] Element types reference — remaining types (token, line, text, image, video, GIF, SVG)
 
 ## Contributing
 
@@ -123,6 +126,6 @@ Have an idea for Screen Sage? Open an issue on GitHub with:
 
 ---
 
-Last updated: 2024-10-13
+Last updated: 2026-04-13
 
 *This roadmap is subject to change based on community feedback and development priorities.*

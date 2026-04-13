@@ -6,6 +6,7 @@
   },
   "elements": [
     {
+      "collapsed": false,
       "height": "100%",
       "id": "draw_overlay",
       "locked": true,
@@ -15,6 +16,43 @@
       "width": "100%",
       "x": "0%",
       "y": "0%"
+    },
+    {
+      "alpha": 30,
+      "collapsed": true,
+      "color": "#2ecc71",
+      "height": 599,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "area_1776091490917",
+      "keepAspectRatio": true,
+      "label": "",
+      "labelDisplay": true,
+      "rotation": 0,
+      "type": "area",
+      "width": 600,
+      "x": 1920,
+      "y": 1080
+    },
+    {
+      "type": "line",
+      "id": "line_1776091495266",
+      "x": 1387,
+      "y": 364,
+      "endX": 2670,
+      "endY": 1085,
+      "thickness": 3,
+      "color": "#ff0000",
+      "arrow": false,
+      "label": "",
+      "labelDisplay": true,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "collapsed": false
     }
   ],
   "screen": {
