@@ -18,7 +18,8 @@
   "image": {
     "src": "../DnD_Images/eink_images/resized/death.png",
     "width": 400,
-    "height": 300
+    "height": 300,
+    "device": "0"
   },
   "zoom": {
     "collapsed": false,

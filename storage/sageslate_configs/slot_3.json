@@ -1,0 +1,21 @@
+{
+  "elements": [],
+  "image": {
+    "src": "",
+    "width": 400,
+    "height": 300
+  },
+  "zoom": {
+    "level": 1,
+    "panX": 0,
+    "panY": 0,
+    "minZoom": 0.1,
+    "maxZoom": 10,
+    "zoomSpeed": 0.1,
+    "panSpeed": 20,
+    "smoothZoom": true,
+    "zoomToMouse": false,
+    "showInfo": false,
+    "collapsed": false
+  }
+}

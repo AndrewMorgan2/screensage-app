@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Set up auto-update for preview when JSON changes
     setupAutoUpdatePreview(modules);
 
-    // Load default template or initialize with empty config
-    initializeSageslateConfig(modules);
+    // Set up 5-slot tab system
+    setupSageslateTabs(modules);
 });
 
 /**
@@ -277,6 +277,94 @@ function initializeSageslateConfig(modules) {
         }
     }
 }
+
+// ── Tab system ────────────────────────────────────────────────────────────────
+
+const SAGESLATE_TAB_PATHS = [
+    null, // index 0 unused
+    './storage/sageslate_configs/slot_1.json',
+    './storage/sageslate_configs/slot_2.json',
+    './storage/sageslate_configs/slot_3.json',
+    './storage/sageslate_configs/slot_4.json',
+    './storage/sageslate_configs/slot_5.json',
+];
+
+let sageslateActiveTab = 1;
+
+const SAGESLATE_DEFAULT_CONFIG = () => ({
+    elements: [],
+    image: { src: '', width: 400, height: 300 }
+});
+
+function saveTabJson(tabIndex) {
+    const jsonInput = document.getElementById('jsonInput');
+    const content = jsonInput ? jsonInput.value.trim() : '';
+    if (!content) return;
+    const path = SAGESLATE_TAB_PATHS[tabIndex];
+    fetch(`/json/save?path=${encodeURIComponent(path)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path, content })
+    }).catch(e => console.error('Tab save failed:', e));
+}
+
+function loadTabJson(tabIndex, modules) {
+    const path = SAGESLATE_TAB_PATHS[tabIndex];
+    const jsonInput = document.getElementById('jsonInput');
+    const imageDimensions = document.getElementById('imageDimensions');
+
+    fetch(`/json/read?path=${encodeURIComponent(path)}`)
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+            const config = data || SAGESLATE_DEFAULT_CONFIG();
+            jsonInput.value = JSON.stringify(config, null, 2);
+
+            const w = config.image?.width || 400;
+            const h = config.image?.height || 300;
+            modules.previewModule.mapWidth = w;
+            modules.previewModule.mapHeight = h;
+            modules.previewModule.updatePreviewAreaSize();
+            if (imageDimensions) imageDimensions.textContent = `${w} × ${h}`;
+
+            modules.controlsModule.parseJsonAndGenerateControls();
+
+            if (config.image?.src && window.sageslateSetBackgroundImage) {
+                window.sageslateSetBackgroundImage(config.image.src);
+            }
+        })
+        .catch(() => {
+            // File doesn't exist yet — use empty config
+            jsonInput.value = JSON.stringify(SAGESLATE_DEFAULT_CONFIG(), null, 2);
+            modules.previewModule.mapWidth = 400;
+            modules.previewModule.mapHeight = 300;
+            modules.previewModule.updatePreviewAreaSize();
+            if (imageDimensions) imageDimensions.textContent = '400 × 300';
+            modules.controlsModule.parseJsonAndGenerateControls();
+        });
+}
+
+function setupSageslateTabs(modules) {
+    const tabs = document.querySelectorAll('.sageslate-tab-btn');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const next = parseInt(tab.dataset.tab);
+            if (next === sageslateActiveTab) return;
+
+            saveTabJson(sageslateActiveTab);
+
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            sageslateActiveTab = next;
+
+            loadTabJson(next, modules);
+        });
+    });
+
+    // Load initial tab
+    loadTabJson(1, modules);
+}
+
+// ── Sageslate-specific features ────────────────────────────────────────────────
 
 /**
  * Set up Sageslate-specific features
@@ -504,35 +592,39 @@ window.executeImageGeneration = executeImageGeneration;
  * This is called from the media viewer "Set as Background" button
  */
 window.setAsBackground = function() {
-    // Get the current media path from the image-browser.js currentMediaPath variable
-    if (typeof currentMediaPath === 'undefined' || !currentMediaPath) {
-        alert('No image selected. Please select an image from the media viewer first.');
+    const path = (typeof currentMediaPath !== 'undefined' && currentMediaPath)
+        ? currentMediaPath
+        : document.getElementById('current-path')?.value;
+
+    if (!path) {
+        alert('No image selected. Please select an image from the file explorer first.');
         return;
     }
 
-    // Get the current media type to verify it's an image
-    if (typeof currentMediaType !== 'undefined' && currentMediaType !== 'image') {
-        alert('Only static images can be used as backgrounds. Please select an image file.');
-        return;
-    }
-
-    // Call the background image loader with the selected path
-    if (window.sageslateSetBackgroundImage) {
-        console.log('Setting background from media viewer:', currentMediaPath);
-        window.sageslateSetBackgroundImage(currentMediaPath);
-
-        // Show success message in the path-result area
-        const pathResult = document.getElementById('path-result');
-        if (pathResult) {
-            pathResult.style.display = 'block';
-            pathResult.innerHTML = '<p style="color: green;">✓ Background image set successfully!</p>';
-            setTimeout(() => {
-                pathResult.style.display = 'none';
-            }, 3000);
+    // Update "src" in the JSON immediately (synchronous, always works)
+    const jsonInput = document.getElementById('jsonInput');
+    if (jsonInput) {
+        try {
+            const jsonData = JSON.parse(jsonInput.value || '{"elements":[]}');
+            if (!jsonData.image) jsonData.image = { width: 400, height: 300 };
+            jsonData.image.src = path;
+            jsonInput.value = JSON.stringify(jsonData, null, 2);
+            console.log('✓ JSON image.src updated to:', path);
+        } catch (e) {
+            console.error('Failed to update JSON with background path:', e);
         }
-    } else {
-        console.error('sageslateSetBackgroundImage function not available');
-        alert('Background image loader not initialized. Please try again.');
+    }
+
+    // Apply background visually (also updates dimensions in JSON after image loads)
+    if (window.sageslateSetBackgroundImage) {
+        window.sageslateSetBackgroundImage(path);
+    }
+
+    const pathResult = document.getElementById('path-result');
+    if (pathResult) {
+        pathResult.style.display = 'block';
+        pathResult.innerHTML = '<p style="color: green;">✓ Background image set!</p>';
+        setTimeout(() => { pathResult.style.display = 'none'; }, 3000);
     }
 };
 

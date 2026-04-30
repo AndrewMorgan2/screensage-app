@@ -11,7 +11,7 @@ let currentMediaName = '';
 
 // Use different localStorage keys for Sageslate vs main Media page
 // Check if we're on Sageslate page by looking for Sageslate-specific element
-const isSageslatePage = () => document.getElementById('eink-player-management') !== null;
+const isSageslatePage = () => document.getElementById('sendImageBtn') !== null;
 const DIRECTORY_KEY = isSageslatePage() ? 'sageslateMediaDirectory' : 'mediaDirectory';
 
 document.addEventListener('DOMContentLoaded', function () {

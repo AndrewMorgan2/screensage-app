@@ -1,24 +1,25 @@
 {
   "elements": [
     {
-      "collapsed": true,
+      "collapsed": false,
       "grayscale": 0,
+      "height": 100,
       "hiddenProperties": [
         "x",
         "y"
       ],
-      "id": "circle_1777482855248",
-      "radius": 50,
+      "id": "box_1777483867582",
       "transparency": 0,
-      "type": "circle",
-      "x": 103,
-      "y": 180
+      "type": "box",
+      "width": 100,
+      "x": 200,
+      "y": 150
     }
   ],
   "image": {
-    "src": "../DnD_Images/eink_images/resized/death.png",
-    "width": 400,
-    "height": 300
+    "height": 300,
+    "src": "",
+    "width": 400
   },
   "zoom": {
     "collapsed": false,

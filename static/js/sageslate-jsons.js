@@ -77,7 +77,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.getElementById("saveFileBtn").addEventListener('click', function () {
     const name = document.getElementById("saveFilename").value;
-    const destination = player_path + "/" + name;
+    if (!name) return;
+    // If name looks like a slot path, save there; otherwise save under player_path
+    const destination = name.startsWith('./') ? name : player_path + "/" + name;
     saveFromTextarea(destination);
 });
 

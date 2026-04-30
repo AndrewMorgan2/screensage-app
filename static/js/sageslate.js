@@ -278,20 +278,8 @@ async function fetchDeviceStatus() {
             console.error("Failed to execute command:", error);
         });
 }
-let displayDir = true;
 // Run the status check periodically
 //   setInterval(checkDeviceStatus, 30000); // Check every 30 seconds
-document.getElementById('einkSwitchDisplay').addEventListener('click', async () => {
-    if (displayDir == true) {
-        document.getElementById('eink-player-management').style.display = 'block';
-        document.getElementById('eink-dir').style.display = 'none';
-        displayDir = false;
-    } else {
-        document.getElementById('eink-player-management').style.display = 'none';
-        document.getElementById('eink-dir').style.display = 'block';
-        displayDir = true;
-    }
-});
 
 // Initial check on page load
 document.addEventListener('DOMContentLoaded', fetchDeviceStatus);
