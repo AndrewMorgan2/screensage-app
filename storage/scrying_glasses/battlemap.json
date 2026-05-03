@@ -1,89 +1,18 @@
 {
   "background": {
     "height": 9100,
-    "src": "../content/Structures/Workshops/Thurin'  Forge/Animated/01b. Great Hall.mp4",
+    "src": "/home/amorgan/Github/Cze/sci-fi/Asset_Packs_and_Resources/Space_Slow6.webm",
     "type": "image",
     "width": 4340
   },
   "elements": [
     {
-      "collapsed": true,
-      "color": "#3498db",
-      "hiddenProperties": [
-        "x",
-        "y"
-      ],
-      "id": "token_1775200939568",
-      "label": "",
-      "labelDisplay": true,
-      "size": 50,
-      "type": "token",
-      "x": 1390,
-      "y": 460
-    },
-    {
-      "alpha": 30,
-      "collapsed": true,
-      "color": "#2ecc71",
-      "height": 417.310981618228,
-      "hiddenProperties": [
-        "x",
-        "y"
-      ],
-      "id": "area_1775200950372",
-      "invisible": false,
-      "keepAspectRatio": true,
-      "label": "",
-      "labelDisplay": true,
-      "type": "area",
-      "width": 418.7066705199612,
-      "x": 355,
-      "y": 575
-    },
-    {
-      "alpha": 30,
-      "collapsed": true,
-      "color": "#2ecc71",
-      "height": 299,
-      "hiddenProperties": [
-        "x",
-        "y"
-      ],
-      "id": "area_1775205569231",
-      "keepAspectRatio": true,
-      "label": "",
-      "labelDisplay": true,
-      "type": "area",
-      "width": 300,
-      "x": 1059,
-      "y": 554
-    },
-    {
-      "alpha": 50,
-      "angle": 359,
-      "borderColor": "#ff7700",
       "collapsed": false,
-      "color": "#ffa500",
-      "direction": 0,
-      "hiddenProperties": [
-        "x",
-        "y"
-      ],
-      "id": "cone_1775206085157",
-      "label": "",
-      "labelDisplay": true,
-      "radius": 300,
-      "rotation": 0,
-      "type": "cone",
-      "x": 883,
-      "y": 498
-    },
-    {
       "height": "100%",
       "id": "draw_overlay",
       "locked": true,
       "opacity": 100,
-      "src": "/home/amorgan/Github/Upload/overlays/0d28edc6-7bef-4328-8fa1-64d328a5e8fb.png",
+      "src": "/home/amorgan/Github/Upload/overlays/94b2ff3e-f448-4075-a743-76d00005cad0.png",
       "type": "image",
       "width": "100%",
       "x": "0%",
@@ -93,7 +22,7 @@
   "screen": {
     "fullscreen": true,
     "height": 1080,
-    "monitor": 1,
+    "monitor": 2,
     "width": 1920
   },
   "zoom": {

@@ -59,118 +59,6 @@ document.getElementById('addCircleBtn').addEventListener('click', () => addNewEl
 document.getElementById('addTextBtn').addEventListener('click', () => addNewElement('text'));
 document.getElementById('addBarBtn').addEventListener('click', () => addNewElement('bar'));
 
-// Add Fog button functionality
-document.getElementById('addFogBtn').addEventListener('click', async () => {
-    console.log('Add Fog button clicked');
-
-    try {
-        const jsonInput = document.getElementById('jsonInput');
-        const jsonValue = jsonInput.value.trim();
-        if (!jsonValue) {
-            console.warn('No JSON configuration loaded');
-            return;
-        }
-
-        const jsonData = JSON.parse(jsonValue);
-
-        // Load fog template from JSON file
-        console.log('Loading fog template from file...');
-        const response = await fetch('/json/read?path=./storage/fog_template.json');
-
-        if (!response.ok) {
-            throw new Error('Failed to load fog template');
-        }
-
-        const fogTemplate = await response.json();
-
-        // Use template fog configuration
-        if (fogTemplate.fog) {
-            jsonData.fog = fogTemplate.fog;
-            console.log('✓ Fog template loaded:', fogTemplate.fog);
-        } else {
-            // Fallback to default if template doesn't have fog
-            console.warn('Fog template missing fog object, using fallback');
-            jsonData.fog = {
-                enabled: true,
-                opacity: 0.4,
-                color: "#000000",
-                clear: false,
-                clearMode: true,
-                clearRadius: 40,
-                clear_polygons: []
-            };
-        }
-
-        // Update JSON
-        jsonInput.value = JSON.stringify(jsonData, null, 2);
-
-        // Trigger parse to update UI (if parseJsonAndGenerateControls exists)
-        if (typeof parseJsonAndGenerateControls === 'function') {
-            parseJsonAndGenerateControls();
-        }
-
-        console.log('✓ Fog added to configuration');
-    } catch (error) {
-        console.error('Error adding fog:', error);
-
-        // Fallback to hardcoded default on error
-        try {
-            const jsonInput = document.getElementById('jsonInput');
-            const jsonValue = jsonInput.value.trim();
-            const jsonData = JSON.parse(jsonValue);
-            jsonData.fog = {
-                enabled: true,
-                opacity: 0.4,
-                color: "#000000",
-                clear: false,
-                clearMode: true,
-                clearRadius: 40,
-                clear_polygons: []
-            };
-            jsonInput.value = JSON.stringify(jsonData, null, 2);
-            if (typeof parseJsonAndGenerateControls === 'function') {
-                parseJsonAndGenerateControls();
-            }
-            console.log('✓ Fog added with fallback configuration');
-        } catch (fallbackError) {
-            console.error('Fallback also failed:', fallbackError);
-        }
-    }
-});
-
-// Remove Fog button functionality
-document.getElementById('removeFogBtn').addEventListener('click', () => {
-    console.log('Remove Fog button clicked');
-
-    try {
-        const jsonInput = document.getElementById('jsonInput');
-        const jsonValue = jsonInput.value.trim();
-        if (!jsonValue) {
-            console.warn('No JSON configuration loaded');
-            return;
-        }
-
-        const jsonData = JSON.parse(jsonValue);
-
-        // Remove fog
-        if (jsonData.fog) {
-            delete jsonData.fog;
-        }
-
-        // Update JSON
-        jsonInput.value = JSON.stringify(jsonData, null, 2);
-
-        // Trigger parse to update UI (if parseJsonAndGenerateControls exists)
-        if (typeof parseJsonAndGenerateControls === 'function') {
-            parseJsonAndGenerateControls();
-        }
-
-        console.log('✓ Fog removed from configuration');
-    } catch (error) {
-        console.error('Error removing fog:', error);
-    }
-});
-
 document.getElementById('display-btn').addEventListener('click', async () => {
     const einkScreenSelect = document.getElementById('eink-select');
     // In a real implementation, you would fetch the latest status from your API
@@ -197,40 +85,26 @@ const deviceIcons = {
 // Function to render devices
 function renderDevices() {
     const deviceContainer = document.getElementById('deviceContainer');
-    const placeholder = document.getElementById('devicePlaceholder');
+    deviceContainer.innerHTML = '';
 
-    // Check if any device is connected
-    const anyConnected = devices.some(device => device.isConnected);
+    devices.forEach(device => {
+        const deviceElement = document.createElement('div');
+        deviceElement.className = 'device';
 
-    if (!anyConnected) {
-        // Show placeholder when no devices are connected
-        deviceContainer.innerHTML = '';
-        if (placeholder) {
-            deviceContainer.appendChild(placeholder);
-        }
-    } else {
-        // Hide placeholder and render devices
-        deviceContainer.innerHTML = '';
+        const statusText = device.isConnected ? 'Connected' : 'Disconnected';
+        const statusClass = device.isConnected ? 'connected' : 'disconnected';
 
-        devices.forEach(device => {
-            const deviceElement = document.createElement('div');
-            deviceElement.className = 'device';
+        deviceElement.innerHTML = `
+            <div class="device-icon">
+                ${deviceIcons[device.type]}
+                <div class="status-indicator ${statusClass}"></div>
+            </div>
+            <div class="device-name">${device.name}</div>
+            <div class="device-status">${statusText}</div>
+        `;
 
-            const statusText = device.isConnected ? 'Connected' : 'Disconnected';
-            const statusClass = device.isConnected ? 'connected' : 'disconnected';
-
-            deviceElement.innerHTML = `
-                <div class="device-icon">
-                    ${deviceIcons[device.type]}
-                    <div class="status-indicator ${statusClass}"></div>
-                </div>
-                <div class="device-name">${device.name}</div>
-                <div class="device-status">${statusText}</div>
-            `;
-
-            deviceContainer.appendChild(deviceElement);
-        });
-    }
+        deviceContainer.appendChild(deviceElement);
+    });
 }
 
 // Refresh button functionality
@@ -246,28 +120,26 @@ async function fetchDeviceStatus() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            command: 'sudo',
-            args: ['create_ap', '--list-clients', 'wlp0s20f3']
+            command: 'ip',
+            args: ['neigh', 'show']
         })
     })
         .then(response => response.json())
         .then(result => {
+            console.log("Full result:", result);
             if (result.success) {
-                console.log("Ping Network executed successfully");
-                // If there's any output, display it
-                if (result.stdout) {
-                    console.log("Command output:", result.stdout);
-                }
-                // Reset all devices to disconnected initially
+                console.log("stdout:", result.stdout);
                 devices.forEach(device => {
-                    device.isConnected = false;
-                    device.isConnected = result.stdout.includes(device.name);
+                    const matched = result.stdout.split('\n').some(line =>
+                        line.includes(device.ip) && line.includes('REACHABLE')
+                    );
+                    console.log(`Device ${device.name} (${device.ip}): ${matched ? 'CONNECTED' : 'not found'}`);
+                    device.isConnected = matched;
                 });
-
                 renderDevices();
             } else {
-                console.log()
-                console.error("Error during network ping:", result.stderr);
+                console.error("Command failed. stderr:", result.stderr);
+                console.log("stdout:", result.stdout);
                 devices.forEach(device => {
                     device.isConnected = false;
                 });
@@ -275,7 +147,7 @@ async function fetchDeviceStatus() {
             }
         })
         .catch(error => {
-            console.error("Failed to execute command:", error);
+            console.error("Fetch error:", error);
         });
 }
 // Run the status check periodically

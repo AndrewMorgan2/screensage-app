@@ -87,6 +87,7 @@ impl TemplateLoader {
             <!-- Backwards compatibility and extras -->
             <script src="/static/js/sageslate-jsons.js"></script>
             <script src="/static/js/image-browser.js"></script>
+            <script src="/static/js/sageslate.js"></script>
             <!-- Page entry point -->
             <script src="/static/js/vtt/sageslate-main.js"></script>
         "#,
