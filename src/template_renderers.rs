@@ -69,6 +69,13 @@ pub fn render_draw() -> String {
     TEMPLATE_LOADER.render_with_base("draw", context, "Draw", "draw")
 }
 
+/// Render the Rules Assistant page
+pub fn render_rules() -> String {
+    let mut context = HashMap::new();
+    context.insert("RULES_DB_PATH".to_string(), crate::rules_handler::RULES_DB_PATH.to_string());
+    TEMPLATE_LOADER.render_with_base("rules", context, "Rules Assistant", "rules")
+}
+
 /// Render the Upload page
 pub fn render_upload() -> String {
     // Create empty context since upload page doesn't need variable replacement

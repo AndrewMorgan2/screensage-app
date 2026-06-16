@@ -14,6 +14,7 @@ mod models;
 mod process_handlers;
 mod process_manager;
 mod refresh_notifier;
+mod rules_handler;
 mod sageslate_handlers;
 mod ws_handler;
 mod template_loader;
@@ -105,6 +106,7 @@ async fn main() -> std::io::Result<()> {
             .route("/vtt", web::get().to(vtt_handler::vtt_render))
             .route("/display", web::get().to(display_handler::display_render))
             .route("/draw", web::get().to(draw_handler::draw_render))
+            .route("/rules", web::get().to(rules_handler::rules_render))
             .route("/upload", web::get().to(handlers::upload))
             .route("/wifi", web::get().to(handlers::wifi))
             .route("/health", web::get().to(handlers::health_check))

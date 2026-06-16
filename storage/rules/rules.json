@@ -1,0 +1,204 @@
+{
+  "rules": [
+    {
+      "id": "grappled",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Grappled",
+      "keywords": ["grapple", "grappled", "grappling"],
+      "description": "Speed becomes 0 and can't benefit from any bonus to speed. Ends if the grappler is incapacitated, or if an effect removes the grappled creature from the grappler's reach."
+    },
+    {
+      "id": "prone",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Prone",
+      "keywords": ["prone", "knocked down", "knock down"],
+      "description": "Only movement option is to crawl, unless it stands up. Disadvantage on attack rolls. An attack roll against the creature has advantage if the attacker is within 5 feet, otherwise disadvantage."
+    },
+    {
+      "id": "restrained",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Restrained",
+      "keywords": ["restrained", "restrain"],
+      "description": "Speed becomes 0. Attack rolls against the creature have advantage, and the creature's attack rolls have disadvantage. Disadvantage on Dexterity saving throws."
+    },
+    {
+      "id": "stunned",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Stunned",
+      "keywords": ["stunned", "stun"],
+      "description": "Incapacitated, can't move, and can speak only falteringly. Automatically fails Strength and Dexterity saves. Attack rolls against the creature have advantage."
+    },
+    {
+      "id": "paralyzed",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Paralyzed",
+      "keywords": ["paralyzed", "paralyze", "paralysis"],
+      "description": "Incapacitated and can't move or speak. Automatically fails Strength and Dexterity saves. Attacks against it have advantage, and any hit is a critical hit if the attacker is within 5 feet."
+    },
+    {
+      "id": "unconscious",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Unconscious",
+      "keywords": ["unconscious", "unconcious", "knocked out", "fall unconscious"],
+      "description": "Incapacitated, can't move or speak, and is unaware of surroundings. Drops whatever it's holding and falls prone. Automatically fails Strength and Dexterity saves. Attacks against it have advantage, and any hit within 5 feet is a critical hit."
+    },
+    {
+      "id": "frightened",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Frightened",
+      "keywords": ["frightened", "frighten", "fear"],
+      "description": "Disadvantage on ability checks and attack rolls while the source of fear is within line of sight. Can't willingly move closer to the source of its fear."
+    },
+    {
+      "id": "poisoned",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Poisoned",
+      "keywords": ["poisoned", "poison"],
+      "description": "Disadvantage on attack rolls and ability checks."
+    },
+    {
+      "id": "charmed",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Charmed",
+      "keywords": ["charmed", "charm"],
+      "description": "Can't attack the charmer or target it with harmful abilities or magical effects. The charmer has advantage on social ability checks against the creature."
+    },
+    {
+      "id": "blinded",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Blinded",
+      "keywords": ["blinded", "blind"],
+      "description": "Can't see and automatically fails ability checks that require sight. Attack rolls against the creature have advantage, and its attack rolls have disadvantage."
+    },
+    {
+      "id": "deafened",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Deafened",
+      "keywords": ["deafened", "deafen"],
+      "description": "Can't hear and automatically fails ability checks that require hearing."
+    },
+    {
+      "id": "incapacitated",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Incapacitated",
+      "keywords": ["incapacitated", "incapacitate"],
+      "description": "Can't take actions or reactions."
+    },
+    {
+      "id": "invisible",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Invisible",
+      "keywords": ["invisible", "invisibility"],
+      "description": "Impossible to see without magic or special senses. For hiding, considered heavily obscured. Attack rolls against the creature have disadvantage, and its attack rolls have advantage."
+    },
+    {
+      "id": "exhaustion",
+      "system": "D&D 5e",
+      "category": "Condition",
+      "name": "Exhaustion",
+      "keywords": ["exhaustion", "exhausted"],
+      "description": "Cumulative levels (1-6): 1 disadvantage on ability checks, 2 speed halved, 3 disadvantage on attacks and saves, 4 hp maximum halved, 5 speed reduced to 0, 6 death."
+    },
+    {
+      "id": "opportunity-attack",
+      "system": "D&D 5e",
+      "category": "Combat",
+      "name": "Opportunity Attack",
+      "keywords": ["opportunity attack", "attack of opportunity"],
+      "description": "When a hostile creature you can see moves out of your reach, you can use your reaction to make one melee attack against it."
+    },
+    {
+      "id": "advantage-disadvantage",
+      "system": "D&D 5e",
+      "category": "Core Mechanic",
+      "name": "Advantage / Disadvantage",
+      "keywords": ["advantage", "disadvantage"],
+      "description": "Roll two d20s and use the higher (advantage) or lower (disadvantage) result. Multiple instances of advantage/disadvantage don't stack; if you have both, you have neither."
+    },
+    {
+      "id": "concentration",
+      "system": "D&D 5e",
+      "category": "Spellcasting",
+      "name": "Concentration",
+      "keywords": ["concentration", "concentrate", "concentrating"],
+      "description": "Casting another concentration spell ends the first. Taking damage requires a Constitution save (DC 10 or half the damage, whichever is higher) to maintain. Incapacitation or death also ends it."
+    },
+    {
+      "id": "flanking",
+      "system": "D&D 5e",
+      "category": "Optional Rule",
+      "name": "Flanking",
+      "keywords": ["flanking", "flank"],
+      "description": "Optional rule: when you and at least one ally are adjacent to an enemy and on opposite sides or corners of its space, you have advantage on melee attack rolls against that enemy."
+    },
+    {
+      "id": "death-saves",
+      "system": "D&D 5e",
+      "category": "Combat",
+      "name": "Death Saving Throws",
+      "keywords": ["death save", "death saving throw", "dying"],
+      "description": "At 0 HP, roll a d20 each turn: 10 or higher is a success, below 10 is a failure. Three successes stabilizes; three failures means death. A natural 20 regains 1 HP, a natural 1 counts as two failures."
+    },
+    {
+      "id": "cover",
+      "system": "D&D 5e",
+      "category": "Combat",
+      "name": "Cover",
+      "keywords": ["half cover", "three quarters cover", "total cover", "taking cover"],
+      "description": "Half cover gives +2 AC and Dex saves. Three-quarters cover gives +5 AC and Dex saves. Total cover can't be targeted directly."
+    },
+    {
+      "id": "two-weapon-fighting",
+      "system": "D&D 5e",
+      "category": "Combat",
+      "name": "Two-Weapon Fighting",
+      "keywords": ["two weapon fighting", "off hand attack", "offhand attack"],
+      "description": "When you take the Attack action with a light melee weapon in each hand, you can use a bonus action to attack with the off-hand weapon. No ability modifier is added to the damage of the bonus attack unless it's negative."
+    },
+    {
+      "id": "ready-action",
+      "system": "D&D 5e",
+      "category": "Combat",
+      "name": "Ready Action",
+      "keywords": ["ready action", "readying an action"],
+      "description": "Choose an action and a trigger. When the trigger occurs, you can use your reaction to perform the readied action."
+    },
+    {
+      "id": "dodge-action",
+      "system": "D&D 5e",
+      "category": "Combat",
+      "name": "Dodge",
+      "keywords": ["dodge action", "dodging"],
+      "description": "Until the start of your next turn, attack rolls against you have disadvantage if you can see the attacker, and you make Dexterity saving throws with advantage. Lost if incapacitated or speed drops to 0."
+    },
+    {
+      "id": "help-action",
+      "system": "D&D 5e",
+      "category": "Combat",
+      "name": "Help",
+      "keywords": ["help action", "helping"],
+      "description": "Aid another creature in an ability check it's about to make, or grant advantage to the next attack roll an ally makes against a creature within 5 feet of you, before your next turn."
+    },
+    {
+      "id": "hide-action",
+      "system": "D&D 5e",
+      "category": "Combat",
+      "name": "Hide",
+      "keywords": ["hide action", "hiding"],
+      "description": "Make a Dexterity (Stealth) check to attempt to hide. While hidden, attacks against you have disadvantage and you have advantage on attacks against creatures that can't see you."
+    }
+  ]
+}

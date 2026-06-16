@@ -23,6 +23,7 @@ impl TemplateLoader {
         templates.insert("vtt".to_string(), load_template("src/static/templates/vtt.html")?);
         templates.insert("display".to_string(), load_template("src/static/templates/display.html")?);
         templates.insert("draw".to_string(), load_template("src/static/templates/draw.html")?);
+        templates.insert("rules".to_string(), load_template("src/static/templates/rules.html")?);
         templates.insert("upload".to_string(), load_template("src/static/templates/upload.html")?);
         templates.insert("wifi".to_string(), load_template("src/static/templates/wifi.html")?);
 
@@ -63,6 +64,7 @@ impl TemplateLoader {
         base_context.insert("vtt_active".to_string(), if active_page == "vtt" { "active".to_string() } else { "".to_string() });
         base_context.insert("display_active".to_string(), if active_page == "display" { "active".to_string() } else { "".to_string() });
         base_context.insert("draw_active".to_string(), if active_page == "draw" { "active".to_string() } else { "".to_string() });
+        base_context.insert("rules_active".to_string(), if active_page == "rules" { "active".to_string() } else { "".to_string() });
         base_context.insert("upload_active".to_string(), if active_page == "upload" { "active".to_string() } else { "".to_string() });
         base_context.insert("wifi_active".to_string(), if active_page == "wifi" { "active".to_string() } else { "".to_string() });
 
@@ -124,6 +126,7 @@ impl TemplateLoader {
             <script src="/static/js/vtt/display-main.js"></script>
         "#,
             "draw" => r#"<script src="/static/js/draw.js"></script>"#,
+            "rules" => r#"<script src="/static/js/rules.js"></script>"#,
             "wifi" => "", // WiFi page has inline script in template
             _ => "", // no specific script for other pages like about
             };
@@ -148,6 +151,7 @@ fn load_template(path: &str) -> io::Result<String> {
             "src/static/templates/vtt.html" => Ok(include_str!("templates/vtt.html").to_string()),
             "src/static/templates/display.html" => Ok(include_str!("templates/display.html").to_string()),
             "src/static/templates/draw.html" => Ok(include_str!("templates/draw.html").to_string()),
+            "src/static/templates/rules.html" => Ok(include_str!("templates/rules.html").to_string()),
             "src/static/templates/upload.html" => Ok(include_str!("templates/upload.html").to_string()),
             "src/static/templates/wifi.html" => Ok(include_str!("templates/wifi.html").to_string()),
             _ => Err(io::Error::new(io::ErrorKind::NotFound, format!("Template not found: {}", path))),

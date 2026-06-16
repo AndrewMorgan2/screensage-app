@@ -1,7 +1,7 @@
 {
   "background": {
     "height": 1080,
-    "src": "/home/amorgan/Github/content/Planar & Special/Sky & Space/Spell Jammers/LegendCinematics_MasterCinematics/Asteroid Field- (Wildspace) C01.mp4",
+    "src": "../DnD_Images/Tarask.png",
     "width": 1920
   },
   "elements": [
@@ -20,7 +20,7 @@
     {
       "barColor": "#cf7272",
       "collapsed": false,
-      "currentValue": 181,
+      "currentValue": 30,
       "grayscale": 0,
       "height": "10.0193428303792%",
       "hiddenProperties": [
@@ -33,8 +33,8 @@
       "transparency": 0,
       "type": "bar",
       "width": "33.8000754248732%",
-      "x": 150,
-      "y": 1745
+      "x": 180,
+      "y": 1765
     },
     {
       "alignment": "center",
@@ -50,14 +50,101 @@
       "size": "12.7723507013297%",
       "text": "Ship",
       "type": "text",
-      "x": 405,
-      "y": 1470
+      "x": 820,
+      "y": 1430
+    },
+    {
+      "barColor": "#950404",
+      "collapsed": false,
+      "currentValue": 0,
+      "grayscale": 0,
+      "height": "10.6336905877057%",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "bar_1778775781757",
+      "invisible": false,
+      "maxValue": 100,
+      "transparency": 0,
+      "type": "bar",
+      "width": "34.1151567499179%",
+      "x": 2410,
+      "y": 1775
+    },
+    {
+      "alignment": "center",
+      "collapsed": false,
+      "color": "#ffffff",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "text_1778775846362",
+      "invisible": false,
+      "size": "12.503497524361%",
+      "text": "Barrier",
+      "type": "text",
+      "x": 3085,
+      "y": 1460
+    },
+    {
+      "collapsed": false,
+      "height": "50%",
+      "id": "image_1778780811914",
+      "keepAspectRatio": true,
+      "opacity": 100,
+      "src": "../DnD_Images/OuterPlanes/NPCs/WizardRobot.jpg",
+      "type": "image",
+      "width": "18.372346216657593%",
+      "x": 520,
+      "y": 375
+    },
+    {
+      "collapsed": false,
+      "height": "23.9132205598849%",
+      "id": "top_banner",
+      "keepAspectRatio": true,
+      "src": "./storage/images/battle_display_top.png",
+      "type": "image",
+      "width": "94.15507792801336%",
+      "x": "1.86%",
+      "y": "-4.86%"
+    },
+    {
+      "alignment": "center",
+      "collapsed": false,
+      "color": "#ffffff",
+      "font": "Arial",
+      "id": "title",
+      "outlineColor": "#000000",
+      "outlineWidth": 2,
+      "size": "5%",
+      "text": "Arachne » World » Karsten » Smokey",
+      "type": "text",
+      "x": 1863,
+      "y": 65
+    },
+    {
+      "alignment": "left",
+      "collapsed": false,
+      "color": "#ffff00",
+      "font": "Arial",
+      "id": "turn_display",
+      "outlineColor": "#000000",
+      "outlineWidth": 3,
+      "size": "7%",
+      "text": "Turn: 4",
+      "type": "text",
+      "x": 41,
+      "y": 1336
     }
   ],
   "screen": {
     "fullscreen": true,
     "height": 2160,
-    "monitor": 1,
+    "monitor": 2,
     "width": 3840
   },
   "zoom": {
