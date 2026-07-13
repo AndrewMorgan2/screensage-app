@@ -1,0 +1,151 @@
+<div class="container">
+    <div class="wifi-section">
+        <div class="section-header">
+            <h2>Player Characters</h2>
+            <div class="hotspot-controls">
+                <a href="/kindle" class="btn-refresh" target="_blank">Open Character Picker</a>
+                <a href="/kindle/status" class="btn-refresh" target="_blank">Open Party Status</a>
+            </div>
+        </div>
+
+        <div id="characters-container" class="characters-list">
+            <div class="loading-message">Loading characters...</div>
+        </div>
+    </div>
+</div>
+
+<style>
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.page-subtitle {
+    color: var(--secondary-text);
+    margin-top: -10px;
+    margin-bottom: 30px;
+    max-width: 700px;
+}
+
+.wifi-section {
+    margin-bottom: 40px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.hotspot-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-refresh {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s;
+}
+
+.btn-refresh:hover {
+    background-color: var(--secondary-color);
+}
+
+.loading-message, .empty-message {
+    text-align: center;
+    padding: 40px;
+    color: var(--secondary-text);
+    font-size: 14px;
+    grid-column: 1 / -1;
+}
+
+.characters-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 15px;
+}
+
+.character-card {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 18px;
+    transition: all 0.2s;
+}
+
+.character-card.disabled {
+    opacity: 0.55;
+}
+
+.character-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.character-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.character-sub {
+    font-size: 13px;
+    color: var(--secondary-text);
+    margin-top: 2px;
+}
+
+.character-hp {
+    font-size: 13px;
+    color: var(--secondary-text);
+    margin-top: 8px;
+}
+
+.btn-char-toggle {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    transition: all 0.2s;
+}
+
+.btn-char-toggle.is-enabled {
+    background-color: var(--success-color);
+}
+
+.btn-char-toggle.is-disabled {
+    background-color: var(--error-color);
+}
+
+.btn-char-toggle:hover {
+    opacity: 0.9;
+}
+
+.btn-char-toggle:disabled {
+    background-color: var(--border-color);
+    cursor: not-allowed;
+    opacity: 1;
+}
+</style>

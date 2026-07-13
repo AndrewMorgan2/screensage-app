@@ -1,0 +1,104 @@
+{
+  "abilities": [
+    {
+      "description": "Roll the Deed Die (1d3 at this level) alongside your attack die. Declare a stunt before rolling. If the attack hits AND the Deed Die shows 3+, the stunt also succeeds automatically. On a miss, the deed fails but the die can still be used defensively at the judge's discretion.",
+      "id": "mighty-deed",
+      "name": "Mighty Deed of Arms",
+      "type": "Any melee/ranged attack",
+      "uses": null
+    },
+    {
+      "description": "Reposition yourself or your foe, gain a positional advantage, or set up an ally's next action.",
+      "id": "deed-trick",
+      "name": "Deed: Trick",
+      "type": "Mighty Deed option",
+      "uses": null
+    },
+    {
+      "description": "Deal extra damage equal to the Deed Die result, driving your foe back.",
+      "id": "deed-beatdown",
+      "name": "Deed: Beat Down",
+      "type": "Mighty Deed option",
+      "uses": null
+    },
+    {
+      "description": "Force the target to make a Will save or become demoralized, granting you a bonus to your next attack against it.",
+      "id": "deed-intimidate",
+      "name": "Deed: Intimidate",
+      "type": "Mighty Deed option",
+      "uses": null
+    },
+    {
+      "description": "Knock the target prone in addition to dealing damage.",
+      "id": "deed-knockdown",
+      "name": "Deed: Knock Down",
+      "type": "Mighty Deed option",
+      "uses": null
+    },
+    {
+      "description": "Damage or destroy the target's weapon, shield, or armor instead of (or in addition to) the target.",
+      "id": "deed-sunder",
+      "name": "Deed: Sunder",
+      "type": "Mighty Deed option",
+      "uses": null
+    },
+    {
+      "description": "Gain a bonus to AC or a save until your next action, protecting yourself or an adjacent ally.",
+      "id": "deed-guard",
+      "name": "Deed: Guard",
+      "type": "Mighty Deed option",
+      "uses": null
+    },
+    {
+      "description": "Attack roll: 1d20 + 3 (Str + deed die eligible). Damage: 1d8 + 2 (Str), plus Deed Die if a Mighty Deed is declared.",
+      "id": "longsword",
+      "name": "Longsword Attack",
+      "type": "Standard attack",
+      "uses": null
+    },
+    {
+      "description": "Attack roll: 1d20 + 1 (Agi). Damage: 1d6. Mighty Deeds may also be attempted on ranged attacks.",
+      "id": "shortbow",
+      "name": "Shortbow Attack",
+      "type": "Standard attack",
+      "uses": null
+    },
+    {
+      "description": "Warriors may spend a point of Luck to reroll any single attack roll, damage roll, or Fort/Ref/Will save. Spent Luck recovers slowly between adventures (judge's discretion), not on a simple rest.",
+      "id": "luck-reroll",
+      "name": "Luck Reroll",
+      "type": "Class feature",
+      "uses": {
+        "current": 1,
+        "max": 1
+      }
+    }
+  ],
+  "alignment": "Neutral",
+  "class": "Warrior",
+  "combat": {
+    "AC": "14",
+    "Action Die": "1d20",
+    "Crit Die/Table": "1d10 / III",
+    "Fort Save": "+2",
+    "Initiative": "+1",
+    "Ref Save": "+1",
+    "Speed": "30'",
+    "Will Save": "+0"
+  },
+  "enabled": true,
+  "hp": {
+    "current": 8,
+    "max": 8
+  },
+  "level": 1,
+  "name": "Grix Stonejaw",
+  "stats": {
+    "Agility": "13 (+1)",
+    "Intelligence": "9 (+0)",
+    "Luck": "11 (+0)",
+    "Personality": "10 (+0)",
+    "Stamina": "14 (+1)",
+    "Strength": "16 (+2)"
+  }
+}

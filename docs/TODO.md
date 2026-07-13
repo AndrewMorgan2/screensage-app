@@ -106,6 +106,8 @@ Track ongoing development, completed features, and future plans for Screen Sage.
 - [x] Element types reference — area, cone alpha transparency documented
 - [x] Draw page documentation — live sync, coordinate handling, clear behaviour
 - [x] SageSlate Player Aid Manager documented
+- [x] Rules Assistant documented (voice control, rule file format)
+- [x] Kindle Character Sheets documented (pages, character JSON format, admin API)
 - [ ] Fog system complete guide
   - Wall fog mechanics
   - Configuration options
@@ -126,6 +128,6 @@ Have an idea for Screen Sage? Open an issue on GitHub with:
 
 ---
 
-Last updated: 2026-04-13
+Last updated: 2026-07-13
 
 *This roadmap is subject to change based on community feedback and development priorities.*

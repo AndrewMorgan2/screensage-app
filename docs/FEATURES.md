@@ -14,6 +14,8 @@ Comprehensive guide to all Screen Sage features, with implementation details and
 - [Preview System](#preview-system)
 - [Draw Page](#draw-page)
 - [SageSlate Player Aid Manager](#sageslate-player-aid-manager)
+- [Rules Assistant](#rules-assistant)
+- [Kindle Character Sheets](#kindle-character-sheets)
 
 ## VTT Coordinate Systems
 
@@ -378,6 +380,106 @@ Select a device number (0–4) from the dropdown next to **Send Image**, then cl
 ### Preview Scale
 
 The SageSlate preview slider ranges from **10% to 250%** (higher than the 150% maximum on the Battlemap and Display tabs) because the e-ink canvas is typically much smaller than a 1080p screen and benefits from extra zoom for editing detail.
+
+## Rules Assistant
+
+The Rules Assistant (`/rules`) is a voice-controlled reference tool for calling out condition and rule text mid-session without touching a keyboard.
+
+### How It Works
+
+- Uses the browser's `SpeechRecognition` API — requires Chrome or Edge (a Google-backed Chromium build). Open-source Chromium builds without a Google API key will show a "network" error on start.
+- Click **Start Listening**, then say a trigger phrase (e.g. "grappled"). The matched rule's name, category, and description appear in a card and stay visible until a different rule is triggered.
+- The **Repeat delay** dropdown (10s–2min) sets a per-rule cooldown so the same rule doesn't re-trigger the moment it's said again.
+- The **System** dropdown filters which rule file is active; selecting "All Systems" disables matching entirely. Switching systems clears the current match and resets cooldown timers.
+
+### Rule Files
+
+One JSON file per game system, stored in `storage/rules/<system>.json`. Drop a new file in and it appears automatically in the System dropdown — `GET /api/rules/systems` lists available systems by filename (no server restart needed).
+
+```json
+{
+  "rules": [
+    {
+      "id": "grappled",
+      "category": "Condition",
+      "name": "Grappled",
+      "keywords": ["grapple", "grappled", "grappling"],
+      "description": "Speed becomes 0 and can't benefit from any bonus to speed. Ends if the grappler is incapacitated, or if an effect removes the grappled creature from the grappler's reach."
+    }
+  ]
+}
+```
+
+- `keywords` are matched as whole-word, case-insensitive regexes against the live speech transcript
+- `category` and `description` are shown in the matched-rule card; `id` must be unique within the file (used for cooldown tracking)
+
+### Troubleshooting
+
+- **"Speech recognition isn't supported"** — switch to Chrome or Edge.
+- **"network" error on Start Listening** — same root cause: the browser build lacks Google's speech-to-text API key.
+- **Microphone permission denied** — click the mic/lock icon in the address bar, allow access for the site, then try again.
+
+## Kindle Character Sheets
+
+A touch-friendly DCC/TTRPG character sheet, originally built as a standalone project for a jailbroken Kindle Paperwhite running fully offline over a laptop WiFi hotspot. It's now also served directly from ScreenSage, so it runs from the same `cargo run` process as everything else.
+
+### Pages
+
+- **`/kindle`** — character picker (no `?char=` query) or a specific character's sheet (`/kindle?char=grix`)
+- **`/kindle/status`** — party status page: every *enabled* character with a live HP readout, tap through to any character's sheet
+- **`/characters`** — GM-facing admin page (the "Characters" tab in the main nav) to enable/disable which characters appear in the picker and status page above
+
+### Character Sheet Layout
+
+- Stats and combat numbers sit in a fixed grid at the top.
+- Abilities are collapsible accordion items below the stats — tap an ability's header to expand it and reveal its description, remaining uses, and **Use**/**Reset** buttons inline; tap again to collapse.
+- Depleted abilities (0 uses remaining) are grayed out but stay expandable so they can still be Reset.
+- HP has +/- buttons at the top of the sheet; every change is written to disk immediately, no save step.
+- The frontend (`static/kindle/`) is deliberately plain ES5 + `XMLHttpRequest` — no `fetch()`, no arrow functions — written defensively for the Kindle's browser.
+
+### Character Data
+
+One JSON file per character in `storage/kindle_characters/<id>.json`:
+
+```json
+{
+  "name": "Grix Stonejaw",
+  "class": "Warrior",
+  "level": 1,
+  "enabled": true,
+  "hp": { "current": 6, "max": 8 },
+  "stats": { "Strength": "16 (+2)" },
+  "combat": { "AC": "14" },
+  "abilities": [
+    {
+      "id": "mighty-deed",
+      "name": "Mighty Deed of Arms",
+      "type": "Any melee/ranged attack",
+      "description": "Roll the Deed Die alongside your attack die...",
+      "uses": null
+    }
+  ]
+}
+```
+
+- `enabled` (boolean, defaults to `true` if omitted) controls visibility in the picker/status page. Toggled from `/characters` — this hides the character, it doesn't delete the file.
+- `uses: null` marks a passive/at-will ability with no Use/Reset buttons; `uses: {"current": n, "max": m}` adds them.
+- To add a new character: drop a new `<id>.json` file into `storage/kindle_characters/`. It appears automatically — character files are read fresh on every request, no server restart needed.
+
+### API
+
+| Route | Method | Purpose |
+|---|---|---|
+| `/api/kindle/characters` | GET | List enabled characters (id, name, class, level, hp) |
+| `/api/kindle/character?char=<id>` | GET | Full character data |
+| `/api/kindle/hp?char=<id>` | POST | Body `{"delta": n}` — adjust HP, clamped to `[0, max]` |
+| `/api/kindle/ability/<id>/<use\|reset>?char=<id>` | POST | Decrement or reset an ability's uses |
+| `/api/kindle/admin/characters` | GET | List **all** characters including disabled ones (used by `/characters`) |
+| `/api/kindle/admin/character/<id>/toggle` | POST | Flip a character's `enabled` flag |
+
+### Standalone Kindle Deployment
+
+The original standalone project (`~/Projects/kindle-sheet`, outside this repo) still exists and works independently on port 8000 — useful for a laptop-hotspot-only setup with no other ScreenSage dependencies. See its own `SETUP.md` for the Kindle jailbreak and hotspot walkthrough. The version integrated here runs on ScreenSage's normal port (8080) alongside every other tab, with its own copy of the character data under `storage/kindle_characters/`.
 
 ## Usage Examples
 

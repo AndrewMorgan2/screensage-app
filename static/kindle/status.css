@@ -1,0 +1,56 @@
+/* Party status page - same high-contrast, no-gradient e-ink rules as style.css. */
+
+#statusTitle {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+.statusCard {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 3px solid #000;
+  background: #fff;
+  color: #000;
+  padding: 16px;
+  margin-bottom: 12px;
+  text-decoration: none;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.statusName {
+  display: block;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.statusSub {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.statusHP {
+  display: inline-block;
+  border: 2px solid #000;
+  padding: 4px 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.statusHP.hpHurt {
+  border-style: dashed;
+}
+
+.statusHP.hpDown {
+  background: #000;
+  color: #fff;
+}
+
+#backLink {
+  display: inline-block;
+  font-size: 15px;
+  color: #000;
+  margin-top: 8px;
+}

@@ -72,7 +72,7 @@ pub fn render_draw() -> String {
 /// Render the Rules Assistant page
 pub fn render_rules() -> String {
     let mut context = HashMap::new();
-    context.insert("RULES_DB_PATH".to_string(), crate::rules_handler::RULES_DB_PATH.to_string());
+    context.insert("RULES_DIR".to_string(), crate::rules_handler::RULES_DIR.to_string());
     TEMPLATE_LOADER.render_with_base("rules", context, "Rules Assistant", "rules")
 }
 
@@ -92,4 +92,10 @@ pub fn render_wifi() -> String {
 
     // Render the wifi template with the base template
     TEMPLATE_LOADER.render_with_base("wifi", context, "WiFi Manager", "wifi")
+}
+
+/// Render the Characters admin page
+pub fn render_characters_admin() -> String {
+    let context = HashMap::new();
+    TEMPLATE_LOADER.render_with_base("characters", context, "Characters", "characters")
 }

@@ -10,6 +10,7 @@ mod handlers;
 mod health_monitor;
 mod image_handlers;
 mod json_handlers;
+mod kindle_handlers;
 mod models;
 mod process_handlers;
 mod process_manager;
@@ -107,6 +108,7 @@ async fn main() -> std::io::Result<()> {
             .route("/display", web::get().to(display_handler::display_render))
             .route("/draw", web::get().to(draw_handler::draw_render))
             .route("/rules", web::get().to(rules_handler::rules_render))
+            .route("/api/rules/systems", web::get().to(rules_handler::list_rule_systems))
             .route("/upload", web::get().to(handlers::upload))
             .route("/wifi", web::get().to(handlers::wifi))
             .route("/health", web::get().to(handlers::health_check))
@@ -217,6 +219,34 @@ async fn main() -> std::io::Result<()> {
             .route("/json/read", web::get().to(json_handlers::read_json))
             .route("/json/save", web::post().to(json_handlers::save_json))
             .route("/api/files/move", web::post().to(file_manager_handlers::move_file))
+            // Kindle character sheet endpoints
+            .route("/kindle", web::get().to(kindle_handlers::character_page))
+            .route("/kindle/status", web::get().to(kindle_handlers::status_page))
+            .route(
+                "/characters",
+                web::get().to(kindle_handlers::characters_admin_page),
+            )
+            .route(
+                "/api/kindle/characters",
+                web::get().to(kindle_handlers::list_characters_api),
+            )
+            .route(
+                "/api/kindle/admin/characters",
+                web::get().to(kindle_handlers::list_characters_admin_api),
+            )
+            .route(
+                "/api/kindle/admin/character/{id}/toggle",
+                web::post().to(kindle_handlers::toggle_character),
+            )
+            .route(
+                "/api/kindle/character",
+                web::get().to(kindle_handlers::get_character),
+            )
+            .route("/api/kindle/hp", web::post().to(kindle_handlers::update_hp))
+            .route(
+                "/api/kindle/ability/{ability_id}/{action}",
+                web::post().to(kindle_handlers::update_ability),
+            )
             // Refresh notifier endpoints
             .route(
                 "/api/refresh/trigger",

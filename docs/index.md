@@ -28,6 +28,8 @@ ScreenSage provides powerful tools for Game Masters to manage combat, display me
 - **Media Browser** - Browse and display images/videos to screens
 - **Virtual Tabletop (VTT) Editor** - Full-featured battlemap interface
 - **SageSlate E-Ink Manager** - Player aids and character sheets. See [SageSlate on GitHub](https://github.com/AndrewMorgan2/SageSlate)
+- **Rules Assistant** - Voice-controlled rules lookup; speak a trigger word and the matching condition/rule text pops up
+- **Kindle Character Sheets** - Touch-friendly DCC character sheets for jailbroken Kindles, plus a GM admin page to control which characters are visible
 
 [Full documentation](FEATURES.md)
 
@@ -106,6 +108,8 @@ ScreenSage/
     templates/         # E-ink templates
     images/            # Image assets
     generated_images/  # AI-generated images
+    kindle_characters/ # Kindle character sheet data (one JSON file per character)
+    rules/             # Rules Assistant JSON rule files (one per game system)
  Loader_esp32wf/        # ESP32 Arduino code
 ```
 

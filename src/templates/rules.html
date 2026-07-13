@@ -1,9 +1,4 @@
-<div class="rules-page" data-rules-path="{{RULES_DB_PATH}}">
-    <h1>Rules Assistant</h1>
-    <p class="rules-intro">
-        Listens to the table and pops up the matching rule whenever a trigger word or phrase is heard.
-        Manage the keyword/rule database below — it's just a JSON file, so it's easy to extend for any system.
-    </p>
+<div class="rules-page" data-rules-dir="{{RULES_DIR}}">
 
     <!-- Voice control panel -->
     <div class="command-card voice-panel">
@@ -13,12 +8,16 @@
         </div>
         <div class="voice-controls">
             <button id="toggleListenBtn" class="primary-btn">Start Listening</button>
+            <label for="systemSelect" class="inline-label">System:</label>
+            <select id="systemSelect" class="dropdown inline-select">
+                <option value="">All Systems</option>
+            </select>
             <label for="cooldownSelect" class="inline-label">Repeat delay:</label>
-            <select id="cooldownSelect" class="dropdown cooldown-select">
-                <option value="10000">10 seconds</option>
-                <option value="20000" selected>20 seconds</option>
-                <option value="45000">45 seconds</option>
-                <option value="120000">2 minutes</option>
+            <select id="cooldownSelect" class="dropdown inline-select">
+                <option value="10000">10 s</option>
+                <option value="20000" selected>20 s</option>
+                <option value="45000">45 s</option>
+                <option value="120000">2 min</option>
             </select>
         </div>
         <div class="transcript-box">
@@ -26,92 +25,26 @@
         </div>
         <div id="voiceUnsupported" class="error voice-warning" style="display:none;">
             Speech recognition isn't supported in this browser. Try Chrome or Edge, accessed via
-            <code>http://localhost:8080</code> (mic access requires a secure context, which localhost counts as).
+            <code>http://localhost:8080</code>.
         </div>
         <div id="voiceError" class="error voice-warning" style="display:none;"></div>
-        <p class="voice-hint">
-            Tip: on Linux, the open-source <code>chromium</code> build often can't reach Google's speech
-            service even when the mic is allowed (errors like <code>not-allowed</code> or <code>network</code>
-            right after starting). If that happens, try Google Chrome or Microsoft Edge for this page.
-        </p>
     </div>
 
-    <!-- Toolbar -->
-    <div class="command-card rules-toolbar">
-        <div class="form-group toolbar-field">
-            <label for="systemFilter">System</label>
-            <select id="systemFilter" class="dropdown">
-                <option value="">All Systems</option>
-            </select>
-        </div>
-        <div class="form-group toolbar-field toolbar-search">
-            <label for="ruleSearch">Search</label>
-            <input type="text" id="ruleSearch" class="text-input" placeholder="Search by name, category or keyword...">
-        </div>
-        <div class="form-group toolbar-field toolbar-add">
-            <label>&nbsp;</label>
-            <button id="addRuleBtn" class="success-btn">+ Add Rule</button>
+    <!-- Matched rule display — hidden until a keyword is detected -->
+    <div id="currentRule" style="display:none;">
+        <div class="current-rule-card">
+            <div class="current-rule-header">
+                <h2 id="currentRuleName"></h2>
+                <span id="currentRuleBadge" class="rule-badge"></span>
+            </div>
+            <div id="currentRuleMeta" class="current-rule-meta"></div>
+            <p id="currentRuleDescription" class="current-rule-description"></p>
         </div>
     </div>
 
-    <div id="rulesList" class="card-container"></div>
 </div>
-
-<!-- Add/Edit rule modal -->
-<div id="ruleModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" id="closeRuleModal">&times;</span>
-        <h2 id="ruleModalTitle">Add Rule</h2>
-
-        <div class="form-group">
-            <label for="ruleSystem">System</label>
-            <input type="text" id="ruleSystem" class="text-input" list="systemOptions" placeholder="D&amp;D 5e">
-            <datalist id="systemOptions"></datalist>
-        </div>
-
-        <div class="form-group">
-            <label for="ruleCategory">Category</label>
-            <input type="text" id="ruleCategory" class="text-input" placeholder="Condition">
-        </div>
-
-        <div class="form-group">
-            <label for="ruleName">Name</label>
-            <input type="text" id="ruleName" class="text-input" placeholder="Grappled">
-        </div>
-
-        <div class="form-group">
-            <label for="ruleKeywords">Trigger phrases (comma separated)</label>
-            <input type="text" id="ruleKeywords" class="text-input" placeholder="grapple, grappled, grappling">
-        </div>
-
-        <div class="form-group">
-            <label for="ruleDescription">Rule text</label>
-            <textarea id="ruleDescription" class="text-input" rows="5" placeholder="What the rule does..."></textarea>
-        </div>
-
-        <div id="ruleModalError" class="error" style="display:none;"></div>
-
-        <div class="form-actions">
-            <button id="deleteRuleBtn" class="danger-btn" style="display:none;">Delete</button>
-            <button id="saveRuleBtn" class="primary-btn">Save</button>
-        </div>
-    </div>
-</div>
-
-<!-- Popup toasts for triggered rules -->
-<div id="ruleToastContainer" class="rule-toast-container"></div>
 
 <style>
-.rules-page {
-    max-width: 100%;
-}
-
-.rules-intro {
-    color: var(--secondary-text);
-    margin-bottom: 20px;
-    max-width: 800px;
-}
-
 .rules-page .command-card {
     margin-bottom: 20px;
 }
@@ -140,9 +73,9 @@
 }
 
 @keyframes rules-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.6); }
-    70% { box-shadow: 0 0 0 8px rgba(76, 175, 80, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+    0%   { box-shadow: 0 0 0 0   rgba(76, 175, 80, 0.6); }
+    70%  { box-shadow: 0 0 0 8px rgba(76, 175, 80, 0);   }
+    100% { box-shadow: 0 0 0 0   rgba(76, 175, 80, 0);   }
 }
 
 .voice-controls {
@@ -157,7 +90,7 @@
     color: var(--secondary-text);
 }
 
-.cooldown-select {
+.inline-select {
     width: auto;
 }
 
@@ -179,229 +112,51 @@
     display: block;
 }
 
-.voice-hint {
-    margin-top: 10px;
-    margin-bottom: 0;
-    color: var(--secondary-text);
-    font-size: 0.85rem;
-}
-
-/* Toolbar */
-.rules-toolbar {
-    display: flex;
-    align-items: flex-end;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.toolbar-field {
-    margin: 0;
-}
-
-.toolbar-search {
-    flex: 1;
-    min-width: 200px;
-}
-
-.toolbar-field .dropdown,
-.toolbar-field .text-input {
-    min-width: 200px;
-}
-
-/* Rule cards */
-.rule-card {
+/* Matched rule card */
+.current-rule-card {
     background-color: var(--card-bg-color);
+    border: 2px solid var(--primary-color);
     border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    border: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
+    padding: 28px 32px;
+    box-shadow: 0 4px 20px rgba(68, 131, 182, 0.25);
+    animation: rule-appear 0.2s ease-out;
 }
 
-.rule-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
+@keyframes rule-appear {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0);    }
 }
 
-.rule-card-header h3 {
+.current-rule-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 6px;
+}
+
+.current-rule-header h2 {
     margin: 0;
+    font-size: 2rem;
 }
 
 .rule-badge {
     background-color: var(--primary-color);
     color: white;
     border-radius: 4px;
-    padding: 2px 8px;
-    font-size: 0.8rem;
+    padding: 3px 10px;
+    font-size: 0.85rem;
     white-space: nowrap;
 }
 
-.rule-category {
+.current-rule-meta {
     color: var(--secondary-text);
-    font-size: 0.85rem;
-    margin-top: 4px;
-}
-
-.rule-keywords {
-    color: var(--secondary-text);
-    font-size: 0.85rem;
-    margin-top: 8px;
-    font-style: italic;
-}
-
-.rule-description {
-    margin-top: 10px;
-    flex-grow: 1;
-}
-
-.rule-card-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-.empty-state {
-    color: var(--secondary-text);
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 30px 0;
-}
-
-/* Buttons not already styled by styles.css */
-.secondary-btn {
-    background-color: #555555;
-}
-
-.secondary-btn:hover {
-    background-color: #444444;
-}
-
-.success-btn {
-    background-color: var(--success-color);
-}
-
-.success-btn:hover {
-    background-color: #3d8b40;
-}
-
-.danger-btn {
-    background-color: var(--error-color);
-}
-
-.danger-btn:hover {
-    background-color: #c1352a;
-}
-
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-.modal.open {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 480px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    max-height: 85vh;
-    overflow-y: auto;
-}
-
-.close-modal {
-    color: var(--secondary-text);
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    line-height: 1;
-}
-
-.close-modal:hover {
-    color: #fff;
-}
-
-.form-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-}
-
-/* Toast popups */
-.rule-toast-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 2000;
-    max-width: 360px;
-}
-
-.rule-toast {
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--primary-color);
-    border-left: 4px solid var(--primary-color);
-    border-radius: 6px;
-    padding: 12px 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    animation: rules-toast-in 0.2s ease-out;
-}
-
-@keyframes rules-toast-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.rule-toast-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-}
-
-.rule-toast-header strong {
-    color: var(--primary-color);
-}
-
-.rule-toast-close {
-    cursor: pointer;
-    color: var(--secondary-text);
-    font-weight: bold;
-    font-size: 1.1rem;
-    line-height: 1;
-}
-
-.rule-toast-close:hover {
-    color: #fff;
-}
-
-.rule-toast-meta {
-    font-size: 0.8rem;
-    color: var(--secondary-text);
-    margin-top: 2px;
-}
-
-.rule-toast-body {
-    margin-top: 6px;
     font-size: 0.9rem;
+    margin-bottom: 18px;
+}
+
+.current-rule-description {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    margin: 0;
 }
 </style>

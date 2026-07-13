@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+<title>Player Sheet</title>
+<link rel="stylesheet" href="/static/kindle/style.css">
+</head>
+<body>
+
+<div id="picker" style="display:none;">
+  <div id="pickerTitle">Select Your Character</div>
+  <div id="pickerList"></div>
+  <a class="statusLink" href="/kindle/status">Party Status</a>
+</div>
+
+<div id="sheet" style="display:none;">
+
+<div id="header">
+  <div id="charName">-</div>
+  <div id="charSub">-</div>
+  <div id="hpRow">
+    <button id="hpMinus" class="hpBtn">-</button>
+    <span id="hpValue">-- / --</span>
+    <button id="hpPlus" class="hpBtn">+</button>
+    <button id="fullscreenBtn">Full Screen</button>
+  </div>
+  <a id="switchCharLink" href="/kindle">Switch Character</a>
+  <a class="statusLink" href="/kindle/status">Party Status</a>
+</div>
+
+<div id="statsBlock">
+  <div id="statsGrid"></div>
+  <div id="combatGrid"></div>
+</div>
+
+<div id="abilityGrid"></div>
+
+</div>
+
+<script src="/static/kindle/app.js"></script>
+</body>
+</html>

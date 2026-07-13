@@ -1,0 +1,97 @@
+{
+  "name": "Thalia Quickfingers",
+  "class": "Thief",
+  "level": 1,
+  "alignment": "Neutral",
+  "stats": {
+    "Strength": "9 (+0)",
+    "Agility": "16 (+2)",
+    "Stamina": "10 (+0)",
+    "Personality": "12 (+0)",
+    "Intelligence": "11 (+0)",
+    "Luck": "14 (+1)"
+  },
+  "combat": {
+    "AC": "13",
+    "Speed": "30'",
+    "Initiative": "+2",
+    "Action Die": "1d20",
+    "Crit Die/Table": "1d10 / III",
+    "Fort Save": "+0",
+    "Ref Save": "+3",
+    "Will Save": "+0"
+  },
+  "hp": {
+    "current": 5,
+    "max": 5
+  },
+  "abilities": [
+    {
+      "id": "backstab",
+      "name": "Backstab",
+      "type": "Melee attack vs. unaware target",
+      "uses": null,
+      "description": "Attack roll +1 (in addition to normal bonuses). On a hit, deal triple damage instead of double."
+    },
+    {
+      "id": "sneak-silently",
+      "name": "Sneak Silently",
+      "type": "Skill check (d20 + 2)",
+      "uses": null,
+      "description": "Move without being heard. Opposed by listeners' Luck check or the judge's call based on circumstances."
+    },
+    {
+      "id": "hide-in-shadows",
+      "name": "Hide in Shadows",
+      "type": "Skill check (d20 + 2)",
+      "uses": null,
+      "description": "Conceal yourself in shadow or cover. Requires suitable cover; opposed by observers' perception."
+    },
+    {
+      "id": "pick-lock",
+      "name": "Pick Lock",
+      "type": "Skill check (d20 + 1)",
+      "uses": null,
+      "description": "Open a mechanical lock without a key, given thieves' tools and enough time."
+    },
+    {
+      "id": "pick-pocket",
+      "name": "Pick Pocket",
+      "type": "Skill check (d20 + 1)",
+      "uses": null,
+      "description": "Lift a small item from a target without them noticing. Opposed by the target's Luck or awareness."
+    },
+    {
+      "id": "climb-sheer-surfaces",
+      "name": "Climb Sheer Surfaces",
+      "type": "Skill check (d20 + 1)",
+      "uses": null,
+      "description": "Scale a wall or cliff without normal climbing gear, at reduced speed."
+    },
+    {
+      "id": "cast-spell-from-scroll",
+      "name": "Cast Spell from Scroll",
+      "type": "Skill check (d20 + 0)",
+      "uses": null,
+      "description": "Attempt to read and trigger a magic scroll despite lacking formal spellcasting training. Failure may have a mishap at the judge's discretion."
+    },
+    {
+      "id": "shortsword",
+      "name": "Shortsword Attack",
+      "type": "Standard attack",
+      "uses": null,
+      "description": "Attack roll: 1d20 + 2 (Agi). Damage: 1d6, or 3x on a successful Backstab."
+    },
+    {
+      "id": "luck-die",
+      "name": "Luck Die",
+      "type": "Class feature",
+      "uses": {
+        "current": 1,
+        "max": 1
+      },
+      "description": "Thieves may add a Luck Die (1d3 at this level) to any skill check, attack roll, or damage roll. Spent Luck recovers slowly between adventures, not on a simple rest."
+    }
+  ],
+  "enabled": true
+}

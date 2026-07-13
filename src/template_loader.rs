@@ -26,6 +26,7 @@ impl TemplateLoader {
         templates.insert("rules".to_string(), load_template("src/static/templates/rules.html")?);
         templates.insert("upload".to_string(), load_template("src/static/templates/upload.html")?);
         templates.insert("wifi".to_string(), load_template("src/static/templates/wifi.html")?);
+        templates.insert("characters".to_string(), load_template("src/static/templates/characters.html")?);
 
         Ok(Self { templates })
     }
@@ -59,6 +60,7 @@ impl TemplateLoader {
         base_context.insert("images_active".to_string(), if active_page == "images" { "active".to_string() } else { "".to_string() });
         base_context.insert("about_active".to_string(), if active_page == "about" { "active".to_string() } else { "".to_string() });
         base_context.insert("battle_active".to_string(), if active_page == "battle" { "active".to_string() } else { "".to_string() });
+        base_context.insert("characters_active".to_string(), if active_page == "characters" { "active".to_string() } else { "".to_string() });
         base_context.insert("image_gen_active".to_string(), if active_page == "image-gen" { "active".to_string() } else { "".to_string() });
         base_context.insert("sageslate_active".to_string(), if active_page == "sageslate" { "active".to_string() } else { "".to_string() });
         base_context.insert("vtt_active".to_string(), if active_page == "vtt" { "active".to_string() } else { "".to_string() });
@@ -126,7 +128,8 @@ impl TemplateLoader {
             <script src="/static/js/vtt/display-main.js"></script>
         "#,
             "draw" => r#"<script src="/static/js/draw.js"></script>"#,
-            "rules" => r#"<script src="/static/js/rules.js"></script>"#,
+            "rules" => r#"<script src="/static/js/rules.js?v=4"></script>"#,
+            "characters" => r#"<script src="/static/js/characters.js"></script>"#,
             "wifi" => "", // WiFi page has inline script in template
             _ => "", // no specific script for other pages like about
             };
@@ -154,6 +157,7 @@ fn load_template(path: &str) -> io::Result<String> {
             "src/static/templates/rules.html" => Ok(include_str!("templates/rules.html").to_string()),
             "src/static/templates/upload.html" => Ok(include_str!("templates/upload.html").to_string()),
             "src/static/templates/wifi.html" => Ok(include_str!("templates/wifi.html").to_string()),
+            "src/static/templates/characters.html" => Ok(include_str!("templates/characters.html").to_string()),
             _ => Err(io::Error::new(io::ErrorKind::NotFound, format!("Template not found: {}", path))),
         }
     }

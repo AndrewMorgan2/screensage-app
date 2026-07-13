@@ -2,7 +2,6 @@
   "rules": [
     {
       "id": "grappled",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Grappled",
       "keywords": ["grapple", "grappled", "grappling"],
@@ -10,7 +9,6 @@
     },
     {
       "id": "prone",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Prone",
       "keywords": ["prone", "knocked down", "knock down"],
@@ -18,7 +16,6 @@
     },
     {
       "id": "restrained",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Restrained",
       "keywords": ["restrained", "restrain"],
@@ -26,7 +23,6 @@
     },
     {
       "id": "stunned",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Stunned",
       "keywords": ["stunned", "stun"],
@@ -34,7 +30,6 @@
     },
     {
       "id": "paralyzed",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Paralyzed",
       "keywords": ["paralyzed", "paralyze", "paralysis"],
@@ -42,15 +37,13 @@
     },
     {
       "id": "unconscious",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Unconscious",
-      "keywords": ["unconscious", "unconcious", "knocked out", "fall unconscious"],
+      "keywords": ["unconscious", "knocked out", "fall unconscious"],
       "description": "Incapacitated, can't move or speak, and is unaware of surroundings. Drops whatever it's holding and falls prone. Automatically fails Strength and Dexterity saves. Attacks against it have advantage, and any hit within 5 feet is a critical hit."
     },
     {
       "id": "frightened",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Frightened",
       "keywords": ["frightened", "frighten", "fear"],
@@ -58,7 +51,6 @@
     },
     {
       "id": "poisoned",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Poisoned",
       "keywords": ["poisoned", "poison"],
@@ -66,7 +58,6 @@
     },
     {
       "id": "charmed",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Charmed",
       "keywords": ["charmed", "charm"],
@@ -74,7 +65,6 @@
     },
     {
       "id": "blinded",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Blinded",
       "keywords": ["blinded", "blind"],
@@ -82,7 +72,6 @@
     },
     {
       "id": "deafened",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Deafened",
       "keywords": ["deafened", "deafen"],
@@ -90,7 +79,6 @@
     },
     {
       "id": "incapacitated",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Incapacitated",
       "keywords": ["incapacitated", "incapacitate"],
@@ -98,7 +86,6 @@
     },
     {
       "id": "invisible",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Invisible",
       "keywords": ["invisible", "invisibility"],
@@ -106,7 +93,6 @@
     },
     {
       "id": "exhaustion",
-      "system": "D&D 5e",
       "category": "Condition",
       "name": "Exhaustion",
       "keywords": ["exhaustion", "exhausted"],
@@ -114,7 +100,6 @@
     },
     {
       "id": "opportunity-attack",
-      "system": "D&D 5e",
       "category": "Combat",
       "name": "Opportunity Attack",
       "keywords": ["opportunity attack", "attack of opportunity"],
@@ -122,7 +107,6 @@
     },
     {
       "id": "advantage-disadvantage",
-      "system": "D&D 5e",
       "category": "Core Mechanic",
       "name": "Advantage / Disadvantage",
       "keywords": ["advantage", "disadvantage"],
@@ -130,7 +114,6 @@
     },
     {
       "id": "concentration",
-      "system": "D&D 5e",
       "category": "Spellcasting",
       "name": "Concentration",
       "keywords": ["concentration", "concentrate", "concentrating"],
@@ -138,7 +121,6 @@
     },
     {
       "id": "flanking",
-      "system": "D&D 5e",
       "category": "Optional Rule",
       "name": "Flanking",
       "keywords": ["flanking", "flank"],
@@ -146,7 +128,6 @@
     },
     {
       "id": "death-saves",
-      "system": "D&D 5e",
       "category": "Combat",
       "name": "Death Saving Throws",
       "keywords": ["death save", "death saving throw", "dying"],
@@ -154,7 +135,6 @@
     },
     {
       "id": "cover",
-      "system": "D&D 5e",
       "category": "Combat",
       "name": "Cover",
       "keywords": ["half cover", "three quarters cover", "total cover", "taking cover"],
@@ -162,7 +142,6 @@
     },
     {
       "id": "two-weapon-fighting",
-      "system": "D&D 5e",
       "category": "Combat",
       "name": "Two-Weapon Fighting",
       "keywords": ["two weapon fighting", "off hand attack", "offhand attack"],
@@ -170,7 +149,6 @@
     },
     {
       "id": "ready-action",
-      "system": "D&D 5e",
       "category": "Combat",
       "name": "Ready Action",
       "keywords": ["ready action", "readying an action"],
@@ -178,7 +156,6 @@
     },
     {
       "id": "dodge-action",
-      "system": "D&D 5e",
       "category": "Combat",
       "name": "Dodge",
       "keywords": ["dodge action", "dodging"],
@@ -186,7 +163,6 @@
     },
     {
       "id": "help-action",
-      "system": "D&D 5e",
       "category": "Combat",
       "name": "Help",
       "keywords": ["help action", "helping"],
@@ -194,7 +170,6 @@
     },
     {
       "id": "hide-action",
-      "system": "D&D 5e",
       "category": "Combat",
       "name": "Hide",
       "keywords": ["hide action", "hiding"],

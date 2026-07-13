@@ -89,7 +89,7 @@ function renderDevices() {
 
     devices.forEach(device => {
         const deviceElement = document.createElement('div');
-        deviceElement.className = 'device';
+        deviceElement.className = device.id === 0 ? 'device device-large' : 'device';
 
         const statusText = device.isConnected ? 'Connected' : 'Disconnected';
         const statusClass = device.isConnected ? 'connected' : 'disconnected';
