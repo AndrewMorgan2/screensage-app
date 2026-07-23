@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         defaultMapHeight: 1080,
         maxPreviewWidth: 1200,
         maxPreviewHeight: 800,
+        defaultPreviewScale: 0.3,
         defaultConfig: './storage/scrying_glasses/display.json',
         defaultFilename: 'display.json',
         moduleName: 'Display',

@@ -165,9 +165,10 @@ function setupPreviewScaleControls(elementIds, previewModule) {
 
         // Double-click slider to reset to 100%
         slider.addEventListener('dblclick', () => {
-            slider.value = 100;
-            previewModule.setPreviewScale(1.0);
-            display.textContent = '100%';
+            const resetScale = previewModule.config.defaultPreviewScale || 1.0;
+            slider.value = Math.round(resetScale * 100);
+            previewModule.setPreviewScale(resetScale);
+            display.textContent = `${Math.round(resetScale * 100)}%`;
         });
     }
 

@@ -2,8 +2,13 @@
 
     <div class="walls-sidebar">
         <div class="control-group">
-            <label>Editing walls for the active battlemap:</label>
-            <span id="wallsCurrentFile" class="walls-current-file">Loading...</span>
+            <label for="wallsFileBrowser">Map config:</label>
+            <div class="file-browser" id="wallsFileBrowser"></div>
+        </div>
+
+        <div class="control-group">
+            <span id="wallsCurrentFile" class="walls-current-file">No map loaded</span>
+            <span id="wallsActiveIndicator" class="walls-active-indicator"></span>
         </div>
 
         <div class="control-group buttons walls-toolbar">

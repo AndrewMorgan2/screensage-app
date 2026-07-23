@@ -1,11 +1,17 @@
 /**
  * Walls page.
  *
- * Fully standalone - does not use any of static/js/vtt/*.js. Always reads and
- * writes the live Battlemap config (the same file the Scrying Glass display
- * engine reads), so walls drawn here take effect immediately - shows that
- * map's background image, and lets the GM draw wall segments on top of it.
- * To open a gap (e.g. a door), just delete the segment there.
+ * Fully standalone - does not use any of static/js/vtt/*.js. Lets the GM pick
+ * any saved battlemap config (via the file browser, rooted at ./storage) and
+ * draw wall segments on top of it. Every change autosaves immediately into
+ * whichever file is currently loaded.
+ *
+ * Walls only take effect on the live display when they're drawn into
+ * ACTIVE_BATTLEMAP_PATH specifically - that's the one file ScryingGlass's
+ * Battlemap display actually reads. Editing any other file is still useful
+ * (e.g. preparing a map ahead of time) but won't show up live until that
+ * file becomes the active battlemap - the page makes this explicit via
+ * wallsActiveIndicator so it's never ambiguous which case you're in.
  *
  * Wall segments are stored in the config's `walls` array as coordinates
  * given as fractions (0-1) of the map image, so they stay correct regardless
@@ -18,8 +24,11 @@
 (function () {
     const SNAP_PX = 14;
     const HIT_PX = 8;
+    const CONFIG_ROOT = './storage'; // upper bound for the "Up" link - browser can still navigate here and beyond
+    const DEFAULT_DIR = './storage/vtt_configs'; // where the file browser opens by default
     const ACTIVE_BATTLEMAP_PATH = './storage/scrying_glasses/battlemap.json';
     const DEFAULT_COLOR = '#c0392b';
+    const VIDEO_EXTENSIONS = ['.webm', '.mp4', '.avi', '.mov', '.mkv'];
 
     let currentPath = null;
     let jsonData = null;
@@ -31,15 +40,65 @@
     let selectedId = null;
     let drawColor = DEFAULT_COLOR;
 
-    let previewBox, canvas, ctx, bgImg;
+    let previewBox, canvas, ctx, bgMedia;
 
     document.addEventListener('DOMContentLoaded', () => {
         previewBox = document.getElementById('wallsPreviewBox');
         wireToolbar();
         wireKeyboard();
-        loadConfig(ACTIVE_BATTLEMAP_PATH);
+        loadFileBrowser(DEFAULT_DIR);
+        loadConfig(ACTIVE_BATTLEMAP_PATH); // convenient default - most edits target this one
         updateStatus();
     });
+
+    // -- file browser -------------------------------------------------------
+
+    function loadFileBrowser(path) {
+        const browser = document.getElementById('wallsFileBrowser');
+        browser.innerHTML = '<p>Loading files...</p>';
+
+        fetch(`/api/images/list?path=${encodeURIComponent(path)}`)
+            .then(r => {
+                if (!r.ok) throw new Error(`Failed to list files: ${r.status}`);
+                return r.json();
+            })
+            .then(data => {
+                browser.innerHTML = '';
+
+                if (path !== CONFIG_ROOT) {
+                    const up = document.createElement('div');
+                    up.className = 'folder-item';
+                    up.innerHTML = '<i>..</i> <span>Up</span>';
+                    up.addEventListener('click', () => {
+                        const parent = path.substring(0, path.lastIndexOf('/')) || CONFIG_ROOT;
+                        loadFileBrowser(parent);
+                    });
+                    browser.appendChild(up);
+                }
+
+                data.items.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'folder-item';
+                    if (item.is_dir) {
+                        el.innerHTML = `<i>📁</i> <span>${item.name}</span>`;
+                        el.addEventListener('click', () => loadFileBrowser(item.path));
+                    } else if (item.name.endsWith('.json')) {
+                        el.innerHTML = `<i>🗎</i> <span>${item.name}</span>`;
+                        el.addEventListener('click', () => loadConfig(item.path));
+                    } else {
+                        return;
+                    }
+                    browser.appendChild(el);
+                });
+
+                if (browser.children.length === 0) {
+                    browser.innerHTML = '<p>No JSON files found</p>';
+                }
+            })
+            .catch(err => {
+                browser.innerHTML = `<p class="error">Error: ${err.message}</p>`;
+            });
+    }
 
     function loadConfig(path) {
         fetch(`/json/read?path=${encodeURIComponent(path)}`)
@@ -53,12 +112,26 @@
                 walls = Array.isArray(jsonData.walls) ? jsonData.walls : [];
                 selectedId = null;
                 chainStart = null;
-                document.getElementById('wallsCurrentFile').textContent = path;
+                updateActiveIndicator();
                 renderBackground();
             })
             .catch(err => {
-                alert(`Could not load the active battlemap (${path}): ${err.message}`);
+                alert(`Could not load ${path}: ${err.message}`);
             });
+    }
+
+    function updateActiveIndicator() {
+        document.getElementById('wallsCurrentFile').textContent = currentPath || 'No map loaded';
+
+        const indicator = document.getElementById('wallsActiveIndicator');
+        if (!indicator) return;
+        if (currentPath === ACTIVE_BATTLEMAP_PATH) {
+            indicator.textContent = '● LIVE — this is the active battlemap';
+            indicator.className = 'walls-active-indicator is-live';
+        } else {
+            indicator.textContent = '○ Template — won\'t appear live until it\'s the active battlemap';
+            indicator.className = 'walls-active-indicator is-template';
+        }
     }
 
     // -- background + canvas -------------------------------------------------
@@ -86,12 +159,23 @@
         const mapWidth = screenConfig.width || 1920;
         const mapHeight = screenConfig.height || 1080;
         const backgroundConfig = jsonData.background || {};
-        const forceLandscape = backgroundConfig.forceLandscape !== false;
 
-        bgImg = document.createElement('img');
-        bgImg.className = 'walls-bg-image';
-        bgImg.src = `/api/images/view?path=${encodeURIComponent(src)}`;
-        previewBox.appendChild(bgImg);
+        const isVideo = VIDEO_EXTENSIONS.some(ext => src.toLowerCase().endsWith(ext));
+        const mediaUrl = `/api/images/view?path=${encodeURIComponent(src)}`;
+
+        if (isVideo) {
+            bgMedia = document.createElement('video');
+            bgMedia.src = mediaUrl;
+            bgMedia.autoplay = true;
+            bgMedia.loop = true;
+            bgMedia.muted = true;
+            bgMedia.playsInline = true;
+        } else {
+            bgMedia = document.createElement('img');
+            bgMedia.src = mediaUrl;
+        }
+        bgMedia.className = 'walls-bg-image';
+        previewBox.appendChild(bgMedia);
 
         canvas = document.createElement('canvas');
         canvas.id = 'wallsCanvas';
@@ -101,25 +185,37 @@
 
         wireCanvasEvents();
 
-        const applyLayout = () => layoutBackground(mapWidth, mapHeight, backgroundConfig, forceLandscape);
-        bgImg.addEventListener('load', applyLayout);
+        const applyLayout = () => layoutBackground(mapWidth, mapHeight, backgroundConfig, isVideo);
+        // Images report their size on 'load'; videos only know their size once
+        // 'loadedmetadata' fires (readyState-dependent, so it may happen before
+        // or after this listener is attached - re-check on canplay too, cheap).
+        bgMedia.addEventListener(isVideo ? 'loadedmetadata' : 'load', applyLayout);
+        if (isVideo) bgMedia.addEventListener('canplay', applyLayout);
         window.addEventListener('resize', applyLayout);
         new ResizeObserver(applyLayout).observe(previewBox.parentElement);
     }
 
     /**
-     * Mirrors vtt-preview-module.js's portrait-media auto-rotation: if the map's
-     * screen is landscape but the background art is portrait, the live display
-     * rotates it 90deg to fill the screen. Walls have to be authored against
-     * that same rotated frame or their coordinates won't line up once live.
+     * Mirrors display_engine_pyglet.py's portrait-media auto-rotation exactly:
+     * the live engine always measures the actual media file (pyglet.image.load()
+     * / source.video_format) and rotates unconditionally if it's portrait - it
+     * never reads background.width/height from the config, and there's no
+     * forceLandscape check anywhere in it (that flag only exists in the
+     * separate, JS-only vtt-preview-module.js approximation - not touched here).
+     * So this must prioritize the *measured* media dimensions the same way:
+     * config width/height is only a placeholder for before the media has
+     * loaded, not a trusted source of truth - it can be stale (e.g. left over
+     * from a previous background that occupied this slot), and trusting it
+     * over the real dimensions produces exactly the wrong rotation decision.
      */
-    function layoutBackground(mapWidth, mapHeight, backgroundConfig, forceLandscape) {
-        if (!bgImg || !canvas) return;
+    function layoutBackground(mapWidth, mapHeight, backgroundConfig, isVideo) {
+        if (!bgMedia || !canvas) return;
 
-        const naturalW = backgroundConfig.width || bgImg.naturalWidth || mapWidth;
-        const naturalH = backgroundConfig.height || bgImg.naturalHeight || mapHeight;
-        const isPortraitMedia = naturalH > naturalW;
-        const rotate = forceLandscape && isPortraitMedia;
+        const mediaW = isVideo ? bgMedia.videoWidth : bgMedia.naturalWidth;
+        const mediaH = isVideo ? bgMedia.videoHeight : bgMedia.naturalHeight;
+        const naturalW = mediaW || backgroundConfig.width || mapWidth;
+        const naturalH = mediaH || backgroundConfig.height || mapHeight;
+        const rotate = naturalH > naturalW;
 
         const availW = previewBox.parentElement.clientWidth;
         const availH = window.innerHeight * 0.78;
@@ -131,20 +227,20 @@
         previewBox.style.width = `${boxW}px`;
         previewBox.style.height = `${boxH}px`;
 
-        bgImg.style.position = 'absolute';
-        bgImg.style.objectFit = 'contain';
+        bgMedia.style.position = 'absolute';
+        bgMedia.style.objectFit = 'contain';
         if (rotate) {
-            bgImg.style.top = '50%';
-            bgImg.style.left = '50%';
-            bgImg.style.width = `${boxH}px`;
-            bgImg.style.height = `${boxW}px`;
-            bgImg.style.transform = 'translate(-50%, -50%) rotate(90deg)';
+            bgMedia.style.top = '50%';
+            bgMedia.style.left = '50%';
+            bgMedia.style.width = `${boxH}px`;
+            bgMedia.style.height = `${boxW}px`;
+            bgMedia.style.transform = 'translate(-50%, -50%) rotate(90deg)';
         } else {
-            bgImg.style.top = '0';
-            bgImg.style.left = '0';
-            bgImg.style.width = `${boxW}px`;
-            bgImg.style.height = `${boxH}px`;
-            bgImg.style.transform = '';
+            bgMedia.style.top = '0';
+            bgMedia.style.left = '0';
+            bgMedia.style.width = `${boxW}px`;
+            bgMedia.style.height = `${boxH}px`;
+            bgMedia.style.transform = '';
         }
 
         canvas.width = boxW;

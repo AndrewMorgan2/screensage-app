@@ -54,6 +54,8 @@ class PreviewModule {
         const savedScale = localStorage.getItem(this.storageKey);
         if (savedScale) {
             this.previewScale = parseFloat(savedScale);
+        } else if (config.defaultPreviewScale) {
+            this.previewScale = config.defaultPreviewScale;
         } else {
             // Calculate scale to fit map within max preview dimensions
             const scaleX = this.maxPreviewWidth / this.mapWidth;
@@ -88,7 +90,7 @@ class PreviewModule {
      * @param {number} scale - Scale factor (0.1 to 2.0, where 1.0 = 100%)
      */
     setPreviewScale(scale) {
-        this.previewScale = Math.max(0.1, Math.min(5.0, scale));
+        this.previewScale = Math.max(0.05, Math.min(5.0, scale));
 
         // Save to localStorage for persistence
         localStorage.setItem(this.storageKey, this.previewScale.toString());

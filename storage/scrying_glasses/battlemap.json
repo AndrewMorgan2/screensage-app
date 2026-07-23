@@ -1,24 +1,11 @@
 {
   "background": {
     "height": 9100,
-    "src": "../Cze/Assets/Gridless/Gridless Part 1/GL_CathedralCrypt_Blue.jpg",
+    "src": "../content/Dungeons/Individual Rooms/The Forgotten Well/Animated/The Forgotten Well (Day Gridless).mp4",
     "type": "image",
     "width": 4340
   },
-  "elements": [
-    {
-      "collapsed": false,
-      "height": "100%",
-      "id": "draw_overlay",
-      "locked": true,
-      "opacity": 100,
-      "src": "/home/amorgan/Github/Upload/overlays/94b2ff3e-f448-4075-a743-76d00005cad0.png",
-      "type": "image",
-      "width": "100%",
-      "x": "0%",
-      "y": "0%"
-    }
-  ],
+  "elements": [],
   "fog": {
     "clearMode": true,
     "clearRadius": 140,
@@ -34,72 +21,7 @@
     "monitor": 1,
     "width": 1920
   },
-  "walls": [
-    {
-      "color": "#c0392b",
-      "id": "wall_mrxvpjcn_hl9i6",
-      "x1": 0.3789806547619048,
-      "x2": 0.3789806547619048,
-      "y1": 0.32863187588152326,
-      "y2": 0.4104372355430183
-    },
-    {
-      "color": "#c0392b",
-      "id": "wall_mrxvpluu_a9rwy",
-      "x1": 0.3789806547619048,
-      "x2": 0.4615203373015873,
-      "y1": 0.32863187588152326,
-      "y2": 0.3342736248236953
-    },
-    {
-      "color": "#c0392b",
-      "id": "wall_mrxvpnk6_08k1j",
-      "x1": 0.5019965277777778,
-      "x2": 0.5718377976190476,
-      "y1": 0.34132581100141046,
-      "y2": 0.3328631875881523
-    },
-    {
-      "color": "#c0392b",
-      "id": "wall_mrxvppc6_saewm",
-      "x1": 0.5718377976190476,
-      "x2": 0.5734250992063492,
-      "y1": 0.3328631875881523,
-      "y2": 0.42736248236953456
-    },
-    {
-      "color": "#c0392b",
-      "id": "wall_mrxvpqtr_cewf0",
-      "x1": 0.5718377976190476,
-      "x2": 0.5765997023809524,
-      "y1": 0.5853314527503526,
-      "y2": 0.6755994358251057
-    },
-    {
-      "color": "#c0392b",
-      "id": "wall_mrxvprni_t0q3u",
-      "x1": 0.5765997023809524,
-      "x2": 0.5027901785714286,
-      "y1": 0.6755994358251057,
-      "y2": 0.6600846262341326
-    },
-    {
-      "color": "#c0392b",
-      "id": "wall_mrxvpt3q_9stdz",
-      "x1": 0.4599330357142858,
-      "x2": 0.3750124007936508,
-      "y1": 0.6657263751763046,
-      "y2": 0.6713681241184767
-    },
-    {
-      "color": "#c0392b",
-      "id": "wall_mrxvptr2_qe30w",
-      "x1": 0.3750124007936508,
-      "x2": 0.37818700396825394,
-      "y1": 0.6713681241184767,
-      "y2": 0.5923836389280677
-    }
-  ],
+  "walls": [],
   "zoom": {
     "collapsed": false,
     "level": 1,

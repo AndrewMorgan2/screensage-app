@@ -318,13 +318,15 @@ The VTT preview includes a zoom control for the preview area.
 
 #### Scale Limits Per Tab
 
-Each tab has its own maximum scale setting:
+Each tab has its own min/max/default scale setting:
 
-| Tab | Min | Max | Notes |
-|---|---|---|---|
-| Battlemap (VTT) | 10% | 150% | Standard display scale |
-| Display | 10% | 150% | Mirrors Battlemap range |
-| SageSlate | 10% | 250% | Higher max for small e-ink canvas |
+| Tab | Min | Max | Default | Notes |
+|---|---|---|---|---|
+| Battlemap (VTT) | 5% | 150% | 30% | Fixed default (`defaultPreviewScale` in `vtt-main.js`) |
+| Display | 5% | 150% | 30% | Mirrors Battlemap range |
+| SageSlate | 10% | 250% | Fits canvas to preview area | Higher max for small e-ink canvas; no fixed default, still computed to fit |
+
+Double-clicking the slider resets to that tab's default.
 
 #### Controls
 

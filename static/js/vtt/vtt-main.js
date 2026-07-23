@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
         defaultMapHeight: 1080,
         maxPreviewWidth: 1920,
         maxPreviewHeight: 1080,
+        defaultPreviewScale: 0.3,
         defaultConfig: './storage/scrying_glasses/battlemap.json',
         defaultFilename: 'battlemap.json',
         moduleName: 'VTT',
