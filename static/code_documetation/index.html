@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../images/new_logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -366,6 +366,60 @@
   
   
     <li class="md-nav__item">
+      <a href="../../KINDLE_JAILBREAK/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kindle Jailbreak & Setup Runbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KOREADER_KINDLE_PLUGIN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KOReader Plugin for Kindle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../src/code_documentation/" class="md-nav__link">
         
   
@@ -499,6 +553,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#walls-doors-wallswalls-mainjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Walls &amp; Doors (walls/walls-main.js)
+      
+    </span>
+  </a>
   
 </li>
       
@@ -685,6 +750,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#walls-doors-wallswalls-mainjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Walls &amp; Doors (walls/walls-main.js)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#battle-tracker" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -789,6 +865,10 @@
 <td>Drag-and-drop repositioning of elements</td>
 </tr>
 <tr>
+<td><code>walls/walls-main.js</code></td>
+<td>Walls tab — draws wall segments over the active battlemap</td>
+</tr>
+<tr>
 <td><code>battle-main.js</code></td>
 <td>Battle tracker entry point</td>
 </tr>
@@ -849,6 +929,13 @@
 <p><strong>Coordinate formats:</strong> All three are supported — absolute pixels (<code>100</code>), percentage strings (<code>"50%"</code>), and relative floats (<code>0.5</code>). The preview module handles conversion.</p>
 <h3 id="supported-element-types">Supported Element Types<a class="headerlink" href="#supported-element-types" title="Permanent link">&para;</a></h3>
 <p>Token, Area, Text, Image, Video, GIF, SVG, Line, Cone. Each has a corresponding control template and preview renderer.</p>
+<hr />
+<h2 id="walls-doors-wallswalls-mainjs">Walls &amp; Doors (<code>walls/walls-main.js</code>)<a class="headerlink" href="#walls-doors-wallswalls-mainjs" title="Permanent link">&para;</a></h2>
+<p>The Walls tab is intentionally standalone — it doesn't use <code>vtt-controls-module.js</code>, <code>vtt-draggable-module.js</code>, <code>vtt-element-types.js</code>, or <code>vtt-preview-module.js</code>'s scale math. It's a single self-initializing IIFE that only depends on the generic <code>/json/read</code>, <code>/json/save</code>, and <code>/api/images/view</code> endpoints.</p>
+<p><strong>Always edits the active battlemap:</strong> on load it fetches <code>storage/scrying_glasses/battlemap.json</code> directly (no file picker) and every mutation (place/delete/recolor a segment, clear all) immediately POSTs the whole config back via <code>/json/save</code> — same file, autosaved. This exists specifically so walls drawn here are guaranteed to be the ones ScryingGlass is actually reading; an earlier version let you pick any saved config, which meant walls could silently end up in a file the live display never loads.</p>
+<p><strong>Rendering:</strong> a <code>&lt;canvas&gt;</code> overlay sits on top of a plain <code>&lt;img&gt;</code> background. Wall coordinates are stored as <strong>fractions (0–1)</strong> of the map box rather than absolute pixels, so they stay correct across window resize/zoom without tracking scale factors. If the background art is portrait, the page mirrors ScryingGlass's own auto-rotation logic (<code>load_config()</code>/<code>create_window()</code> in <code>display_engine_pyglet.py</code>) — reading <code>screen.width/height</code> and <code>background.width/height</code> to decide whether to rotate the preview 90°, so wall coordinates are authored in the same frame the live display actually uses.</p>
+<p><strong>Interaction:</strong> click-to-place chained segments (each click after the first commits a segment and starts the next from that point), with endpoint snapping so walls connect at corners. Select/Delete mode picks the nearest segment via point-to-segment distance. There's no "door" element type — deleting a segment is how you open a gap.</p>
+<p><strong>Data model:</strong> <code>jsonData.walls = [{ id, x1, y1, x2, y2, color }]</code>, coexisting with <code>elements</code> and <code>fog</code> as a sibling top-level key.</p>
 <hr />
 <h2 id="battle-tracker">Battle Tracker<a class="headerlink" href="#battle-tracker" title="Permanent link">&para;</a></h2>
 <p>The tracker is split into four collaborating objects:</p>
@@ -984,7 +1071,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

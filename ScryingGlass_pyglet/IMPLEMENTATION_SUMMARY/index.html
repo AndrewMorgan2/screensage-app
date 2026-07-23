@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../images/new_logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -366,6 +366,60 @@
   
   
     <li class="md-nav__item">
+      <a href="../../KINDLE_JAILBREAK/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kindle Jailbreak & Setup Runbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KOREADER_KINDLE_PLUGIN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KOReader Plugin for Kindle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../src/code_documentation/" class="md-nav__link">
         
   
@@ -543,6 +597,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Fog of War (fog_manager_pyglet.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#walls-configwalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Walls (config['walls'])
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legacy-wall-shadows-iswall-flagged-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy wall shadows (isWall-flagged elements)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multitouch-input-touch_inputpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multitouch Input (touch_input.py)
+      
+    </span>
+  </a>
+  
 </li>
       
         <li class="md-nav__item">
@@ -692,6 +785,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Fog of War (fog_manager_pyglet.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#walls-configwalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Walls (config['walls'])
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legacy-wall-shadows-iswall-flagged-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy wall shadows (isWall-flagged elements)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multitouch-input-touch_inputpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multitouch Input (touch_input.py)
+      
+    </span>
+  </a>
+  
 </li>
       
         <li class="md-nav__item">
@@ -762,6 +894,10 @@
 <td><code>fog_manager_pyglet.py</code></td>
 <td>Fog of war system (~485 lines)</td>
 </tr>
+<tr>
+<td><code>touch_input.py</code></td>
+<td>Raw multitouch input via evdev, independent of Pyglet's mouse events</td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -827,6 +963,11 @@
 <td>Custom polygon</td>
 <td>Sector shape for spell effects</td>
 </tr>
+<tr>
+<td>Wall segment (<code>config['walls']</code>)</td>
+<td><code>pyglet.shapes.Line</code></td>
+<td>Loaded separately by <code>load_walls()</code>, not part of <code>elements</code> — see <a href="#walls-configwalls">Walls</a> below</td>
+</tr>
 </tbody>
 </table>
 <p>Positions and sizes accept absolute pixels, percentage strings (<code>"50%"</code>), or relative floats (<code>0.5</code>).</p>
@@ -842,14 +983,36 @@
 <p>Fog clearing is done in <strong>world space</strong> (before the transform) so it stays accurate when zoomed.</p>
 <hr />
 <h2 id="fog-of-war-fog_manager_pygletpy">Fog of War (<code>fog_manager_pyglet.py</code>)<a class="headerlink" href="#fog-of-war-fog_manager_pygletpy" title="Permanent link">&para;</a></h2>
-<p>The fog is a coloured overlay that covers the whole scene. Players click to "clear" areas, revealing what's underneath.</p>
+<p>The fog is a coloured overlay that covers the whole scene. Clicking/dragging on the map "clears" a circular area, revealing what's underneath.</p>
 <p><strong>How clearing works:</strong>
-1. Click coordinates are converted from screen space → world space
-2. A circle polygon is subtracted from the fog shape using <code>pyclipper</code> (falls back to simple ops if not installed)
-3. The resulting cleared polygons are stored in the JSON config and persisted across reloads</p>
-<p><strong>Wall shadows:</strong> If walls are defined in the config, the fog manager casts shadow polygons behind them using line-of-sight geometry. Areas behind walls stay fogged even if the surrounding area is cleared.</p>
-<p><strong>Rendering:</strong> The fog uses the OpenGL <strong>stencil buffer</strong> — cleared polygons are written to the stencil, and the fog overlay is only drawn where the stencil is not set. This gives pixel-perfect transparency with no texture overhead.</p>
-<p>Keyboard shortcut: <code>C</code> clears all fog. <code>R</code> manually reloads the config.</p>
+1. Click/touch coordinates are converted from screen space → world space via <code>_screen_to_world()</code> (accounts for zoom/pan). This is Pyglet-native space: bottom-left origin, y increasing upward.
+2. A 32-point circle polygon is generated around that point.
+3. Two independent wall-blocking passes run against it (see below).
+4. The resulting polygon is <strong>merged into <code>fog_cleared_areas</code></strong> via <code>_merge_and_store_area()</code> — unioned (using <code>pyclipper</code>) with any existing revealed area whose bounding box overlaps it, rather than simply appended.</p>
+<p><strong>Why merge instead of append:</strong> <code>fog_cleared_areas</code> used to be a <code>deque(maxlen=2000)</code> — every touch/drag appended a brand-new circle, and once the cap was hit, the <em>oldest</em> revealed areas were silently evicted (they'd re-fog). With multitouch, several simultaneous drags can each add a new circle every frame, so that cap was reached almost immediately in real play. Merging overlapping areas together means a continuously-dragged reveal collapses into a handful of polygons instead of one per touch event — e.g. 300 small overlapping touches along a dragged path merge into a single polygon — so revealed areas are permanent for the session (no eviction) <em>and</em> the per-frame redraw cost stays proportional to the number of distinct revealed regions, not the number of touches that ever happened. <code>MAX_FOG_CLEARED_AREAS</code> is now just a last-resort safety cap on genuinely disjoint regions, not a rolling window.</p>
+<p>Note there's currently no on-disk persistence of <code>clear_polygons</code> at all (despite what <code>FEATURES.md</code>'s config reference implies) — revealed fog is session-only in memory and resets when the display engine process restarts.</p>
+<p><strong>Rendering:</strong> The fog uses the OpenGL <strong>stencil buffer</strong> — cleared-area polygons are written to the stencil via <code>_rebuild_stencil_batch()</code>, and the fog overlay is only drawn where the stencil is not set. Each polygon is rendered with <code>pyglet.shapes.Polygon</code> (which triangulates via ear-clipping), so concave shapes carved out by walls render correctly — an earlier version of this function approximated each cleared area with a bounding circle instead, which silently discarded any wall clipping (the circle around a wall-clipped polygon is roughly the same size as an unclipped one).</p>
+<h3 id="walls-configwalls">Walls (<code>config['walls']</code>)<a class="headerlink" href="#walls-configwalls" title="Permanent link">&para;</a></h3>
+<p>Segments drawn on the browser's <a href="../../FEATURES/#walls--doors">Walls page</a> are a separate, simpler mechanism from the legacy <code>isWall</code>-flagged-element shadow casting below — no shadow polygons, no <code>pyclipper</code>.</p>
+<ul>
+<li><code>load_walls()</code> (in <code>display_engine_pyglet.py</code>) draws each segment as a visible <code>pyglet.shapes.Line</code>, added to <code>self.wall_shapes</code> and cleaned up/recreated on every config reload alongside <code>load_elements()</code>.</li>
+<li><code>FogManagerPyglet._gather_wall_segments_px()</code> converts each <code>{x1,y1,x2,y2}</code> fraction (0–1 of the screen) into Pyglet-native pixel coordinates — critically, <strong>flipped the same way <code>load_walls()</code> flips them for rendering</strong> (<code>y_px = window_height - frac_y * window_height</code>), so the invisible fog-blocking geometry matches where the wall is actually drawn. <code>config['elements']</code> raw x/y are left un-flipped by contrast (web/top-left convention) — a pre-existing inconsistency in the older <code>isWall</code> mechanism, not touched here.</li>
+<li><code>FogManagerPyglet._clip_polygon_by_walls()</code> does the actual blocking: for every point on the fog-clear circle, cast a ray back to the light/touch position (<code>_ray_segment_intersection_t()</code>); if it crosses a wall segment, pull that point back to the crossing instead of its original position. This is a direct "is this point on the other side of a wall from the light" visibility test — no shadow-silhouette computation, no polygon boolean subtraction.</li>
+</ul>
+<h3 id="legacy-wall-shadows-iswall-flagged-elements">Legacy wall shadows (<code>isWall</code>-flagged elements)<a class="headerlink" href="#legacy-wall-shadows-iswall-flagged-elements" title="Permanent link">&para;</a></h3>
+<p>Any regular <code>elements</code> entry (area, line, token, image) with <code>isWall: true</code> and not <code>invisible</code> is treated as an opaque occluder by the older mechanism: <code>_get_wall_solid_polygon()</code> subtracts the element's own footprint from the clear circle, then <code>_calculate_shadow_polygon()</code> projects a shadow polygon from it and subtracts that too, using <code>pyclipper</code> for the polygon boolean ops (falls back to a much cruder simplified subtraction if <code>pyclipper</code> isn't installed — see Dependencies below).</p>
+<p>Keyboard shortcuts: <code>R</code> reloads the config (picks up wall/fog changes). See <a href="../#debug-overlays">Debug Overlays</a> (<code>W</code> to toggle, <code>C</code> to clear markers) for visually confirming click/wall alignment — off by default, since wall lines and touch markers are debugging aids, not something players should see during play.</p>
+<hr />
+<h2 id="multitouch-input-touch_inputpy">Multitouch Input (<code>touch_input.py</code>)<a class="headerlink" href="#multitouch-input-touch_inputpy" title="Permanent link">&para;</a></h2>
+<p>Pyglet's window only ever exposes a single OS-emulated mouse pointer (<code>on_mouse_press</code>/<code>on_mouse_drag</code>/<code>on_mouse_release</code>) — X11/Wayland collapse all simultaneous touches down to that one pointer regardless of what the touch hardware itself reports. For a touch-table setup where multiple minis or fingers can be on the board at once, that meant a second contact while the first was still down was simply invisible to the app.</p>
+<p><code>touch_input.MultiTouchReader</code> reads the touch device directly via <code>evdev</code> (Linux multitouch <strong>Protocol B</strong>: <code>ABS_MT_SLOT</code> selects which contact subsequent <code>ABS_MT_*</code> events apply to; <code>ABS_MT_TRACKING_ID</code> assigns/releases a stable id per contact), on a background thread, entirely independent of Pyglet's mouse events:</p>
+<ul>
+<li><code>find_touchscreen_device()</code> auto-detects a suitable device from <code>evdev.list_devices()</code> — name must suggest a touchscreen and <em>not</em> a trackpad (laptop trackpads also report <code>ABS_MT_SLOT</code>), and must have both <code>ABS_MT_SLOT</code> and <code>ABS_MT_TRACKING_ID</code> capability.</li>
+<li>The reader thread pushes <code>('down'|'move'|'up', touch_id, raw_x, raw_y)</code> tuples into a thread-safe queue; <code>PygletDisplayEngine._process_touch_events()</code> drains it once per frame (from <code>update()</code>, the main/GL thread) and feeds each contact into <code>fog_manager.handle_mouse_click()</code> independently — <code>handle_mouse_click()</code> is used for both down <em>and</em> move (not <code>handle_mouse_motion()</code>, which gates on a single global <code>mouse_dragging</code> flag that can't represent "N touches, only some of them currently down").</li>
+<li><code>MultiTouchReader.normalize()</code> converts the device's raw coordinate range (queried from its own <code>ABS_MT_POSITION_X/Y</code> capabilities, not assumed to match the window resolution) into Pyglet window pixel space, flipping y the same way <code>load_walls()</code> and <code>_gather_wall_segments_px()</code> do.</li>
+<li>Each touch gets its own persistent numbered <a href="../#debug-overlays">debug marker</a> for its whole lifetime (namespaced separately from the single mouse pointer's marker), so simultaneous contacts are each visually distinguishable when debug overlays are on.</li>
+</ul>
+<p>Falls back cleanly to mouse-only input if no touchscreen is found or <code>evdev</code> isn't installed (<code>MultiTouchReader.available</code> is <code>False</code>; nothing else in the engine needs to know).</p>
 <hr />
 <h2 id="live-config-reload">Live Config Reload<a class="headerlink" href="#live-config-reload" title="Permanent link">&para;</a></h2>
 <p><code>watchdog</code> monitors the JSON file. On any file change event:</p>
@@ -878,8 +1041,16 @@
 <td>File system monitoring</td>
 </tr>
 <tr>
+<td><code>Pillow</code></td>
+<td>Image handling</td>
+</tr>
+<tr>
 <td><code>pyclipper</code></td>
-<td>Precise polygon subtraction for fog (optional)</td>
+<td>Polygon boolean ops: subtraction for the legacy <code>isWall</code>-element shadow casting, and union for merging overlapping revealed fog areas together (<code>_merge_and_store_area</code>). Without it, both fall back to cruder behavior — shadows barely block anything, and revealed areas can't merge (so long sessions grow one polygon per touch instead of one per distinct region). It was missing from <code>requirements.txt</code> for a long time; now required. The <code>config['walls']</code> ray-clipping mechanism itself doesn't need it.</td>
+</tr>
+<tr>
+<td><code>evdev</code></td>
+<td>Reads the touch device directly for real multitouch support — see <a href="#multitouch-input-touch_inputpy">Multitouch Input</a>. Linux-only; without it, <code>touch_input.MultiTouchReader.available</code> is <code>False</code> and the engine falls back to single-pointer mouse input.</td>
 </tr>
 </tbody>
 </table>
@@ -945,7 +1116,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../images/new_logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -489,10 +489,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#mouse" class="md-nav__link">
+  <a href="#mouse-touch" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Mouse
+        Mouse / Touch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debug-overlays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Debug Overlays
       
     </span>
   </a>
@@ -732,6 +743,60 @@
     
   
     SageSlate E-Ink Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KINDLE_JAILBREAK/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kindle Jailbreak & Setup Runbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KOREADER_KINDLE_PLUGIN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KOReader Plugin for Kindle
   
 
     
@@ -996,10 +1061,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#mouse" class="md-nav__link">
+  <a href="#mouse-touch" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Mouse
+        Mouse / Touch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debug-overlays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Debug Overlays
       
     </span>
   </a>
@@ -1331,7 +1407,7 @@
 <li>Background videos</li>
 <li>Animated GIFs</li>
 <li>Shape elements (tokens, areas, lines, cones)</li>
-<li>Fog of War (with wall shadows)</li>
+<li>Fog of War (wall-blocked reveal, see <a href="../FEATURES/#walls--doors">Walls &amp; Doors</a>)</li>
 <li>Live config reloading</li>
 <li><strong>Zoom and Pan controls</strong></li>
 </ul>
@@ -1344,18 +1420,22 @@
 <h3 id="keyboard">Keyboard<a class="headerlink" href="#keyboard" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>ESC</strong> or <strong>Q</strong>: Quit application</li>
-<li><strong>R</strong>: Reload configuration</li>
+<li><strong>R</strong>: Reload configuration from disk</li>
 <li><strong>F11</strong>: Toggle fullscreen</li>
-<li><strong>C</strong>: Clear all fog</li>
-<li><strong>H</strong> or <strong>HOME</strong>: Reset view (zoom and pan)</li>
-<li><strong>+/-</strong>: Zoom in/out at center</li>
+<li><strong>D</strong>: Toggle debug mode (periodic stats reports in the log/console)</li>
+<li><strong>P</strong>: Print a debug report now</li>
+<li><strong>G</strong>: Force garbage collection</li>
+<li><strong>W</strong>: Toggle debug overlays — visible wall lines + numbered touch markers (see <a href="#debug-overlays">Debug Overlays</a> below). <strong>Off by default.</strong></li>
+<li><strong>C</strong>: Clear debug touch markers</li>
 </ul>
-<h3 id="mouse">Mouse<a class="headerlink" href="#mouse" title="Permanent link">&para;</a></h3>
+<p>Zoom and pan are controlled entirely through the config's <code>zoom</code> block (<code>level</code>, <code>panX</code>, <code>panY</code>), not live keyboard/mouse input.</p>
+<h3 id="mouse-touch">Mouse / Touch<a class="headerlink" href="#mouse-touch" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Left Click/Drag</strong>: Clear fog at cursor (if fog enabled)</li>
-<li><strong>Right Click/Drag</strong>: Pan the view</li>
-<li><strong>Mouse Wheel</strong>: Zoom in/out at cursor</li>
+<li><strong>Left Click/Drag</strong>: Clear fog at cursor (if fog enabled) — also blocked by any walls in <code>config['walls']</code> or <code>isWall</code>-flagged elements</li>
+<li>If a supported touchscreen is connected, every simultaneous contact is tracked independently (not just one OS mouse pointer) — see <a href="IMPLEMENTATION_SUMMARY/#multitouch-input-touch_inputpy">Multitouch Input</a> for hardware requirements.</li>
 </ul>
+<h3 id="debug-overlays">Debug Overlays<a class="headerlink" href="#debug-overlays" title="Permanent link">&para;</a></h3>
+<p>Off by default — press <strong>W</strong> to turn on. When enabled: wall segments from <code>config['walls']</code> are drawn as visible colored lines (normally invisible; they always block fog regardless of this toggle), and every click/drag/touch draws a numbered yellow circle at the exact world-space point being used for fog clearing — the same coordinate space walls are checked against. This is the fastest way to confirm a touch is landing where you expect relative to drawn walls: draw a wall on the <a href="../FEATURES/#walls--doors">Walls page</a>, reload (<code>R</code>), press <strong>W</strong>, then tap around it and watch whether the fog stops exactly where the numbered marker crosses the wall line. Markers persist (last 20) until cleared with <strong>C</strong>.</p>
 <h2 id="transparent-webm-videos">Transparent WebM Videos<a class="headerlink" href="#transparent-webm-videos" title="Permanent link">&para;</a></h2>
 <h3 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h3>
 <p>Pyglet uses <strong>FFmpeg</strong> internally via <code>pyglet.media</code>, which natively supports WebM alpha channels:</p>
@@ -1536,7 +1616,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

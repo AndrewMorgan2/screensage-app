@@ -11,7 +11,7 @@
       
       
       
-        <link rel="prev" href="../../SAGESLATE_HARDWARE/">
+        <link rel="prev" href="../../KOREADER_KINDLE_PLUGIN/">
       
       
         <link rel="next" href="../../static/code_documetation/">
@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../images/new_logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -347,6 +347,60 @@
     
   
     SageSlate E-Ink Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KINDLE_JAILBREAK/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kindle Jailbreak & Setup Runbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KOREADER_KINDLE_PLUGIN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KOReader Plugin for Kindle
   
 
     
@@ -869,6 +923,10 @@
 <td>Serves the Display page</td>
 </tr>
 <tr>
+<td><code>walls_handler.rs</code></td>
+<td>Serves the Walls page (<code>/walls</code>) — see <a href="../../FEATURES/#walls--doors">Walls &amp; Doors</a></td>
+</tr>
+<tr>
 <td><code>commands.rs</code></td>
 <td>Predefined shell commands (start/stop screens etc.)</td>
 </tr>
@@ -894,7 +952,7 @@
 </ul>
 <p>This is how the Command Centre tab works — every button is a predefined command sent to <code>/run/{id}</code>.</p>
 <h3 id="json-config-json_handlersrs">JSON Config (<code>json_handlers.rs</code>)<a class="headerlink" href="#json-config-json_handlersrs" title="Permanent link">&para;</a></h3>
-<p><code>GET /json/read?path=...</code> and <code>POST /json/save</code> read and write JSON files anywhere on the filesystem. The VTT editor uses these to load a scene config, let you edit it in the browser, then write it back — which ScryingGlass picks up via its file watcher.</p>
+<p><code>GET /json/read?path=...</code> and <code>POST /json/save</code> read and write JSON files anywhere on the filesystem. The VTT editor uses these to load a scene config, let you edit it in the browser, then write it back — which ScryingGlass picks up via its file watcher. The Walls page (<code>static/js/walls/walls-main.js</code>) uses the same two endpoints but always with a hardcoded path (<code>storage/scrying_glasses/battlemap.json</code>) rather than a user-picked file, so walls drawn there are always editing the config the running display actually reads.</p>
 <h3 id="media-image_handlersrs">Media (<code>image_handlers.rs</code>)<a class="headerlink" href="#media-image_handlersrs" title="Permanent link">&para;</a></h3>
 <p><code>GET /api/images/list?path=...</code> returns directory contents filtered to supported media types (jpg, png, gif, webp, mp4, webm, etc.), sorted with folders first.</p>
 <p><code>GET /api/images/serve?path=...</code> reads the file and returns it with the correct MIME type. This is how the browser plays videos or shows images that live outside the static folder.</p>
@@ -1048,7 +1106,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
