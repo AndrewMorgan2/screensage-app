@@ -2766,37 +2766,42 @@
 <h3 id="preview-scale">Preview Scale<a class="headerlink" href="#preview-scale" title="Permanent link">&para;</a></h3>
 <p>The VTT preview includes a zoom control for the preview area.</p>
 <h4 id="scale-limits-per-tab">Scale Limits Per Tab<a class="headerlink" href="#scale-limits-per-tab" title="Permanent link">&para;</a></h4>
-<p>Each tab has its own maximum scale setting:</p>
+<p>Each tab has its own min/max/default scale setting:</p>
 <table>
 <thead>
 <tr>
 <th>Tab</th>
 <th>Min</th>
 <th>Max</th>
+<th>Default</th>
 <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Battlemap (VTT)</td>
-<td>10%</td>
+<td>5%</td>
 <td>150%</td>
-<td>Standard display scale</td>
+<td>30%</td>
+<td>Fixed default (<code>defaultPreviewScale</code> in <code>vtt-main.js</code>)</td>
 </tr>
 <tr>
 <td>Display</td>
-<td>10%</td>
+<td>5%</td>
 <td>150%</td>
+<td>30%</td>
 <td>Mirrors Battlemap range</td>
 </tr>
 <tr>
 <td>SageSlate</td>
 <td>10%</td>
 <td>250%</td>
-<td>Higher max for small e-ink canvas</td>
+<td>Fits canvas to preview area</td>
+<td>Higher max for small e-ink canvas; no fixed default, still computed to fit</td>
 </tr>
 </tbody>
 </table>
+<p>Double-clicking the slider resets to that tab's default.</p>
 <h4 id="controls">Controls<a class="headerlink" href="#controls" title="Permanent link">&para;</a></h4>
 <ul>
 <li><strong>Slider</strong>: Drag to adjust scale within the tab's range</li>
