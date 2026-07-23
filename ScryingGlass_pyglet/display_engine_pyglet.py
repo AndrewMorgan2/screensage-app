@@ -25,7 +25,7 @@ import traceback as tb
 from typing import Optional
 
 import pyglet
-from pyglet import gl
+from pyglet import gl, shapes
 from pyglet.window import Window
 from pyglet.media import Player, load as media_load
 
@@ -41,6 +41,7 @@ from config_handler import start_file_watcher, stop_file_watcher
 from element_loaders import ElementLoaderMixin
 from parsing_utils import parse_color, get_optimal_video_path
 from fog_manager_pyglet import FogManagerPyglet, MAX_FOG_CLEARED_AREAS
+from touch_input import MultiTouchReader
 
 
 class PygletDisplayEngine(ElementLoaderMixin):
@@ -74,6 +75,19 @@ class PygletDisplayEngine(ElementLoaderMixin):
         self.video_players = {}  # id -> (player, source)
         self.shapes = {}    # id -> shape objects
         self.animations = {}  # id -> animated sprites
+        self.wall_shapes = {}  # id -> Line shape for config['walls'] segments (visible only in debug overlay mode)
+
+        # Debug overlay: visible wall lines + numbered touch markers. Off by
+        # default - wall segments still block fog regardless of this (that's
+        # handled independently in fog_manager_pyglet.py), this only controls
+        # whether they're drawn. Toggle with W.
+        self.show_debug_overlays = False
+
+        # Debug touch markers: numbered circles showing where clicks/drags land,
+        # in the same world-space coords fog/wall shadow-casting uses - lets you
+        # visually confirm touch position lines up with where walls actually are.
+        self.debug_touch_markers = []  # [{'x','y','n'}, ...]
+        self._debug_touch_counter = 0
 
         # Background
         self.background_video = None
@@ -129,6 +143,17 @@ class PygletDisplayEngine(ElementLoaderMixin):
         # Create window
         self.create_window()
 
+        # Start raw multitouch input, if a suitable touchscreen is connected.
+        # This runs independently of Pyglet's single OS-mouse-pointer events,
+        # so multiple simultaneous contacts (e.g. two minis placed down close
+        # together) are each tracked individually instead of only the first
+        # one being seen.
+        self.touch_reader = MultiTouchReader()
+        if self.touch_reader.available:
+            self.touch_reader.start()
+        else:
+            logger.info("No multitouch touchscreen detected - mouse-only input")
+
         # Set up OpenGL
         self.setup_opengl()
 
@@ -137,6 +162,9 @@ class PygletDisplayEngine(ElementLoaderMixin):
 
         # Load elements
         self.load_elements()
+
+        # Load wall segments (visible debug lines + fog shadow-casting geometry)
+        self.load_walls()
 
         # Start file watcher for live reload
         self.file_observer = start_file_watcher(self, self.config_path)
@@ -501,6 +529,38 @@ class PygletDisplayEngine(ElementLoaderMixin):
             self.background_color = background
             print(f"✓ Using background color: {background}")
 
+    def load_walls(self):
+        """
+        Build Line shapes for wall segments authored on the standalone Walls
+        page (config['walls']) - only actually drawn (added to self.batch)
+        while show_debug_overlays is on, since normally walls should be
+        invisible and only affect fog (handled independently in
+        fog_manager_pyglet.py, regardless of this toggle). Coordinates are
+        fractions (0-1) of the screen, scaled by the window's own pixel size;
+        y is flipped the same way load_line_element() does (Pyglet:
+        bottom-left origin, Web: top-left origin).
+        """
+        window_width = self.window.width
+        window_height = self.window.height
+        batch = self.batch if self.show_debug_overlays else None
+
+        for i, seg in enumerate(self.config.get('walls', [])):
+            wall_id = seg.get('id', f'wall_{i}')
+            try:
+                x1 = seg.get('x1', 0) * window_width
+                y1 = window_height - (seg.get('y1', 0) * window_height)
+                x2 = seg.get('x2', 0) * window_width
+                y2 = window_height - (seg.get('y2', 0) * window_height)
+                color = parse_color(seg.get('color', '#c0392b'))
+
+                line = shapes.Line(x1, y1, x2, y2, 3, color=color[:3], batch=batch)
+                self.wall_shapes[wall_id] = line
+            except Exception as e:
+                print(f"Error loading wall segment {wall_id}: {e}")
+
+        if self.wall_shapes:
+            print(f"✓ Loaded {len(self.wall_shapes)} wall segment(s)")
+
     def reload_config(self):
         """Reload configuration and elements with thread safety."""
         logger.info("=" * 40)
@@ -572,6 +632,15 @@ class PygletDisplayEngine(ElementLoaderMixin):
                             logger.warning(f"Error deleting shape: {e}")
                 self.shapes.clear()
 
+                logger.debug(f"Cleaning up {len(self.wall_shapes)} wall shapes...")
+                for line in self.wall_shapes.values():
+                    if hasattr(line, 'delete'):
+                        try:
+                            line.delete()
+                        except Exception as e:
+                            logger.warning(f"Error deleting wall shape: {e}")
+                self.wall_shapes.clear()
+
                 logger.debug(f"Cleaning up {animations_before} animations...")
                 self.animations.clear()
 
@@ -612,6 +681,9 @@ class PygletDisplayEngine(ElementLoaderMixin):
 
                 # Reload elements
                 self.load_elements()
+
+                # Reload wall segments
+                self.load_walls()
 
                 reload_duration = time.time() - reload_start
                 logger.info(f"Configuration reloaded successfully in {reload_duration*1000:.1f}ms")
@@ -793,9 +865,39 @@ class PygletDisplayEngine(ElementLoaderMixin):
             if self.fog_manager:
                 self.fog_manager.draw_fog_overlay(self.config)
 
+            # Draw debug touch markers (numbered circles at click/drag world
+            # positions) - same space fog/wall shadow-casting uses, so these
+            # can be compared directly against where wall lines are drawn.
+            if self.show_debug_overlays and self.debug_touch_markers:
+                self._draw_debug_touch_markers()
+
         except Exception as e:
             stack_trace = tb.format_exc()
             debug_stats.record_error("DRAW_ERROR", str(e), stack_trace)
+
+    def _draw_debug_touch_markers(self):
+        """Draw each recorded touch marker as a filled circle with its number."""
+        for marker in self.debug_touch_markers:
+            x, y, n = marker['x'], marker['y'], marker['n']
+
+            circle = shapes.Circle(x, y, 22, color=(255, 230, 0))
+            circle.opacity = 180
+            circle.draw()
+
+            # Thin dark ring so the fill is still legible against bright backgrounds
+            ring = shapes.Arc(x, y, 22, color=(0, 0, 0), thickness=2)
+            ring.opacity = 220
+            ring.draw()
+
+            label = pyglet.text.Label(
+                str(n),
+                font_size=16,
+                weight='bold',
+                x=x, y=y,
+                anchor_x='center', anchor_y='center',
+                color=(0, 0, 0, 255)
+            )
+            label.draw()
 
     def on_close(self):
         """Handle window close event with final debug report."""
@@ -809,6 +911,9 @@ class PygletDisplayEngine(ElementLoaderMixin):
         print(final_report)
 
         self.running = False
+
+        logger.debug("Stopping touch reader...")
+        self.touch_reader.stop()
 
         logger.debug("Stopping file watcher...")
         stop_file_watcher(self.file_observer)
@@ -858,6 +963,16 @@ class PygletDisplayEngine(ElementLoaderMixin):
             report = debug_stats.generate_report(self)
             print(report)
             logger.info("Debug report printed (press P)")
+        elif symbol == pyglet.window.key.C:
+            self.debug_touch_markers.clear()
+            logger.info("Cleared debug touch markers (press C)")
+        elif symbol == pyglet.window.key.W:
+            self.show_debug_overlays = not self.show_debug_overlays
+            batch = self.batch if self.show_debug_overlays else None
+            for line in self.wall_shapes.values():
+                line.batch = batch
+            logger.info(f"Debug overlays (wall lines + touch markers) "
+                       f"{'ON' if self.show_debug_overlays else 'OFF'} (press W)")
         elif symbol == pyglet.window.key.G:
             gc_start = time.time()
             collected = gc.collect()
@@ -871,6 +986,7 @@ class PygletDisplayEngine(ElementLoaderMixin):
                 # Convert screen coordinates to world coordinates if zoomed/panned
                 world_x, world_y = self._screen_to_world(x, y)
                 logger.debug(f"Mouse press at screen ({x}, {y}) -> world ({world_x:.0f}, {world_y:.0f})")
+                self._add_debug_touch_marker('mouse', world_x, world_y)
                 self.fog_manager.handle_mouse_click((world_x, world_y), self.config)
                 self.fog_manager.start_dragging()
 
@@ -879,7 +995,29 @@ class PygletDisplayEngine(ElementLoaderMixin):
         if buttons & pyglet.window.mouse.LEFT:
             if self.fog_manager and self.config:
                 world_x, world_y = self._screen_to_world(x, y)
+                self._add_debug_touch_marker('mouse', world_x, world_y)
                 self.fog_manager.handle_mouse_motion((world_x, world_y), self.config)
+
+    def _add_debug_touch_marker(self, touch_id, world_x, world_y):
+        """
+        Add or update the numbered debug marker for a given contact id (the
+        single OS mouse pointer, or one of possibly several simultaneous
+        touches). Each id keeps the same number for its whole down->move->up
+        lifetime instead of spawning a new marker every frame it moves.
+        """
+        for marker in self.debug_touch_markers:
+            if marker.get('touch_id') == touch_id:
+                marker['x'] = world_x
+                marker['y'] = world_y
+                return
+
+        self._debug_touch_counter += 1
+        self.debug_touch_markers.append({
+            'x': world_x, 'y': world_y, 'n': self._debug_touch_counter, 'touch_id': touch_id
+        })
+        # Keep only the most recent markers so this can't grow unbounded
+        if len(self.debug_touch_markers) > 20:
+            self.debug_touch_markers.pop(0)
 
     def on_mouse_release(self, x, y, button, modifiers):
         """Handle mouse release events."""
@@ -923,6 +1061,31 @@ class PygletDisplayEngine(ElementLoaderMixin):
         except Exception as e:
             logger.warning(f"Could not reset clearReset flag: {e}")
 
+    def _process_touch_events(self):
+        """
+        Drain queued raw touch events (from touch_input.MultiTouchReader, if a
+        touchscreen is connected) and feed each independently into fog
+        clearing - unlike the single OS mouse pointer, every simultaneous
+        contact is tracked by its own id, so a second mini placed down while
+        the first is still touching is handled as its own event, not lost.
+        """
+        if not self.touch_reader.available or not self.fog_manager or not self.config:
+            return
+
+        for kind, touch_id, raw_x, raw_y in self.touch_reader.drain_events():
+            if kind == 'up':
+                continue
+
+            px, py = self.touch_reader.normalize(raw_x, raw_y, self.window.width, self.window.height)
+            world_x, world_y = self._screen_to_world(px, py)
+
+            self._add_debug_touch_marker(('touch', touch_id), world_x, world_y)
+            # handle_mouse_click() (not handle_mouse_motion()) is used for both
+            # down and move: it doesn't gate on FogManager's single global
+            # mouse_dragging flag, which can't correctly represent "N touches,
+            # some down and some not" at once.
+            self.fog_manager.handle_mouse_click((world_x, world_y), self.config)
+
     def update(self, dt):
         """Update function called every frame."""
         try:
@@ -931,6 +1094,8 @@ class PygletDisplayEngine(ElementLoaderMixin):
             if self.needs_reload:
                 self.needs_reload = False
                 self.reload_config()
+
+            self._process_touch_events()
 
             if self.fog_manager:
                 clear_result = self.fog_manager.check_and_handle_clear_flag(self.config)
@@ -978,6 +1143,8 @@ class PygletDisplayEngine(ElementLoaderMixin):
         print("   D      - Toggle debug mode (periodic reports)")
         print("   P      - Print debug report now")
         print("   G      - Force garbage collection")
+        print("   W      - Toggle debug overlays (visible wall lines + numbered touch markers, off by default)")
+        print("   C      - Clear debug touch markers")
         print("")
         print("DEBUG:")
         print(f"   Log file: {log_dir / log_file.name if log_file else 'console only'}")

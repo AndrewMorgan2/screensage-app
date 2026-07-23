@@ -7,15 +7,31 @@ title: "Features Guide"
 Comprehensive guide to all Screen Sage features, with implementation details and usage examples.
 
 ## Table of Contents
+- [Navigation & Command Center](#navigation--command-center)
 - [VTT Coordinate Systems](#vtt-coordinate-systems)
 - [Element Types](#element-types)
 - [Fog of War System](#fog-of-war-system)
+- [Walls & Doors](#walls--doors)
 - [Display Controls](#display-controls)
 - [Preview System](#preview-system)
 - [Draw Page](#draw-page)
 - [SageSlate Player Aid Manager](#sageslate-player-aid-manager)
 - [Rules Assistant](#rules-assistant)
 - [Kindle Character Sheets](#kindle-character-sheets)
+
+## Navigation & Command Center
+
+### Scrollable Top Bar
+The main nav bar (`.navbar-container` in `static/css/styles.css`) scrolls horizontally instead of wrapping or overflowing when there are more tabs than fit on screen. This keeps the bar usable on narrow/kiosk displays regardless of how many tabs are enabled.
+
+### Tab Visibility
+The Commands page (`/`) has a **Tab Visibility** section that lets you enable/disable which tabs appear in the top nav bar. "Commands" itself can't be hidden, since that's where this control lives.
+
+- State is stored in `storage/nav_config.json` as `{"tabs": {"<tab_id>": true|false}}`. A tab missing from the file defaults to enabled.
+- The nav bar links are built server-side per request in `build_nav_links()` (`src/template_loader.rs`), which reads `nav_config.json` and skips any tab marked `false`. The tab ID list there (`NAV_TABS`) must stay in sync with the `NAV_TABS` array in `src/templates/command_center.html`.
+- The toggle UI reads/writes `nav_config.json` through the existing generic `/json/read` and `/json/save` endpoints (the same ones used for battlemap/display screen config), rather than a dedicated API.
+- Disabling a tab only hides it from the nav bar — the route itself is still reachable directly by URL.
+- Toggling a checkbox takes effect on the next page load (nav links aren't re-rendered live across other open tabs).
 
 ## VTT Coordinate Systems
 
@@ -134,7 +150,7 @@ Interactive fog system with advanced features for battlemap visibility control.
 
 ### Features
 
-- **Wall Shadows**: Fog respects wall polygons for realistic line-of-sight
+- **Wall-Blocked Reveal**: Fog clearing stops at walls drawn on the [Walls page](#walls--doors) instead of passing through them
 - **Interactive Clearing**: Click to clear fog areas during gameplay
 - **Persistent State**: Cleared areas saved to JSON configuration
 - **Zoom Support**: Fog clearing works correctly when zoomed in/out
@@ -215,6 +231,45 @@ Set `"clear": true` to reset all cleared fog areas:
 The system checks this flag each frame and resets `clear_polygons` when true.
 
 **Full Documentation:** FOG_TEMPLATE_SYSTEM.md
+
+## Walls & Doors
+
+### Overview
+
+The **Walls** tab (`/walls`) is a standalone page for drawing wall segments that block fog reveal on the live display. It's deliberately separate from the VTT/Display element editors — no element types, no drag handles, just a canvas for drawing lines over the active battlemap.
+
+Unlike the polygon-based `clear_polygons` fog data, walls are simple line segments with no "door" concept of their own — to open a gap in a wall (e.g. a door), just delete the segment there. Re-draw it to close it back up.
+
+### Editing the Active Battlemap
+
+The Walls page always reads and writes `storage/scrying_glasses/battlemap.json` directly — the same file ScryingGlass's Battlemap display reads. There's no file picker: whatever you draw takes effect on the next fog reload with no extra save step (every change autosaves immediately).
+
+### Toolbar
+
+- **Draw Wall**: click points on the map to place connected wall segments. Each click after the first commits a segment and immediately starts the next one from that same point, so you can trace a room's perimeter in one pass. Clicking near an existing endpoint snaps to it, so walls actually connect at corners. Escape or double-click ends the current chain.
+- **Select / Delete**: click a segment to select it (highlighted), then **Delete Selected** or press Delete/Backspace to remove it.
+- **Clear All**: removes every wall on the map (confirms first).
+- **Wall color**: sets the color used for new segments; also recolors the currently selected segment.
+
+### Data Model
+
+Walls are stored in the config's `walls` array, as coordinates given as **fractions (0–1) of the screen** (not absolute pixels) — this keeps them correct across zoom and portrait/landscape rotation without needing to know pixel dimensions:
+
+```json
+{
+  "walls": [
+    { "id": "wall_abc123", "x1": 0.3, "y1": 0.2, "x2": 0.3, "y2": 0.6, "color": "#c0392b" }
+  ]
+}
+```
+
+If the background art is portrait and gets auto-rotated to fill a landscape screen (see [VTT Coordinate Systems](#vtt-coordinate-systems)), the Walls page mirrors that same rotation in its preview so wall coordinates line up with what's actually shown live.
+
+### How Walls Block Fog
+
+On the display engine side (see [ScryingGlass Display Engine](ScryingGlass_pyglet/README.md)), each wall segment is used as a simple line-of-sight occluder: for every point on the edge of the fog-clearing circle, a ray is cast back to the light/touch position, and if it crosses a wall, that point gets pulled back to the crossing instead of its original position. This clips the revealed area to stop at the wall — no shadow-polygon or wall-thickness math needed, and it's independent of the older `isWall`-flagged-element shadow-casting mechanism.
+
+A debug aid is available directly on the display: with debug mode on (default), every click/drag shows a numbered circle at the exact point being used for fog clearing, so you can visually confirm touch position lines up with wall placement. Press **C** to clear the markers.
 
 ## Display Controls
 
@@ -481,6 +536,10 @@ One JSON file per character in `storage/kindle_characters/<id>.json`:
 
 The original standalone project (`~/Projects/kindle-sheet`, outside this repo) still exists and works independently on port 8000 — useful for a laptop-hotspot-only setup with no other ScreenSage dependencies. See its own `SETUP.md` for the Kindle jailbreak and hotspot walkthrough. The version integrated here runs on ScreenSage's normal port (8080) alongside every other tab, with its own copy of the character data under `storage/kindle_characters/`.
 
+### KOReader Plugin
+
+For Kindles running **KOReader** instead of the stock browser, `koreader-plugin/charactersheet.koplugin/` is a native alternative to the `/kindle` browser page — same data, rendered as native KOReader menus/dialogs instead of an HTML page. See [KOReader Plugin for Kindle](KOREADER_KINDLE_PLUGIN.md) for how it's built, jailbreak/KOReader setup links, and install steps.
+
 ## Usage Examples
 
 ### Creating a Responsive Layout
@@ -534,14 +593,13 @@ This layout works on any screen resolution!
     "clear_polygons": []
   },
   "walls": [
-    {
-      "points": [[100, 100], [500, 100], [500, 500], [100, 500]]
-    }
+    { "id": "wall_1", "x1": 0.1, "y1": 0.1, "x2": 0.3, "y2": 0.1, "color": "#c0392b" },
+    { "id": "wall_2", "x1": 0.3, "y1": 0.1, "x2": 0.3, "y2": 0.4, "color": "#c0392b" }
   ]
 }
 ```
 
-Players can click to clear fog, and walls block visibility.
+Players can click to clear fog, and walls (drawn on the [Walls page](#walls--doors)) block visibility from reaching the other side.
 
 ### Using Percentage Sliders
 

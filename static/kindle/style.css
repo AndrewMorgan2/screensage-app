@@ -49,6 +49,39 @@ body {
   margin-top: 8px;
 }
 
+#newCharForm {
+  border: 3px solid #000;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+#newCharTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+#newCharForm input[type="text"] {
+  display: block;
+  width: 100%;
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+  padding: 10px;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+#newCharBtn {
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
 #header {
   border: 3px solid #000;
   padding: 10px;

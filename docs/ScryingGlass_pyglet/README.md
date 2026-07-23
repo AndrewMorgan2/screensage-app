@@ -109,7 +109,7 @@ cd /home/amorgan/GitHub/ScreenSage/ScryingGlass_pyglet
 -  Background videos
 -  Animated GIFs
 -  Shape elements (tokens, areas, lines, cones)
--  Fog of War (with wall shadows)
+-  Fog of War (wall-blocked reveal, see [Walls & Doors](../FEATURES.md#walls--doors))
 -  Live config reloading
 -  **Zoom and Pan controls**
 
@@ -122,16 +122,23 @@ cd /home/amorgan/GitHub/ScreenSage/ScryingGlass_pyglet
 
 ### Keyboard
 - **ESC** or **Q**: Quit application
-- **R**: Reload configuration
+- **R**: Reload configuration from disk
 - **F11**: Toggle fullscreen
-- **C**: Clear all fog
-- **H** or **HOME**: Reset view (zoom and pan)
-- **+/-**: Zoom in/out at center
+- **D**: Toggle debug mode (periodic stats reports in the log/console)
+- **P**: Print a debug report now
+- **G**: Force garbage collection
+- **W**: Toggle debug overlays — visible wall lines + numbered touch markers (see [Debug Overlays](#debug-overlays) below). **Off by default.**
+- **C**: Clear debug touch markers
 
-### Mouse
-- **Left Click/Drag**: Clear fog at cursor (if fog enabled)
-- **Right Click/Drag**: Pan the view
-- **Mouse Wheel**: Zoom in/out at cursor
+Zoom and pan are controlled entirely through the config's `zoom` block (`level`, `panX`, `panY`), not live keyboard/mouse input.
+
+### Mouse / Touch
+- **Left Click/Drag**: Clear fog at cursor (if fog enabled) — also blocked by any walls in `config['walls']` or `isWall`-flagged elements
+- If a supported touchscreen is connected, every simultaneous contact is tracked independently (not just one OS mouse pointer) — see [Multitouch Input](IMPLEMENTATION_SUMMARY.md#multitouch-input-touch_inputpy) for hardware requirements.
+
+### Debug Overlays
+
+Off by default — press **W** to turn on. When enabled: wall segments from `config['walls']` are drawn as visible colored lines (normally invisible; they always block fog regardless of this toggle), and every click/drag/touch draws a numbered yellow circle at the exact world-space point being used for fog clearing — the same coordinate space walls are checked against. This is the fastest way to confirm a touch is landing where you expect relative to drawn walls: draw a wall on the [Walls page](../FEATURES.md#walls--doors), reload (`R`), press **W**, then tap around it and watch whether the fog stops exactly where the numbered marker crosses the wall line. Markers persist (last 20) until cleared with **C**.
 
 ## Transparent WebM Videos
 

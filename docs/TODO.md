@@ -36,10 +36,10 @@ Track ongoing development, completed features, and future plans for Screen Sage.
 ## Future Features
 
 ### Fog System
-- [ ] Tool to add fog-blocking walls into JSON map
-  - Visual wall editor
-  - Import from map images
-  - Save wall presets
+- [x] Tool to add fog-blocking walls into JSON map
+  - [x] Visual wall editor — standalone `/walls` page, see [Walls & Doors](FEATURES.md#walls--doors)
+  - [ ] Import from map images
+  - [ ] Save wall presets
 
 ### Performance
 - [ ] Optimize for separate device webpage access

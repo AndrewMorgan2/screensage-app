@@ -24,6 +24,8 @@ nav:
   - Useful Commands: USEFUL_COMMANDS.md
   - ScryingGlass Display Engine: ScryingGlass_pyglet/README.md
   - SageSlate E-Ink Hardware: SAGESLATE_HARDWARE.md
+  - Kindle Jailbreak & Setup Runbook: KINDLE_JAILBREAK.md
+  - KOReader Plugin for Kindle: KOREADER_KINDLE_PLUGIN.md
   - Backend (Rust): src/code_documentation.md
   - Frontend (JS): static/code_documetation.md
   - Display Engine Internals: ScryingGlass_pyglet/IMPLEMENTATION_SUMMARY.md

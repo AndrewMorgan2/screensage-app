@@ -31,6 +31,24 @@ body {
     align-items: center;
     min-height: 60px;
     border-bottom: 2px solid #4483b6;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) transparent;
+    -webkit-overflow-scrolling: touch;
+}
+
+.navbar-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.navbar-container::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 3px;
+}
+
+.navbar-container::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .logo {
@@ -45,10 +63,12 @@ body {
     list-style: none;
     margin: 0;
     padding: 0;
+    flex-wrap: nowrap;
 }
 
 .nav-links li {
     margin-right: 20px;
+    flex-shrink: 0;
 }
 
 .nav-links a {
@@ -57,6 +77,7 @@ body {
     padding: 10px 0;
     font-size: 1.2rem;
     position: relative;
+    white-space: nowrap;
 }
 
 .nav-links a.active {
@@ -728,6 +749,91 @@ textarea {
     border-radius: 3px;
     margin-top: 10px;
     color: #ddd;
+}
+
+/* ── Walls page ───────────────────────────────────────────────────── */
+.walls-layout {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 16px;
+}
+
+.walls-sidebar {
+    flex: 0 0 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.walls-current-file {
+    color: var(--secondary-text);
+    font-size: 0.85rem;
+}
+
+.walls-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.wall-mode-btn.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 0 0 2px var(--secondary-color) inset;
+}
+
+.wall-color-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wall-color-group input[type="color"] {
+    width: 40px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+}
+
+.walls-status {
+    font-size: 0.85rem;
+    color: var(--secondary-text);
+    line-height: 1.4;
+}
+
+.walls-preview-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.walls-preview-box {
+    position: relative;
+    background-color: #111;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.walls-preview-box img.walls-bg-image {
+    position: absolute;
+}
+
+.walls-empty-hint {
+    padding: 60px 40px;
+    color: var(--secondary-text);
+    text-align: center;
+}
+
+#wallsCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: crosshair;
 }
 
 /* Make responsive adjustments for smaller screens */

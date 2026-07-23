@@ -33,6 +33,7 @@ The browser is the editor. The JSON files on disk are the source of truth for wh
 | `vtt-controls-module.js` | Renders element controls from JSON; handles edits |
 | `vtt-preview-module.js` | Draws a live in-browser preview of the scene |
 | `vtt-draggable-module.js` | Drag-and-drop repositioning of elements |
+| `walls/walls-main.js` | Walls tab — draws wall segments over the active battlemap |
 | `battle-main.js` | Battle tracker entry point |
 | `battle-controller.js` | Coordinates combat sub-modules |
 | `combat-manager.js` | Initiative parsing, dice rolling, HP tracking |
@@ -66,6 +67,20 @@ The VTT and Display tabs share the same module stack — `vtt-main.js` and `disp
 ### Supported Element Types
 
 Token, Area, Text, Image, Video, GIF, SVG, Line, Cone. Each has a corresponding control template and preview renderer.
+
+---
+
+## Walls & Doors (`walls/walls-main.js`)
+
+The Walls tab is intentionally standalone — it doesn't use `vtt-controls-module.js`, `vtt-draggable-module.js`, `vtt-element-types.js`, or `vtt-preview-module.js`'s scale math. It's a single self-initializing IIFE that only depends on the generic `/json/read`, `/json/save`, and `/api/images/view` endpoints.
+
+**Always edits the active battlemap:** on load it fetches `storage/scrying_glasses/battlemap.json` directly (no file picker) and every mutation (place/delete/recolor a segment, clear all) immediately POSTs the whole config back via `/json/save` — same file, autosaved. This exists specifically so walls drawn here are guaranteed to be the ones ScryingGlass is actually reading; an earlier version let you pick any saved config, which meant walls could silently end up in a file the live display never loads.
+
+**Rendering:** a `<canvas>` overlay sits on top of a plain `<img>` background. Wall coordinates are stored as **fractions (0–1)** of the map box rather than absolute pixels, so they stay correct across window resize/zoom without tracking scale factors. If the background art is portrait, the page mirrors ScryingGlass's own auto-rotation logic (`load_config()`/`create_window()` in `display_engine_pyglet.py`) — reading `screen.width/height` and `background.width/height` to decide whether to rotate the preview 90°, so wall coordinates are authored in the same frame the live display actually uses.
+
+**Interaction:** click-to-place chained segments (each click after the first commits a segment and starts the next from that point), with endpoint snapping so walls connect at corners. Select/Delete mode picks the nearest segment via point-to-segment distance. There's no "door" element type — deleting a segment is how you open a gap.
+
+**Data model:** `jsonData.walls = [{ id, x1, y1, x2, y2, color }]`, coexisting with `elements` and `fog` as a sibling top-level key.
 
 ---
 

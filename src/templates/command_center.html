@@ -1,4 +1,11 @@
 <div class="commands-container">
+    <!-- Tab Visibility Section -->
+    <div class="command-card full-width">
+        <h3>Top Bar Tabs</h3>
+        <p>Choose which tabs appear in the top navigation bar. Commands is always shown.</p>
+        <div id="tab-visibility-list" class="tab-toggle-list">Loading...</div>
+    </div>
+
     <!-- OBS Controls Section -->
     <div class="section-title"><h2>VTT Controls</h2></div>
     
@@ -62,7 +69,74 @@
 // Fetch and populate monitor list on page load
 document.addEventListener('DOMContentLoaded', function() {
     loadAvailableMonitors();
+    loadTabVisibility();
 });
+
+// Must match the NAV_TABS list in src/template_loader.rs
+const NAV_TAB_CONFIG_PATH = './storage/nav_config.json';
+const NAV_TABS = [
+    { id: 'images', label: 'Media' },
+    { id: 'battle', label: 'Battle' },
+    { id: 'characters', label: 'Characters' },
+    { id: 'sageslate', label: 'SageSlate' },
+    { id: 'vtt', label: 'Battlemap' },
+    { id: 'display', label: 'Display' },
+    { id: 'draw', label: 'Draw' },
+    { id: 'rules', label: 'Rules' },
+    { id: 'upload', label: 'Upload' },
+    { id: 'wifi', label: 'WiFi' },
+];
+
+async function loadTabVisibility() {
+    const container = document.getElementById('tab-visibility-list');
+    let tabs = {};
+
+    try {
+        const response = await fetch(`/json/read?path=${encodeURIComponent(NAV_TAB_CONFIG_PATH)}`);
+        if (response.ok) {
+            const config = await response.json();
+            tabs = config.tabs || {};
+        }
+    } catch (error) {
+        console.warn('Could not load nav config, defaulting to all enabled:', error);
+    }
+
+    container.innerHTML = '';
+    NAV_TABS.forEach(tab => {
+        const enabled = tabs[tab.id] !== false;
+
+        const label = document.createElement('label');
+        label.className = 'tab-toggle';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = enabled;
+        checkbox.addEventListener('change', () => setTabEnabled(tab.id, checkbox.checked));
+
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(tab.label));
+        container.appendChild(label);
+    });
+}
+
+async function setTabEnabled(tabId, enabled) {
+    try {
+        const response = await fetch(`/json/read?path=${encodeURIComponent(NAV_TAB_CONFIG_PATH)}`);
+        const config = response.ok ? await response.json() : { tabs: {} };
+        config.tabs = config.tabs || {};
+        config.tabs[tabId] = enabled;
+
+        await fetch('/json/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path: NAV_TAB_CONFIG_PATH, content: JSON.stringify(config, null, 2) })
+        });
+
+        console.log(`✓ Tab "${tabId}" ${enabled ? 'enabled' : 'disabled'}`);
+    } catch (error) {
+        console.error('Failed to update tab visibility:', error);
+    }
+}
 
 async function loadAvailableMonitors() {
     try {
@@ -185,6 +259,33 @@ async function executeCommandWithParams(commandId, params) {
 </script>
 
 <style>
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.tab-toggle-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.tab-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tab-toggle input[type="checkbox"] {
+    cursor: pointer;
+}
+
 .command-options {
     margin: 10px 0;
     display: flex;

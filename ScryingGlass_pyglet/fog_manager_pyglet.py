@@ -6,7 +6,6 @@ Handles fog overlay effects with wall-blocking line-of-sight mechanics using Ope
 import math
 import logging
 import time
-from collections import deque
 
 import pyglet
 from pyglet import gl
@@ -25,9 +24,13 @@ fog_logger = logging.getLogger('ScreenSage.FogManager')
 # =============================================================================
 # FOG MANAGER CONFIGURATION - MEMORY LIMITS
 # =============================================================================
-# Maximum number of fog cleared areas to store
-# After this limit, oldest areas are removed (LRU-style)
-# This prevents unbounded memory growth during prolonged use
+# Safety cap on the number of *distinct, non-overlapping* revealed areas.
+# New cleared areas are merged into any existing area they overlap (see
+# _merge_and_store_area), so this is not "number of touches/clears" - it only
+# grows with genuinely separate, never-touching revealed regions, which stays
+# low even in a long session. Only used as a last-resort guard against
+# pathological cases (e.g. hundreds of disjoint corners revealed one at a
+# time on a huge map); oldest is dropped if it's ever actually hit.
 MAX_FOG_CLEARED_AREAS = 2000
 
 # Minimum distance between fog clear positions to avoid duplicates
@@ -40,8 +43,14 @@ class FogManagerPyglet:
     Manages fog overlay effects with interactive clearing capabilities and wall-blocking.
     Optimized for Pyglet with OpenGL rendering.
 
-    MEMORY SAFETY: fog_cleared_areas is bounded to MAX_FOG_CLEARED_AREAS to prevent
-    memory leaks during extended sessions. Oldest areas are automatically pruned.
+    Revealed areas are permanent for the session: each new cleared circle is
+    merged (via polygon union) into any existing revealed area it overlaps,
+    rather than being appended to an ever-growing, eventually-evicted list.
+    This is what makes "once revealed, stays revealed" true even under heavy
+    continuous input (e.g. multiple simultaneous touches dragging at once),
+    and keeps the per-frame redraw cost proportional to the number of
+    distinct revealed *regions* rather than the number of touch events that
+    have ever happened.
     """
 
     def __init__(self, window_width, window_height):
@@ -55,13 +64,10 @@ class FogManagerPyglet:
         self.window_width = window_width
         self.window_height = window_height
 
-        # MEMORY-BOUNDED: Use deque with maxlen for automatic LRU cleanup
-        # When new areas are added beyond maxlen, oldest are automatically removed
-        self.fog_cleared_areas = deque(maxlen=MAX_FOG_CLEARED_AREAS)
+        self.fog_cleared_areas = []
 
         self.mouse_dragging = False
         self.last_clear_position = None
-        self.clear_radius = 40  # Default clear radius
         self._shadow_cache = {}
         self._cache_hits = 0
 
@@ -107,11 +113,17 @@ class FogManagerPyglet:
         # Create base circular clear area as polygon
         clear_polygon = self._create_circle_polygon(x, y, radius, segments=32)
 
-        # Find all wall elements if config provided
-        if config and 'elements' in config:
-            walls = [elem for elem in config['elements']
-                    if elem.get('isWall', False) and not elem.get('invisible', False)]
+        # Standalone Walls-page segments: clip any point of the clear polygon
+        # that's on the other side of a wall from the light, back to the wall.
+        # Simple ray-vs-segment test, independent of the isWall/shadow-polygon
+        # pipeline below.
+        wall_segments_px = self._gather_wall_segments_px(config)
+        if wall_segments_px:
+            clear_polygon = self._clip_polygon_by_walls(light_pos, clear_polygon, wall_segments_px)
 
+        # Find all wall elements if config provided
+        walls = self._gather_walls(config)
+        if walls:
             # First, subtract the solid wall areas themselves (walls are opaque)
             for wall in walls:
                 if self._wall_could_affect_area(wall, light_pos, radius):
@@ -133,29 +145,159 @@ class FogManagerPyglet:
                             if not clear_polygon:
                                 break
 
-        # Store the final visible polygon (deque automatically prunes oldest if at max)
+        # Merge into the persistent revealed set (see _merge_and_store_area) so
+        # this area stays revealed permanently and doesn't just pile onto an
+        # ever-growing, eventually-evicted list.
         if clear_polygon and len(clear_polygon) >= 3:  # Valid polygon
-            was_at_max = len(self.fog_cleared_areas) >= MAX_FOG_CLEARED_AREAS
-            self.fog_cleared_areas.append(clear_polygon)
+            self._merge_and_store_area(clear_polygon)
             self._areas_added += 1
             self._stencil_dirty = True  # Invalidate cached stencil geometry
 
-            if was_at_max:
-                self._areas_pruned += 1
-                # Log periodically when pruning (not every time to avoid spam)
-                current_time = time.time()
-                if current_time - self._last_prune_log >= 10.0:
-                    fog_logger.debug(f"Fog areas at max ({MAX_FOG_CLEARED_AREAS}), "
-                                   f"auto-pruning oldest. Total added: {self._areas_added}, "
-                                   f"pruned: {self._areas_pruned}")
-                    self._last_prune_log = current_time
-
             self.last_clear_position = (x, y)
-            wall_count = len([e for e in config.get('elements', []) if e.get('isWall', False)]) if config else 0
             fog_logger.debug(f"Cleared fog at ({x}, {y}) radius={radius}, "
-                           f"walls={wall_count}, areas={len(self.fog_cleared_areas)}/{MAX_FOG_CLEARED_AREAS}")
+                           f"isWall_elements={len(walls)}, wall_segments={len(wall_segments_px)}, "
+                           f"areas={len(self.fog_cleared_areas)}/{MAX_FOG_CLEARED_AREAS}")
         else:
             fog_logger.debug(f"No visible area after shadow calculations at ({x}, {y})")
+
+    def _merge_and_store_area(self, new_polygon):
+        """
+        Merge a newly revealed polygon into the persistent revealed set.
+
+        Only unions with existing areas whose bounding box overlaps the new
+        one (a cheap AABB test first) - this keeps insertion cost
+        proportional to *local* overlap, not total revealed history, so a
+        long session with many distinct explored rooms stays fast. Areas
+        that don't touch anything existing are just appended as their own
+        new region.
+        """
+        new_bounds = self._polygon_bounds(new_polygon)
+        overlapping = []
+        remaining = []
+        for area in self.fog_cleared_areas:
+            if self._bounds_overlap(new_bounds, self._polygon_bounds(area)):
+                overlapping.append(area)
+            else:
+                remaining.append(area)
+
+        if overlapping:
+            merged = self._union_polygons_clipper([new_polygon] + overlapping)
+        else:
+            merged = [new_polygon]
+
+        remaining.extend(merged)
+
+        if len(remaining) > MAX_FOG_CLEARED_AREAS:
+            # Last-resort safety valve - see MAX_FOG_CLEARED_AREAS comment.
+            # Should not happen in ordinary play since merging keeps count
+            # bounded by distinct regions, not touch events.
+            dropped = len(remaining) - MAX_FOG_CLEARED_AREAS
+            remaining = remaining[dropped:]
+            self._areas_pruned += dropped
+            fog_logger.warning(f"Hit MAX_FOG_CLEARED_AREAS safety cap, dropped {dropped} oldest "
+                              f"disjoint area(s). Total pruned: {self._areas_pruned}")
+
+        self.fog_cleared_areas = remaining
+
+    def _polygon_bounds(self, polygon):
+        xs = [p[0] for p in polygon]
+        ys = [p[1] for p in polygon]
+        return (min(xs), min(ys), max(xs), max(ys))
+
+    def _bounds_overlap(self, a, b):
+        ax1, ay1, ax2, ay2 = a
+        bx1, by1, bx2, by2 = b
+        return ax1 <= bx2 and bx1 <= ax2 and ay1 <= by2 and by1 <= ay2
+
+    def _union_polygons_clipper(self, polygons):
+        """Union multiple polygons into their minimal set of merged, possibly-disjoint results."""
+        if not CLIPPER_AVAILABLE:
+            # No pyclipper: can't merge losslessly, so keep them as separate
+            # areas rather than silently dropping any revealed region.
+            return polygons
+
+        try:
+            clipper = pyclipper.Pyclipper()
+            scale_factor = 1000
+            for poly in polygons:
+                scaled = [(int(x * scale_factor), int(y * scale_factor)) for x, y in poly]
+                clipper.AddPath(scaled, pyclipper.PT_SUBJECT, True)
+
+            solution = clipper.Execute(pyclipper.CT_UNION, pyclipper.PFT_NONZERO, pyclipper.PFT_NONZERO)
+
+            return [
+                [(x / scale_factor, y / scale_factor) for x, y in path]
+                for path in solution if len(path) >= 3
+            ]
+        except Exception as e:
+            fog_logger.warning(f"Polygon union failed, keeping areas separate: {e}")
+            return polygons
+
+    def _gather_walls(self, config):
+        """Collect VTT elements flagged isWall=true (existing shadow-polygon mechanism)."""
+        if not config:
+            return []
+
+        return [elem for elem in config.get('elements', [])
+                if elem.get('isWall', False) and not elem.get('invisible', False)]
+
+    def _gather_wall_segments_px(self, config):
+        """
+        Standalone Walls-page segments (config['walls']), as (x1,y1,x2,y2) pixel
+        tuples in Pyglet-native space (bottom-left origin, y up) - the same space
+        light_pos uses, since that comes from mouse events via _screen_to_world().
+        """
+        if not config:
+            return []
+
+        ww, wh = self.window_width, self.window_height
+        segments = []
+        for seg in config.get('walls', []):
+            x1 = seg.get('x1', 0) * ww
+            y1 = wh - (seg.get('y1', 0) * wh)
+            x2 = seg.get('x2', 0) * ww
+            y2 = wh - (seg.get('y2', 0) * wh)
+            segments.append((x1, y1, x2, y2))
+        return segments
+
+    def _clip_polygon_by_walls(self, light_pos, polygon, wall_segments):
+        """
+        For each point in `polygon`, check whether it's on the other side of a
+        wall from the light: cast a ray from light_pos to the point, and if it
+        crosses a wall segment, pull the point back to that crossing instead of
+        its original position. Direct visibility test - no shadow-silhouette or
+        polygon-boolean math needed.
+        """
+        lx, ly = light_pos
+        clipped = []
+        for px, py in polygon:
+            nearest_t = 1.0
+            for wx1, wy1, wx2, wy2 in wall_segments:
+                t = self._ray_segment_intersection_t(lx, ly, px, py, wx1, wy1, wx2, wy2)
+                if t is not None and t < nearest_t:
+                    nearest_t = t
+            if nearest_t < 1.0:
+                clipped.append((lx + (px - lx) * nearest_t, ly + (py - ly) * nearest_t))
+            else:
+                clipped.append((px, py))
+        return clipped
+
+    def _ray_segment_intersection_t(self, x1, y1, x2, y2, x3, y3, x4, y4):
+        """
+        Intersect ray (x1,y1)->(x2,y2) against segment (x3,y3)-(x4,y4).
+        Returns t in (0,1) - the fraction of the way along the ray where it
+        crosses the segment - if they cross, else None.
+        """
+        denom = (x2 - x1) * (y4 - y3) - (y2 - y1) * (x4 - x3)
+        if abs(denom) < 1e-9:
+            return None  # parallel
+
+        t = ((x3 - x1) * (y4 - y3) - (y3 - y1) * (x4 - x3)) / denom
+        s = ((x3 - x1) * (y2 - y1) - (y3 - y1) * (x2 - x1)) / denom
+
+        if 0.0 < t < 1.0 and 0.0 <= s <= 1.0:
+            return t
+        return None
 
     def _create_circle_polygon(self, cx, cy, radius, segments=32):
         """Create a polygon approximation of a circle."""
@@ -554,31 +696,32 @@ class FogManagerPyglet:
         self.last_clear_position = None
 
     def _rebuild_stencil_batch(self):
-        """Rebuild the cached stencil geometry from current fog_cleared_areas."""
+        """
+        Rebuild the cached stencil geometry from current fog_cleared_areas.
+
+        Draws each cleared area as its actual polygon (via earcut triangulation),
+        not a bounding circle - a bounding circle around a wall-clipped polygon
+        is roughly the same size as the unclipped circle would have been, which
+        silently erased all wall-blocking. This is why walls appeared to have no
+        effect even when the clipped/shadowed polygon math itself was correct.
+        """
         from pyglet import shapes
 
         self._stencil_shapes.clear()
         self._stencil_batch = pyglet.graphics.Batch()
 
         for cleared_area in self.fog_cleared_areas:
-            if len(cleared_area) >= 1:
-                center_x = sum(x for x, y in cleared_area) / len(cleared_area)
-                center_y = sum(y for x, y in cleared_area) / len(cleared_area)
-
-                if len(cleared_area) > 1:
-                    radius = max(
-                        ((x - center_x)**2 + (y - center_y)**2)**0.5
-                        for x, y in cleared_area
-                    )
-                else:
-                    radius = self.clear_radius
-
-                circle = shapes.Circle(
-                    center_x, center_y, radius,
+            if len(cleared_area) < 3:
+                continue
+            try:
+                polygon = shapes.Polygon(
+                    *cleared_area,
                     color=(255, 255, 255),
                     batch=self._stencil_batch
                 )
-                self._stencil_shapes.append(circle)
+                self._stencil_shapes.append(polygon)
+            except Exception as e:
+                fog_logger.warning(f"Failed to build stencil polygon ({len(cleared_area)} pts): {e}")
 
         self._stencil_dirty = False
 

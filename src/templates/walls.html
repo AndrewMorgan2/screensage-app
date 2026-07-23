@@ -1,0 +1,30 @@
+<div class="walls-layout">
+
+    <div class="walls-sidebar">
+        <div class="control-group">
+            <label>Editing walls for the active battlemap:</label>
+            <span id="wallsCurrentFile" class="walls-current-file">Loading...</span>
+        </div>
+
+        <div class="control-group buttons walls-toolbar">
+            <button id="wallDrawModeBtn"       class="secondary-btn wall-mode-btn">Draw Wall</button>
+            <button id="wallSelectModeBtn"     class="secondary-btn wall-mode-btn">Select / Delete</button>
+            <button id="wallDeleteSelectedBtn" class="secondary-btn">Delete Selected</button>
+            <button id="wallClearAllBtn"       class="secondary-btn">Clear All</button>
+        </div>
+
+        <div class="control-group wall-color-group">
+            <label for="wallColorPicker">Wall color:</label>
+            <input type="color" id="wallColorPicker" value="#c0392b">
+        </div>
+
+        <p id="wallStatus" class="walls-status">Pick a map config on the left to start authoring walls.</p>
+    </div>
+
+    <div class="walls-preview-wrapper">
+        <div id="wallsPreviewBox" class="walls-preview-box">
+            <p class="walls-empty-hint">No map loaded yet.</p>
+        </div>
+    </div>
+
+</div>

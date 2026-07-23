@@ -55,6 +55,12 @@ pub fn render_vtt() -> String {
     TEMPLATE_LOADER.render_with_base("vtt", context, "VTT", "vtt")
 }
 
+/// Render the Walls & Doors authoring page
+pub fn render_walls() -> String {
+    let context = HashMap::new();
+    TEMPLATE_LOADER.render_with_base("walls", context, "Walls & Doors", "walls")
+}
+
 pub fn render_display() -> String {
     // Create empty context since vtt page doesn't need variable replacement
     let context = HashMap::new();

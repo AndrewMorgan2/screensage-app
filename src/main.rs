@@ -21,6 +21,7 @@ mod ws_handler;
 mod template_loader;
 mod upload_handlers;
 mod vtt_handler;
+mod walls_handler;
 mod display_handler;
 mod draw_handler;
 mod file_manager_handlers;
@@ -105,6 +106,7 @@ async fn main() -> std::io::Result<()> {
             .route("/images", web::get().to(image_handlers::image_browser))
             .route("/sageslate", web::get().to(sageslate_handlers::sageslate))
             .route("/vtt", web::get().to(vtt_handler::vtt_render))
+            .route("/walls", web::get().to(walls_handler::walls_render))
             .route("/display", web::get().to(display_handler::display_render))
             .route("/draw", web::get().to(draw_handler::draw_render))
             .route("/rules", web::get().to(rules_handler::rules_render))
@@ -241,6 +243,10 @@ async fn main() -> std::io::Result<()> {
             .route(
                 "/api/kindle/character",
                 web::get().to(kindle_handlers::get_character),
+            )
+            .route(
+                "/api/kindle/character/create",
+                web::post().to(kindle_handlers::create_character),
             )
             .route("/api/kindle/hp", web::post().to(kindle_handlers::update_hp))
             .route(

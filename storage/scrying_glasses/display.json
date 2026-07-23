@@ -6,18 +6,6 @@
   },
   "elements": [
     {
-      "collapsed": false,
-      "height": "100%",
-      "id": "draw_overlay",
-      "locked": true,
-      "opacity": 100,
-      "src": "/home/amorgan/Github/Upload/overlays/e967c53d-44ac-451a-95f7-9bf10e84d16e.png",
-      "type": "image",
-      "width": "100%",
-      "x": "0%",
-      "y": "0%"
-    },
-    {
       "barColor": "#cf7272",
       "collapsed": false,
       "currentValue": 30,

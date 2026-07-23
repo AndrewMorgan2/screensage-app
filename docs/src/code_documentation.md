@@ -35,6 +35,7 @@ Every tab in the UI maps to a handler file. The browser makes `fetch()` calls; t
 | `sageslate_handlers.rs` | Pushes images to e-ink displays |
 | `vtt_handler.rs` | Serves the VTT page |
 | `display_handler.rs` | Serves the Display page |
+| `walls_handler.rs` | Serves the Walls page (`/walls`) — see [Walls & Doors](../FEATURES.md#walls--doors) |
 | `commands.rs` | Predefined shell commands (start/stop screens etc.) |
 | `template_loader.rs` | Loads HTML templates, does `{{var}}` substitution |
 
@@ -64,7 +65,7 @@ This is how the Command Centre tab works — every button is a predefined comman
 
 ### JSON Config (`json_handlers.rs`)
 
-`GET /json/read?path=...` and `POST /json/save` read and write JSON files anywhere on the filesystem. The VTT editor uses these to load a scene config, let you edit it in the browser, then write it back — which ScryingGlass picks up via its file watcher.
+`GET /json/read?path=...` and `POST /json/save` read and write JSON files anywhere on the filesystem. The VTT editor uses these to load a scene config, let you edit it in the browser, then write it back — which ScryingGlass picks up via its file watcher. The Walls page (`static/js/walls/walls-main.js`) uses the same two endpoints but always with a hardcoded path (`storage/scrying_glasses/battlemap.json`) rather than a user-picked file, so walls drawn there are always editing the config the running display actually reads.
 
 ### Media (`image_handlers.rs`)
 

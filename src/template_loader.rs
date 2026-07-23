@@ -3,6 +3,64 @@ use std::fs;
 use std::io;
 use std::path::Path;
 
+const NAV_CONFIG_PATH: &str = "storage/nav_config.json";
+
+/// (tab id, path, label) for every toggleable nav tab, in display order.
+/// The "Commands" home tab is always shown and is not included here.
+const NAV_TABS: &[(&str, &str, &str)] = &[
+    ("images", "/images", "Media"),
+    ("battle", "/battle", "Battle"),
+    ("characters", "/characters", "Characters"),
+    ("sageslate", "/sageslate", "SageSlate"),
+    ("vtt", "/vtt", "Battlemap"),
+    ("walls", "/walls", "Walls"),
+    ("display", "/display", "Display"),
+    ("draw", "/draw", "Draw"),
+    ("rules", "/rules", "Rules"),
+    ("upload", "/upload", "Upload"),
+    ("wifi", "/wifi", "WiFi"),
+];
+
+/// Read which nav tabs are enabled from storage/nav_config.json.
+/// Missing file or missing/invalid entries default to enabled.
+fn load_enabled_tabs() -> HashMap<String, bool> {
+    let mut enabled: HashMap<String, bool> = NAV_TABS.iter().map(|(id, _, _)| (id.to_string(), true)).collect();
+
+    if let Ok(contents) = fs::read_to_string(NAV_CONFIG_PATH) {
+        if let Ok(json) = serde_json::from_str::<serde_json::Value>(&contents) {
+            if let Some(tabs) = json.get("tabs").and_then(|t| t.as_object()) {
+                for (id, is_enabled) in tabs {
+                    if let Some(is_enabled) = is_enabled.as_bool() {
+                        enabled.insert(id.clone(), is_enabled);
+                    }
+                }
+            }
+        }
+    }
+
+    enabled
+}
+
+/// Build the <li> markup for the nav bar, honoring which tabs are enabled
+/// and marking the active page. The Commands (home) tab is always shown.
+fn build_nav_links(active_page: &str) -> String {
+    let enabled = load_enabled_tabs();
+
+    let mut links = String::new();
+    let home_active = if active_page == "home" { " active" } else { "" };
+    links.push_str(&format!(r#"<li><a href="/" class="nav-link{}">Commands</a></li>"#, home_active));
+
+    for (id, path, label) in NAV_TABS {
+        if !*enabled.get(*id).unwrap_or(&true) {
+            continue;
+        }
+        let active = if active_page == *id { " active" } else { "" };
+        links.push_str(&format!(r#"<li><a href="{}" class="nav-link{}">{}</a></li>"#, path, active, label));
+    }
+
+    links
+}
+
 /// A simple template loader that handles basic template replacement
 pub struct TemplateLoader {
     templates: HashMap<String, String>,
@@ -21,6 +79,7 @@ impl TemplateLoader {
         templates.insert("battle".to_string(), load_template("src/static/templates/battle.html")?);
         templates.insert("sageslate".to_string(), load_template("src/static/templates/sageslate.html")?);
         templates.insert("vtt".to_string(), load_template("src/static/templates/vtt.html")?);
+        templates.insert("walls".to_string(), load_template("src/static/templates/walls.html")?);
         templates.insert("display".to_string(), load_template("src/static/templates/display.html")?);
         templates.insert("draw".to_string(), load_template("src/static/templates/draw.html")?);
         templates.insert("rules".to_string(), load_template("src/static/templates/rules.html")?);
@@ -55,21 +114,8 @@ impl TemplateLoader {
         base_context.insert("title".to_string(), title.to_string());
         base_context.insert("content".to_string(), content);
         
-        // Set active page highlighting
-        base_context.insert("home_active".to_string(), if active_page == "home" { "active".to_string() } else { "".to_string() });
-        base_context.insert("images_active".to_string(), if active_page == "images" { "active".to_string() } else { "".to_string() });
-        base_context.insert("about_active".to_string(), if active_page == "about" { "active".to_string() } else { "".to_string() });
-        base_context.insert("battle_active".to_string(), if active_page == "battle" { "active".to_string() } else { "".to_string() });
-        base_context.insert("characters_active".to_string(), if active_page == "characters" { "active".to_string() } else { "".to_string() });
-        base_context.insert("image_gen_active".to_string(), if active_page == "image-gen" { "active".to_string() } else { "".to_string() });
-        base_context.insert("sageslate_active".to_string(), if active_page == "sageslate" { "active".to_string() } else { "".to_string() });
-        base_context.insert("vtt_active".to_string(), if active_page == "vtt" { "active".to_string() } else { "".to_string() });
-        base_context.insert("display_active".to_string(), if active_page == "display" { "active".to_string() } else { "".to_string() });
-        base_context.insert("draw_active".to_string(), if active_page == "draw" { "active".to_string() } else { "".to_string() });
-        base_context.insert("rules_active".to_string(), if active_page == "rules" { "active".to_string() } else { "".to_string() });
-        base_context.insert("upload_active".to_string(), if active_page == "upload" { "active".to_string() } else { "".to_string() });
-        base_context.insert("wifi_active".to_string(), if active_page == "wifi" { "active".to_string() } else { "".to_string() });
-
+        // Build the nav bar links, honoring enabled/disabled tabs and active page
+        base_context.insert("nav_links".to_string(), build_nav_links(active_page));
 
         let page_script = match active_page {
             "images" => r#"<script src="/static/js/image-browser.js"></script>"#,
@@ -127,6 +173,7 @@ impl TemplateLoader {
             <!-- Page entry point -->
             <script src="/static/js/vtt/display-main.js"></script>
         "#,
+            "walls" => r#"<script src="/static/js/walls/walls-main.js"></script>"#,
             "draw" => r#"<script src="/static/js/draw.js"></script>"#,
             "rules" => r#"<script src="/static/js/rules.js?v=4"></script>"#,
             "characters" => r#"<script src="/static/js/characters.js"></script>"#,
@@ -152,6 +199,7 @@ fn load_template(path: &str) -> io::Result<String> {
             "src/static/templates/battle.html" => Ok(include_str!("templates/battle.html").to_string()),
             "src/static/templates/sageslate.html" => Ok(include_str!("templates/sageslate.html").to_string()),
             "src/static/templates/vtt.html" => Ok(include_str!("templates/vtt.html").to_string()),
+            "src/static/templates/walls.html" => Ok(include_str!("templates/walls.html").to_string()),
             "src/static/templates/display.html" => Ok(include_str!("templates/display.html").to_string()),
             "src/static/templates/draw.html" => Ok(include_str!("templates/draw.html").to_string()),
             "src/static/templates/rules.html" => Ok(include_str!("templates/rules.html").to_string()),

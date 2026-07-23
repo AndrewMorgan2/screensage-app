@@ -50,18 +50,47 @@ function renderStatus(characters) {
   }
 }
 
-function loadStatus() {
+function loadStatus(silent) {
   var list = document.getElementById("statusList");
-  list.innerHTML = "Loading...";
+  if (!silent) {
+    list.innerHTML = "Loading...";
+  }
   xhrJSON("GET", "/api/kindle/characters", function (err, data) {
     if (err) {
-      list.innerHTML = "Failed to load party status (check connection)";
+      if (!silent) {
+        list.innerHTML = "Failed to load party status (check connection)";
+      }
       return;
     }
     renderStatus(data);
   });
 }
 
+// Listens for HP/ability/enabled-state changes broadcast from the server
+// (see kindle_handlers.rs) so this page updates without a manual reload.
+// Reconnects on drop, same pattern as static/js/draw.js.
+function setupRefreshListener() {
+  var protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+  var ws = new WebSocket(protocol + "//" + window.location.host + "/ws");
+
+  ws.onmessage = function (event) {
+    var data;
+    try {
+      data = JSON.parse(event.data);
+    } catch (e) {
+      return;
+    }
+    if (data.type === "kindle_refresh") {
+      loadStatus(true);
+    }
+  };
+
+  ws.onclose = function () {
+    setTimeout(setupRefreshListener, 2000);
+  };
+}
+
 window.onload = function () {
   loadStatus();
+  setupRefreshListener();
 };

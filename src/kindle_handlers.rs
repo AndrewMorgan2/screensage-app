@@ -5,6 +5,18 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
+use crate::ws_handler::WsBroadcast;
+
+fn broadcast_kindle_refresh(ws_tx: &WsBroadcast, char_id: &str) {
+    let event = json!({
+        "type": "kindle_refresh",
+        "char_id": char_id,
+    })
+    .to_string();
+    // Ignore send errors — no clients connected is fine
+    let _ = ws_tx.send(event);
+}
+
 const CHAR_DIR: &str = "storage/kindle_characters";
 const STATIC_DIR: &str = "static/kindle";
 const DEFAULT_CHAR: &str = "grix";
@@ -19,6 +31,12 @@ pub struct CharQuery {
 #[derive(Deserialize)]
 pub struct HpPayload {
     delta: Option<i64>,
+}
+
+#[derive(Deserialize)]
+pub struct CreateCharacterPayload {
+    name: String,
+    class: String,
 }
 
 fn is_valid_char_id(id: &str) -> bool {
@@ -42,6 +60,40 @@ fn save_character(id: &str, character: &Value) {
 
 fn is_enabled(v: &Value) -> bool {
     v.get("enabled").and_then(|e| e.as_bool()).unwrap_or(true)
+}
+
+fn slugify(name: &str) -> String {
+    let mut slug = String::new();
+    let mut last_was_dash = false;
+    for c in name.trim().to_lowercase().chars() {
+        if c.is_ascii_alphanumeric() {
+            slug.push(c);
+            last_was_dash = false;
+        } else if !last_was_dash {
+            slug.push('-');
+            last_was_dash = true;
+        }
+    }
+    let slug = slug.trim_matches('-').to_string();
+    if slug.is_empty() {
+        "character".to_string()
+    } else {
+        slug
+    }
+}
+
+fn unique_char_id(base: &str) -> String {
+    if !char_path(base).exists() {
+        return base.to_string();
+    }
+    let mut n = 2;
+    loop {
+        let candidate = format!("{base}-{n}");
+        if !char_path(&candidate).exists() {
+            return candidate;
+        }
+        n += 1;
+    }
 }
 
 fn list_characters(include_disabled: bool) -> Vec<Value> {
@@ -110,7 +162,10 @@ pub async fn list_characters_admin_api() -> impl Responder {
     HttpResponse::Ok().json(list_characters(true))
 }
 
-pub async fn toggle_character(path: web::Path<String>) -> impl Responder {
+pub async fn toggle_character(
+    path: web::Path<String>,
+    ws_tx: web::Data<WsBroadcast>,
+) -> impl Responder {
     let char_id = path.into_inner();
     if !is_valid_char_id(&char_id) {
         return HttpResponse::BadRequest().json(json!({"error": "invalid char id"}));
@@ -129,8 +184,46 @@ pub async fn toggle_character(path: web::Path<String>) -> impl Responder {
     let currently_enabled = is_enabled(&character);
     character["enabled"] = json!(!currently_enabled);
     save_character(&char_id, &character);
+    drop(_guard);
+
+    broadcast_kindle_refresh(&ws_tx, &char_id);
 
     HttpResponse::Ok().json(json!({"id": char_id, "enabled": !currently_enabled}))
+}
+
+pub async fn create_character(
+    payload: web::Json<CreateCharacterPayload>,
+    ws_tx: web::Data<WsBroadcast>,
+) -> impl Responder {
+    let name = payload.name.trim();
+    let class = payload.class.trim();
+    if name.is_empty() || class.is_empty() {
+        return HttpResponse::BadRequest().json(json!({"error": "name and class are required"}));
+    }
+
+    let _guard = WRITE_LOCK.lock().unwrap();
+
+    let char_id = unique_char_id(&slugify(name));
+
+    let character = json!({
+        "name": name,
+        "class": class,
+        "level": 0,
+        "enabled": true,
+        "hp": { "current": 4, "max": 4 },
+        "stats": {},
+        "combat": {},
+        "abilities": [],
+    });
+
+    save_character(&char_id, &character);
+    drop(_guard);
+
+    broadcast_kindle_refresh(&ws_tx, &char_id);
+
+    let mut response = character;
+    response["id"] = json!(char_id);
+    HttpResponse::Ok().json(response)
 }
 
 pub async fn get_character(query: web::Query<CharQuery>) -> impl Responder {
@@ -145,7 +238,11 @@ pub async fn get_character(query: web::Query<CharQuery>) -> impl Responder {
     }
 }
 
-pub async fn update_hp(query: web::Query<CharQuery>, payload: web::Json<HpPayload>) -> impl Responder {
+pub async fn update_hp(
+    query: web::Query<CharQuery>,
+    payload: web::Json<HpPayload>,
+    ws_tx: web::Data<WsBroadcast>,
+) -> impl Responder {
     let char_id = query.char.clone().unwrap_or_else(|| DEFAULT_CHAR.to_string());
     if !is_valid_char_id(&char_id) {
         return HttpResponse::BadRequest().json(json!({"error": "invalid char id"}));
@@ -168,12 +265,17 @@ pub async fn update_hp(query: web::Query<CharQuery>, payload: web::Json<HpPayloa
         hp["current"] = json!((current + delta).clamp(0, max));
     }
     save_character(&char_id, &character);
+    drop(_guard);
+
+    broadcast_kindle_refresh(&ws_tx, &char_id);
+
     HttpResponse::Ok().json(character)
 }
 
 pub async fn update_ability(
     query: web::Query<CharQuery>,
     path: web::Path<(String, String)>,
+    ws_tx: web::Data<WsBroadcast>,
 ) -> impl Responder {
     let char_id = query.char.clone().unwrap_or_else(|| DEFAULT_CHAR.to_string());
     if !is_valid_char_id(&char_id) {
@@ -215,6 +317,8 @@ pub async fn update_ability(
                 }
             }
             save_character(&char_id, &character);
+            drop(_guard);
+            broadcast_kindle_refresh(&ws_tx, &char_id);
             HttpResponse::Ok().json(character)
         }
         None => HttpResponse::NotFound().json(json!({"error": "unknown ability"})),

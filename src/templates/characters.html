@@ -12,6 +12,17 @@
             <div class="loading-message">Loading characters...</div>
         </div>
     </div>
+
+    <div class="wifi-section">
+        <div class="section-header">
+            <h2>Add Character</h2>
+        </div>
+        <div class="new-character-form">
+            <input type="text" id="newCharName" placeholder="Name">
+            <input type="text" id="newCharClass" placeholder="Class">
+            <button id="newCharBtn" class="btn-refresh">Add Character</button>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -147,5 +158,21 @@
     background-color: var(--border-color);
     cursor: not-allowed;
     opacity: 1;
+}
+
+.new-character-form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.new-character-form input[type="text"] {
+    flex: 1 1 200px;
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--text-color);
 }
 </style>

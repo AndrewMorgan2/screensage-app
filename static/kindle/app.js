@@ -232,6 +232,26 @@ function makeCharSelectHandler(id) {
   };
 }
 
+function createCharacter() {
+  var nameInput = document.getElementById("newCharName");
+  var classInput = document.getElementById("newCharClass");
+  var name = nameInput.value.trim();
+  var charClass = classInput.value.trim();
+  if (!name || !charClass) {
+    alert("Enter a name and class.");
+    return;
+  }
+  xhrJSON("POST", "/api/kindle/character/create", { name: name, class: charClass }, function (err, data) {
+    if (err) {
+      alert("Failed to create character.");
+      return;
+    }
+    nameInput.value = "";
+    classInput.value = "";
+    loadCharacterList();
+  });
+}
+
 function goFullscreen() {
   var el = document.documentElement;
   var request = el.requestFullscreen || el.webkitRequestFullscreen ||
@@ -247,13 +267,47 @@ function goFullscreen() {
   alert("Fullscreen not supported by this browser");
 }
 
+// Listens for POST /api/kindle/hp, /api/kindle/ability/*, and admin toggle
+// broadcasts (see kindle_handlers.rs) so a change made from another client
+// (the KOReader plugin, a different browser tab) shows up here without a
+// manual reload. Reconnects on drop, same pattern as static/js/draw.js.
+function setupRefreshListener() {
+  var protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+  var ws = new WebSocket(protocol + "//" + window.location.host + "/ws");
+
+  ws.onmessage = function (event) {
+    var data;
+    try {
+      data = JSON.parse(event.data);
+    } catch (e) {
+      return;
+    }
+    if (data.type !== "kindle_refresh") {
+      return;
+    }
+    if (selectedChar) {
+      if (data.char_id === selectedChar) {
+        loadCharacter();
+      }
+    } else {
+      loadCharacterList();
+    }
+  };
+
+  ws.onclose = function () {
+    setTimeout(setupRefreshListener, 2000);
+  };
+}
+
 window.onload = function () {
   selectedChar = getCharParam();
 
   if (!selectedChar) {
     document.getElementById("picker").style.display = "block";
     document.getElementById("sheet").style.display = "none";
+    document.getElementById("newCharBtn").onclick = createCharacter;
     loadCharacterList();
+    setupRefreshListener();
     return;
   }
 
@@ -264,6 +318,7 @@ window.onload = function () {
   document.getElementById("hpPlus").onclick = function () { adjustHP(1); };
   document.getElementById("fullscreenBtn").onclick = goFullscreen;
   loadCharacter();
+  setupRefreshListener();
 
   // Old-WebKit trick: scrolling past the top after load collapses some
   // mobile browser chrome that has no Fullscreen API support.

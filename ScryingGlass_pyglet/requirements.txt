@@ -1,3 +1,5 @@
 pyglet
 watchdog
 Pillow
+pyclipper
+evdev
