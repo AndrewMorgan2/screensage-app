@@ -217,8 +217,8 @@
         const naturalH = mediaH || backgroundConfig.height || mapHeight;
         const rotate = naturalH > naturalW;
 
-        const availW = previewBox.parentElement.clientWidth;
-        const availH = window.innerHeight * 0.78;
+        const availW = previewBox.parentElement.clientWidth * 0.6;
+        const availH = window.innerHeight * 0.5;
         const scale = Math.min(availW / mapWidth, availH / mapHeight);
         if (!isFinite(scale) || scale <= 0) return;
         const boxW = Math.round(mapWidth * scale);
