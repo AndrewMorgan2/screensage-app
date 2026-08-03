@@ -1,22 +1,7 @@
 {
-  "elements": [
-    {
-      "collapsed": true,
-      "grayscale": 0,
-      "hiddenProperties": [
-        "x",
-        "y"
-      ],
-      "id": "circle_1777482855248",
-      "radius": 50,
-      "transparency": 0,
-      "type": "circle",
-      "x": 260,
-      "y": 136
-    }
-  ],
+  "elements": [],
   "image": {
-    "src": "../DnD_Images/eink_images/resized/death.png",
+    "src": "../DnD_Images/eink_images/resized/man_with_staff.jpg",
     "width": 400,
     "height": 300
   },

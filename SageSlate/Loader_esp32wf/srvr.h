@@ -26,7 +26,7 @@
 /* SSID and password of your WiFi net ----------------------------------------*/
 const char *ssid = "player_handouts_andy"; //"your ssid";
 const char *password = "DnDepaper101";   //"your password";
-const char* hostname = "einkScreen4"; // Set your desired hostname here
+const char* hostname = "einkScreen0"; // Set your desired hostname here
 
 /* Static IP address Settings ------------------------------------------------*/
 IPAddress staticIP(192, 168, 12, 238);

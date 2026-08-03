@@ -1,5 +1,8 @@
 #include <WiFi.h>
-#include "srvr.h" 
+#include <ctype.h>
+#include "srvr.h"
+#include "default_image.h"
+#include "status_icons.h"
 
 WiFiClient client;
 
@@ -11,35 +14,86 @@ bool receivingImage = false;
 unsigned long lastDataTime = 0;
 const unsigned long DATA_TIMEOUT = 1000; // 1 second timeout to consider transmission complete
 
+// WiFi status is polled continuously in loop() -- rather than blocking boot
+// on a connection -- and the tick/cross icon is kept in sync until the first
+// real image arrives, after which we stop touching the display.
+bool wifiConnected = false;
+bool serverStarted = false;
+bool imageLoaded = false;
+unsigned long lastWifiCheck = 0;
+const unsigned long WIFI_CHECK_INTERVAL = 3000; // 3 seconds between status checks
+
+// Pulls the trailing digits off the hostname (e.g. "einkScreen3" -> 3), or
+// -1 if it has none, so setup() can catch a stale default_image.h.
+int extractHostnameNumber(const char* name) {
+  int len = strlen(name);
+  int end = len;
+  while (end > 0 && isdigit((unsigned char)name[end - 1])) end--;
+  if (end == len) return -1;
+  return atoi(name + end);
+}
+
 void setup() {
   Serial.begin(115200);
   WiFi.hostname(hostname);
-  
-  // Initialize SPI for the e-Paper
-  EPD_initSPI();
-  
-  // Connect to WiFi
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
+
+  int hostnameNumber = extractHostnameNumber(hostname);
+  if (hostnameNumber != DEFAULT_IMAGE_SCREEN_NUMBER) {
+    Serial.println("*************************************************");
+    Serial.print("WARNING: default_image.h was baked for screen #");
+    Serial.print(DEFAULT_IMAGE_SCREEN_NUMBER);
+    Serial.print(" but hostname is \"");
+    Serial.print(hostname);
+    Serial.println("\".");
+    Serial.println("Run make_default_image.py and re-flash to fix.");
+    Serial.println("*************************************************");
   }
 
-  Serial.println("\nWiFi connected");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+  // Initialize SPI for the e-Paper
+  EPD_initSPI();
 
-  // Start TCP server
-  server.begin();
-  Serial.println("TCP server started");
-  
-  // Initialize the e-Paper display
+  // Kick off the WiFi connection attempt; the ESP/WiFi stack connects in the
+  // background, loop() polls WiFi.status() rather than blocking here.
+  WiFi.begin(ssid, password);
+
+  // Initialize the e-Paper display and show the default image with
+  // whatever status we know right now (almost always "not connected yet").
   EPD_dispIndex = 44;
-  
-  clearDisplay(false);
+  wifiConnected = (WiFi.status() == WL_CONNECTED);
+  showDefaultImage(wifiConnected);
+
+  if (wifiConnected) {
+    server.begin();
+    serverStarted = true;
+    Serial.println("TCP server started");
+    Serial.print("IP address: ");
+    Serial.println(WiFi.localIP());
+  }
 }
 
 void loop() {
+  // Keep checking WiFi status and updating the on-screen icon until the
+  // first real image is loaded -- after that, leave the display alone.
+  if (!imageLoaded && millis() - lastWifiCheck > WIFI_CHECK_INTERVAL) {
+    lastWifiCheck = millis();
+    bool nowConnected = (WiFi.status() == WL_CONNECTED);
+
+    if (nowConnected && !serverStarted) {
+      server.begin();
+      serverStarted = true;
+      Serial.println("TCP server started");
+      Serial.print("IP address: ");
+      Serial.println(WiFi.localIP());
+    }
+
+    if (nowConnected != wifiConnected) {
+      wifiConnected = nowConnected;
+      showDefaultImage(wifiConnected);
+    }
+  }
+
+  if (!serverStarted) return;
+
   // Check if client is connected
   if (!client || !client.connected()) {
     client = server.available();
@@ -85,7 +139,8 @@ void loop() {
       
       // Process and display the image
       processImage(imageBuffer, bytesReceived);
-      
+      imageLoaded = true; // stop touching the display with WiFi-status redraws
+
       // Reset for next image
       bytesReceived = 0;
       receivingImage = false;
@@ -93,9 +148,42 @@ void loop() {
   }
 }
 
+// Stamps a small icon (its own white background baked in) into the bottom-left
+// corner of imageBuffer. iconX must stay byte-aligned (multiple of 8) so each
+// row can be copied a byte at a time instead of bit-shifted.
+void drawStatusIcon(const uint8_t* icon, int iconW, int iconH) {
+  const int bufBytesPerRow = 400 / 8; // 50
+  const int iconBytesPerRow = iconW / 8;
+  const int iconX = 8;
+  const int iconY = 300 - iconH - 8;
+
+  for (int row = 0; row < iconH; row++) {
+    int destIndex = (iconY + row) * bufBytesPerRow + (iconX / 8);
+    for (int b = 0; b < iconBytesPerRow; b++) {
+      imageBuffer[destIndex + b] = pgm_read_byte(&icon[row * iconBytesPerRow + b]);
+    }
+  }
+}
+
+void showDefaultImage(bool wifiConnected) {
+  Serial.println("Displaying default image...");
+
+  for (unsigned int i = 0; i < sizeof(default_image); i++) {
+    imageBuffer[i] = pgm_read_byte(&default_image[i]);
+  }
+
+  if (wifiConnected) {
+    drawStatusIcon(icon_tick, ICON_TICK_W, ICON_TICK_H);
+  } else {
+    drawStatusIcon(icon_cross, ICON_CROSS_W, ICON_CROSS_H);
+  }
+
+  EPD_dispInit();
+  sendBufferToDisplay(imageBuffer, sizeof(default_image));
+}
+
 void clearDisplay(bool white) {
-  // Reset and initialize the display
-  EPD_Reset();
+  // Initialize the display (init functions reset internally)
   EPD_dispInit();
 
   Serial.print("Initialized display: ");
@@ -163,10 +251,9 @@ void processImage(uint8_t* buffer, int size) {
     size = min(size, bytesNeeded);
   }
   
-  // Reset and initialize the display
-  EPD_Reset();
+  // Initialize the display (init functions reset internally)
   EPD_dispInit();
-  
+
   // Send the image data directly to the display
   sendBufferToDisplay(buffer, size);
 }
