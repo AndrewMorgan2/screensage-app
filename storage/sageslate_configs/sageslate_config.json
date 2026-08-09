@@ -1,9 +1,43 @@
 {
-  "elements": [],
+  "elements": [
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "circle_1786278904951",
+      "radius": 50,
+      "transparency": 0,
+      "type": "circle",
+      "x": 200,
+      "y": 150
+    },
+    {
+      "type": "bar",
+      "id": "bar_1786278964959",
+      "x": 143,
+      "y": 159,
+      "width": 200,
+      "height": 20,
+      "currentValue": 50,
+      "maxValue": 100,
+      "barColor": "#000000",
+      "grayscale": 0,
+      "transparency": 0,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "collapsed": false
+    }
+  ],
   "image": {
-    "src": "../DnD_Images/eink_images/resized/man_with_staff.jpg",
-    "width": 400,
-    "height": 300
+    "device": "0",
+    "height": 300,
+    "src": "../DnD_Images/eink_images/resized/Light_green.png",
+    "width": 400
   },
   "zoom": {
     "collapsed": false,

@@ -85,48 +85,91 @@ def hex_to_rgb(hex_color):
     return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
 def get_font(font_name, font_size):
-    """Try to load a specified font or fall back to system fonts"""
+    """Try to load a specified font or fall back to system fonts.
+
+    font_name is expected to be one of the sageslate text-element font
+    options (Arial, Times New Roman, Courier New, Georgia, Verdana,
+    Comic Sans MS) but any string/path is accepted.
+    """
+    # Candidate paths per requested family, most metric-compatible first.
+    # Distro font layouts differ (Arch puts Liberation under
+    # /usr/share/fonts/liberation/, Debian/Ubuntu under
+    # /usr/share/fonts/truetype/liberation/), so both are listed.
+    font_families = {
+        'arial': [
+            '/usr/share/fonts/liberation/LiberationSans-Regular.ttf',
+            '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
+            '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+        ],
+        'verdana': [
+            '/usr/share/fonts/liberation/LiberationSans-Regular.ttf',
+            '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
+            '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+        ],
+        'comic sans ms': [
+            '/usr/share/fonts/liberation/LiberationSans-Regular.ttf',
+            '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
+            '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+        ],
+        'times new roman': [
+            '/usr/share/fonts/liberation/LiberationSerif-Regular.ttf',
+            '/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf',
+            '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf',
+        ],
+        'georgia': [
+            '/usr/share/fonts/liberation/LiberationSerif-Regular.ttf',
+            '/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf',
+            '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf',
+        ],
+        'courier new': [
+            '/usr/share/fonts/liberation/LiberationMono-Regular.ttf',
+            '/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf',
+            '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf',
+        ],
+        'monospace': [
+            '/usr/share/fonts/liberation/LiberationMono-Regular.ttf',
+            '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf',
+        ],
+        'serif': [
+            '/usr/share/fonts/liberation/LiberationSerif-Regular.ttf',
+            '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf',
+        ],
+        'sans-serif': [
+            '/usr/share/fonts/liberation/LiberationSans-Regular.ttf',
+            '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+        ],
+        # macOS / Windows, in case this ever runs there
+        'helvetica': ['/System/Library/Fonts/Helvetica.ttc'],
+        'times': ['/Library/Fonts/Times New Roman.ttf', 'C:\\Windows\\Fonts\\times.ttf'],
+        'arial-win': ['C:\\Windows\\Fonts\\arial.ttf'],
+    }
+
+    # Last-resort fallback if the requested family (and its aliases) aren't found
+    generic_fallbacks = [
+        '/usr/share/fonts/liberation/LiberationSans-Regular.ttf',
+        '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
+        '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+        '/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf',
+        '/usr/share/fonts/truetype/freefont/FreeSans.ttf',
+    ]
+
     try:
-        # Common font locations by OS
-        font_locations = {
-            # Linux
-            'ubuntu': '/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf',
-            'dejavu': '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
-            'liberation': '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
-            'freefont': '/usr/share/fonts/truetype/freefont/FreeSans.ttf',
-            # macOS
-            'helvetica': '/System/Library/Fonts/Helvetica.ttc',
-            'arial': '/Library/Fonts/Arial.ttf',
-            'times': '/Library/Fonts/Times New Roman.ttf',
-            # Windows
-            'arial-win': 'C:\\Windows\\Fonts\\arial.ttf',
-            'times-win': 'C:\\Windows\\Fonts\\times.ttf',
-            'verdana': 'C:\\Windows\\Fonts\\verdana.ttf',
-            # Generic
-            'sans-serif': '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
-            'serif': '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf',
-            'monospace': '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf',
-            'system-ui': '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
-        }
-        
-        # If specific font is requested
-        if font_name and font_name.lower() in font_locations:
-            font_path = font_locations[font_name.lower()]
-            if os.path.exists(font_path):
-                return ImageFont.truetype(font_path, font_size)
-        
-        # Try direct path (if provided)
+        # Direct path (if the caller passed a real font file path)
         if font_name and os.path.exists(font_name):
             return ImageFont.truetype(font_name, font_size)
-            
-        # Try common locations if font_name not in our mapping
-        for font_path in font_locations.values():
-            if os.path.exists(font_path):
-                return ImageFont.truetype(font_path, font_size)
-                
+
+        if font_name:
+            for candidate in font_families.get(font_name.lower(), []):
+                if os.path.exists(candidate):
+                    return ImageFont.truetype(candidate, font_size)
+
+        for candidate in generic_fallbacks:
+            if os.path.exists(candidate):
+                return ImageFont.truetype(candidate, font_size)
+
         # If all else fails, use default
         return ImageFont.load_default()
-            
+
     except Exception as e:
         print(f"Font loading error: {e}", file=sys.stderr)
         return ImageFont.load_default()
@@ -216,27 +259,36 @@ def main():
                 transparency = element.get('transparency', 0)
                 color_with_alpha = apply_transparency(color, transparency)
 
-                # Draw circle on layer
+                # Draw circle on layer. x,y is the circle's CENTER (matches the
+                # browser preview/drag convention in vtt-preview-module.js /
+                # vtt-draggable-module.js), not the bounding box's top-left.
                 if transparency != 100:
-                    layer_draw.ellipse([(x, y), (x + 2*radius, y + 2*radius)],
+                    layer_draw.ellipse([(x - radius, y - radius), (x + radius, y + radius)],
                                 outline=None, fill=color_with_alpha)
                     # Composite the layer onto the main image
                     img = Image.alpha_composite(img, layer)
             
             elif element_type == 'text':
-                content = element.get('content', '')
-                font_size = element.get('fontSize', 16)
-                font_name = element.get('font', '')  # Get the font parameter
+                # 'text'/'size' are the real field names written by the editor
+                # (vtt-controls-module.js addNewElement); 'content'/'fontSize'
+                # are kept as fallbacks for any older saved configs.
+                content = element.get('text', element.get('content', ''))
+                font_size = element.get('size', element.get('fontSize', 16))
+                font_name = element.get('font', '')
+                alignment = element.get('alignment', 'left')
 
-                # Apply grayscale directly as color (0-100 intensity)
+                # Base color comes from the text color picker
+                try:
+                    r, g, b = hex_to_rgb(element.get('color', '#ffffff'))
+                    text_color = (r, g, b, 255)
+                except Exception:
+                    text_color = (255, 255, 255, 255)
+
+                # Grayscale (if ever present) mixes into the chosen color rather
+                # than overriding it, since text has a real color property
                 grayscale_intensity = element.get('grayscale', 0)
                 if grayscale_intensity > 0:
-                    # Calculate gray value (0-255) based on grayscale intensity
-                    # For text, we invert the scale (0=black, 100=white)
-                    gray_value = int(255 * (grayscale_intensity/100))
-                    text_color = (gray_value, gray_value, gray_value, 255)
-                else:
-                    text_color = (0, 0, 0, 255)  # Black with full opacity
+                    text_color = convert_to_grayscale(text_color, grayscale_intensity)
 
                 # Apply transparency
                 transparency = element.get('transparency', 0)
@@ -245,9 +297,14 @@ def main():
                 # Get font using the new helper function
                 font = get_font(font_name, font_size)
 
+                # Anchor matches the browser preview: x,y is the left/center/right
+                # edge and the TOP of the text, depending on alignment
+                # (see renderText() in vtt-preview-module.js).
+                anchor = {'left': 'la', 'center': 'ma', 'right': 'ra'}.get(alignment, 'la')
+
                 # Draw text on layer
-                if transparency != 100:
-                    layer_draw.text((x, y), content, fill=text_color_with_alpha, font=font)
+                if transparency != 100 and content:
+                    layer_draw.text((x, y), content, fill=text_color_with_alpha, font=font, anchor=anchor)
                     # Composite the layer onto the main image
                     img = Image.alpha_composite(img, layer)
             

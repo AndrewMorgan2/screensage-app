@@ -59,11 +59,6 @@ document.getElementById('addCircleBtn').addEventListener('click', () => addNewEl
 document.getElementById('addTextBtn').addEventListener('click', () => addNewElement('text'));
 document.getElementById('addBarBtn').addEventListener('click', () => addNewElement('bar'));
 
-document.getElementById('display-btn').addEventListener('click', async () => {
-    const einkScreenSelect = document.getElementById('eink-select');
-    // In a real implementation, you would fetch the latest status from your API
-    sendImage(currentMediaPath, einkScreenSelect.value)
-});
 // Sample device data (replace this with your API fetch)
 const devices = [
     { id: 0, name: "einkScreen0", type: "tablet", ip: "192.168.12.96", isConnected: false },

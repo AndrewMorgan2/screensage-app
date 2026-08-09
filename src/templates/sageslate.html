@@ -45,13 +45,13 @@
 
 <div class="vtt-layout">
 
-    <!-- Tab strip -->
+    <!-- Tab strip: each tab is a physical e-ink screen (Screen0..Screen4) -->
     <div class="sageslate-tab-strip">
-        <button class="sageslate-tab-btn active" data-tab="1">Slot 1</button>
-        <button class="sageslate-tab-btn" data-tab="2">Slot 2</button>
-        <button class="sageslate-tab-btn" data-tab="3">Slot 3</button>
-        <button class="sageslate-tab-btn" data-tab="4">Slot 4</button>
-        <button class="sageslate-tab-btn" data-tab="5">Slot 5</button>
+        <button class="sageslate-tab-btn active" data-tab="1">Screen0</button>
+        <button class="sageslate-tab-btn" data-tab="2">Screen1</button>
+        <button class="sageslate-tab-btn" data-tab="3">Screen2</button>
+        <button class="sageslate-tab-btn" data-tab="4">Screen3</button>
+        <button class="sageslate-tab-btn" data-tab="5">Screen4</button>
     </div>
 
     <!-- Button toolbar -->
@@ -61,19 +61,6 @@
         <button id="addTextBtn"     class="primary-btn">Add Text</button>
         <button id="addBarBtn"      class="primary-btn">Add Bar</button>
         <button id="collapseAllBtn" class="secondary-btn">Collapse All</button>
-    </div>
-
-    <!-- Send controls sit above the preview -->
-    <div style="display: flex; align-items: center; gap: 10px; padding: 6px 0;">
-        <button id="sendImageBtn" class="action-button">Send Image</button>
-        <select id="eink-select-player" name="numberSelect">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-        </select>
-        <span class="image-dimensions">Canvas: <span id="imageDimensions">400 × 300</span></span>
     </div>
 
     <!-- Preview window (Layout) -->
@@ -133,15 +120,11 @@
                             readonly />
                         <div class="media-actions-buttons">
                             <button id="set-sageslate-bg-btn" onclick="setAsBackground()">Set as Background</button>
+                            <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 0.85rem; cursor: pointer;" title="When checked, setting the background also removes every other element on the active screen's tab">
+                                <input type="checkbox" id="clear-elements-on-bg" checked>
+                                Clear other elements
+                            </label>
                             <button id="add-image-btn" onclick="addImageToSageslate()">Add Image</button>
-                            <button id="display-btn">Display to Eink</button>
-                            <select id="eink-select" name="numberSelect">
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
                         </div>
                         <div id="path-result" class="result-area"></div>
                     </div>

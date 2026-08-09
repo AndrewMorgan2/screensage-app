@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Set up 5-slot tab system
     setupSageslateTabs(modules);
+    setupAutoSendOnChange(modules);
 });
 
 /**
@@ -291,6 +292,11 @@ const SAGESLATE_TAB_PATHS = [
 
 let sageslateActiveTab = 1;
 
+// Tab N (1-indexed, matches slot_N.json) maps directly to physical Screen(N-1)
+function sageslateScreenForTab(tabIndex) {
+    return tabIndex - 1;
+}
+
 const SAGESLATE_DEFAULT_CONFIG = () => ({
     elements: [],
     image: { src: '', width: 400, height: 300 }
@@ -326,7 +332,9 @@ function loadTabJson(tabIndex, modules) {
             modules.previewModule.updatePreviewAreaSize();
             if (imageDimensions) imageDimensions.textContent = `${w} × ${h}`;
 
-            modules.controlsModule.parseJsonAndGenerateControls();
+            // skipSave=true: this is a reload, not a user edit — must not trigger
+            // a save (which would in turn trigger an auto-send to the screen).
+            modules.controlsModule.parseJsonAndGenerateControls(true);
 
             if (config.image?.src && window.sageslateSetBackgroundImage) {
                 window.sageslateSetBackgroundImage(config.image.src);
@@ -339,7 +347,7 @@ function loadTabJson(tabIndex, modules) {
             modules.previewModule.mapHeight = 300;
             modules.previewModule.updatePreviewAreaSize();
             if (imageDimensions) imageDimensions.textContent = '400 × 300';
-            modules.controlsModule.parseJsonAndGenerateControls();
+            modules.controlsModule.parseJsonAndGenerateControls(true);
         });
 }
 
@@ -371,30 +379,6 @@ function setupSageslateTabs(modules) {
  * @private
  */
 function setupSageslateSpecifics(modules) {
-    // Send Image button functionality - generates and sends image to e-ink
-    const sendImageBtn = document.getElementById('sendImageBtn');
-    if (sendImageBtn) {
-        sendImageBtn.addEventListener('click', () => executeImageGeneration(modules));
-    }
-
-    // E-ink display button functionality
-    const displayBtn = document.getElementById('display-btn');
-    if (displayBtn) {
-        displayBtn.addEventListener('click', () => {
-            const einkScreenSelect = document.getElementById('eink-select');
-            const jsonInput = document.getElementById('jsonInput');
-
-            try {
-                const jsonData = JSON.parse(jsonInput.value);
-                if (jsonData.image && jsonData.image.src) {
-                    sendImage(jsonData.image.src, einkScreenSelect.value);
-                }
-            } catch (error) {
-                console.error('Error sending to e-ink:', error);
-            }
-        });
-    }
-
     // E-ink switch display button
     const switchDisplayBtn = document.getElementById('einkSwitchDisplay');
     let displayDir = true;
@@ -414,6 +398,27 @@ function setupSageslateSpecifics(modules) {
             }
         });
     }
+}
+
+/**
+ * Auto-send the composited image to the active tab's screen whenever the
+ * design changes (element added/moved/edited/deleted, or background set).
+ * Debounced so a burst of edits (e.g. dragging) coalesces into one send.
+ * @private
+ */
+function setupAutoSendOnChange(modules) {
+    const AUTO_SEND_DEBOUNCE_MS = 2000;
+    let autoSendTimeout = null;
+
+    document.addEventListener('vttConfigSaved', (e) => {
+        if (e.detail?.moduleName !== 'Sageslate') return;
+
+        if (autoSendTimeout) clearTimeout(autoSendTimeout);
+        autoSendTimeout = setTimeout(() => {
+            console.log(`Auto-sending updated design to Screen${sageslateScreenForTab(sageslateActiveTab)}`);
+            executeImageGeneration(modules);
+        }, AUTO_SEND_DEBOUNCE_MS);
+    });
 }
 
 /**
@@ -488,13 +493,13 @@ function executeImageGeneration(modules) {
                 }
 
                 const filePath = extractFilePath(result.stdout);
-                const device = document.getElementById('eink-select-player');
-                sendImage(filePath, device.value);
+                const deviceId = sageslateScreenForTab(sageslateActiveTab);
+                sendImage(filePath, String(deviceId));
 
                 // Update JSON with device selection
                 try {
                     jsonData.image = jsonData.image || {};
-                    jsonData.image.device = device.value;
+                    jsonData.image.device = String(deviceId);
                     jsonInput.value = JSON.stringify(jsonData, null, 2);
                 } catch(e) {
                     console.error("Failed to update JSON with device:", e);
@@ -588,7 +593,9 @@ window.sendImage = sendImage;
 window.executeImageGeneration = executeImageGeneration;
 
 /**
- * Set the currently selected media as the background image
+ * Set the currently selected media as the background image, optionally
+ * clearing all other elements on the active screen's tab (per the
+ * "Clear other elements" checkbox).
  * This is called from the media viewer "Set as Background" button
  */
 window.setAsBackground = function() {
@@ -601,15 +608,21 @@ window.setAsBackground = function() {
         return;
     }
 
-    // Update "src" in the JSON immediately (synchronous, always works)
+    const clearElementsCheckbox = document.getElementById('clear-elements-on-bg');
+    const shouldClearElements = clearElementsCheckbox ? clearElementsCheckbox.checked : false;
+
+    // Update "src" in the JSON, optionally clearing every other element
     const jsonInput = document.getElementById('jsonInput');
     if (jsonInput) {
         try {
             const jsonData = JSON.parse(jsonInput.value || '{"elements":[]}');
             if (!jsonData.image) jsonData.image = { width: 400, height: 300 };
             jsonData.image.src = path;
+            if (shouldClearElements) {
+                jsonData.elements = [];
+            }
             jsonInput.value = JSON.stringify(jsonData, null, 2);
-            console.log('✓ JSON image.src updated to:', path);
+            console.log('✓ JSON image.src updated to:', path, shouldClearElements ? '— elements cleared' : '');
         } catch (e) {
             console.error('Failed to update JSON with background path:', e);
         }
@@ -620,10 +633,18 @@ window.setAsBackground = function() {
         window.sageslateSetBackgroundImage(path);
     }
 
+    // Re-render controls and persist as a real user edit, so it flows through
+    // the normal save -> auto-send pipeline.
+    if (window.sageslateControlsModule) {
+        window.sageslateControlsModule.parseJsonAndGenerateControls();
+    }
+
     const pathResult = document.getElementById('path-result');
     if (pathResult) {
         pathResult.style.display = 'block';
-        pathResult.innerHTML = '<p style="color: green;">✓ Background image set!</p>';
+        pathResult.innerHTML = shouldClearElements
+            ? '<p style="color: green;">✓ Background set, other elements cleared!</p>'
+            : '<p style="color: green;">✓ Background image set!</p>';
         setTimeout(() => { pathResult.style.display = 'none'; }, 3000);
     }
 };

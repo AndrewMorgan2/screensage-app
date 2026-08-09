@@ -16,10 +16,9 @@
     }
   ],
   "image": {
-    "src": "../DnD_Images/eink_images/resized/death.png",
+    "src": "../DnD_Images/eink_images/resized/classes.webp",
     "width": 400,
-    "height": 300,
-    "device": "0"
+    "height": 300
   },
   "zoom": {
     "collapsed": false,

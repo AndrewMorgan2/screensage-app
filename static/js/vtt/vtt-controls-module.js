@@ -1737,6 +1737,10 @@ class ControlsModule {
                     this.lastJsonContent = JSON.stringify(jsonData);
 
                     this.loadFileBrowser();
+
+                    document.dispatchEvent(new CustomEvent('vttConfigSaved', {
+                        detail: { moduleName: this.moduleName }
+                    }));
                 })
                 .catch(error => {
                     console.error("Error saving file:", error);
