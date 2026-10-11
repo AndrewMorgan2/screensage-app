@@ -1,5 +1,5 @@
 use actix_files as fs;
-use actix_web::{web, App, HttpServer, HttpResponse, Responder};
+use actix_web::{middleware, web, App, HttpServer, HttpResponse, Responder};
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
 
@@ -98,13 +98,20 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(server_stats.clone()))
             .app_data(ws_tx.clone())
             // Routes for static files
-            .service(fs::Files::new("/static", "./static").show_files_listing())
+            // no-cache: browsers revalidate (via ETag) so edited JS/CSS is picked up on reload
+            .service(
+                web::scope("/static")
+                    .wrap(middleware::DefaultHeaders::new().add(("Cache-Control", "no-cache")))
+                    .service(fs::Files::new("", "./static").show_files_listing()),
+            )
             // WebSocket endpoint
             .route("/ws", web::get().to(ws_handler::ws_handler))
             // Main routes
             .route("/", web::get().to(handlers::index))
             .route("/images", web::get().to(image_handlers::image_browser))
             .route("/sageslate", web::get().to(sageslate_handlers::sageslate))
+            .route("/daggerheart", web::get().to(sageslate_handlers::daggerheart))
+            .route("/character-daggerheart", web::get().to(sageslate_handlers::character_daggerheart))
             .route("/vtt", web::get().to(vtt_handler::vtt_render))
             .route("/walls", web::get().to(walls_handler::walls_render))
             .route("/display", web::get().to(display_handler::display_render))

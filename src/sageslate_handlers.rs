@@ -11,3 +11,22 @@ pub async fn sageslate() -> impl Responder {
         .content_type("text/html; charset=utf-8")
         .body(html)
 }
+
+
+/// Serve the Daggerheart character builder page
+pub async fn daggerheart() -> impl Responder {
+    let html = crate::template_renderers::render_daggerheart();
+
+    HttpResponse::Ok()
+        .content_type("text/html; charset=utf-8")
+        .body(html)
+}
+
+/// Serve the DaggerHeart page (SageSlate with character card controls)
+pub async fn character_daggerheart() -> impl Responder {
+    let html = crate::template_renderers::render_character_daggerheart();
+
+    HttpResponse::Ok()
+        .content_type("text/html; charset=utf-8")
+        .body(html)
+}

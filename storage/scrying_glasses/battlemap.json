@@ -1,20 +1,11 @@
 {
   "background": {
     "height": 9100,
-    "src": "../content/Dungeons/Individual Rooms/The Forgotten Well/Animated/The Forgotten Well (Day Gridless).mp4",
+    "src": "../Cze/board_assets/Maps/Monster Hunter Restraunt/G_MonsterHunterRestaurant_FightingPit_1_Day.jpg",
     "type": "image",
     "width": 4340
   },
   "elements": [],
-  "fog": {
-    "clearMode": true,
-    "clearRadius": 140,
-    "clearReset": false,
-    "clear_polygons": [],
-    "color": "#000000",
-    "enabled": true,
-    "opacity": 100
-  },
   "screen": {
     "fullscreen": true,
     "height": 1080,

@@ -1,0 +1,41 @@
+{
+  "ancestry": "Clank",
+  "armor": {
+    "marked": 2,
+    "name": "Leather Armor",
+    "score": 3
+  },
+  "class": "Guardian",
+  "community": "Wanderborne",
+  "evasion": 9,
+  "hp": {
+    "marked": 3,
+    "max": 7
+  },
+  "level": 1,
+  "name": "Johannes",
+  "proficiency": 1,
+  "stress": {
+    "marked": 1,
+    "max": 6
+  },
+  "subclass": "Stalwart",
+  "thresholds": {
+    "major": 7,
+    "severe": 14
+  },
+  "traits": {
+    "Agility": 1,
+    "Finesse": -1,
+    "Instinct": 1,
+    "Knowledge": 0,
+    "Presence": 0,
+    "Strength": 2
+  },
+  "weapon": {
+    "damage": "d10+3 phy",
+    "name": "Greatsword",
+    "range": "Melee",
+    "trait": "Strength"
+  }
+}

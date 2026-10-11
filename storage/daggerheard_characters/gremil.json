@@ -1,0 +1,41 @@
+{
+  "ancestry": "Halfling",
+  "armor": {
+    "marked": 4,
+    "name": "Chainmail Armor",
+    "score": 4
+  },
+  "class": "Warrior",
+  "community": "Ridgeborne",
+  "evasion": 10,
+  "hp": {
+    "marked": 2,
+    "max": 6
+  },
+  "level": 1,
+  "name": "Gremil",
+  "proficiency": 1,
+  "stress": {
+    "marked": 5,
+    "max": 6
+  },
+  "subclass": "Call of the Slayer",
+  "thresholds": {
+    "major": 8,
+    "severe": 16
+  },
+  "traits": {
+    "Agility": 0,
+    "Finesse": 0,
+    "Instinct": 1,
+    "Knowledge": -1,
+    "Presence": 1,
+    "Strength": 2
+  },
+  "weapon": {
+    "damage": "d10+3 phy",
+    "name": "Battleaxe",
+    "range": "Melee",
+    "trait": "Strength"
+  }
+}

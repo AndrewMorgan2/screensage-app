@@ -51,6 +51,13 @@ class FogManagerPyglet:
     and keeps the per-frame redraw cost proportional to the number of
     distinct revealed *regions* rather than the number of touch events that
     have ever happened.
+
+    Each entry in fog_cleared_areas is a *region*: a list of paths whose first
+    path is the outer boundary and whose remaining paths are holes - patches
+    still fogged because they're enclosed by revealed area but were never
+    cleared themselves (e.g. the middle of a ring drawn around a room).
+    Holes are kept with their outer boundary so merging and drawing never
+    treat them as revealed.
     """
 
     def __init__(self, window_width, window_height):
@@ -175,15 +182,16 @@ class FogManagerPyglet:
         overlapping = []
         remaining = []
         for area in self.fog_cleared_areas:
-            if self._bounds_overlap(new_bounds, self._polygon_bounds(area)):
+            # Outer boundary bounds cover the region's holes too
+            if self._bounds_overlap(new_bounds, self._polygon_bounds(area[0])):
                 overlapping.append(area)
             else:
                 remaining.append(area)
 
         if overlapping:
-            merged = self._union_polygons_clipper([new_polygon] + overlapping)
+            merged = self._union_regions_clipper([[new_polygon]] + overlapping)
         else:
-            merged = [new_polygon]
+            merged = [[new_polygon]]
 
         remaining.extend(merged)
 
@@ -209,29 +217,50 @@ class FogManagerPyglet:
         bx1, by1, bx2, by2 = b
         return ax1 <= bx2 and bx1 <= ax2 and ay1 <= by2 and by1 <= ay2
 
-    def _union_polygons_clipper(self, polygons):
-        """Union multiple polygons into their minimal set of merged, possibly-disjoint results."""
+    def _union_regions_clipper(self, regions):
+        """
+        Union regions (outer path + hole paths) into their minimal set of
+        merged, disjoint regions. Holes survive the union unless the new area
+        actually covers them, so enclosing an area never reveals it.
+        """
         if not CLIPPER_AVAILABLE:
             # No pyclipper: can't merge losslessly, so keep them as separate
             # areas rather than silently dropping any revealed region.
-            return polygons
+            return regions
 
         try:
             clipper = pyclipper.Pyclipper()
             scale_factor = 1000
-            for poly in polygons:
-                scaled = [(int(x * scale_factor), int(y * scale_factor)) for x, y in poly]
-                clipper.AddPath(scaled, pyclipper.PT_SUBJECT, True)
+            for region in regions:
+                for path in region:
+                    scaled = [(int(x * scale_factor), int(y * scale_factor)) for x, y in path]
+                    clipper.AddPath(scaled, pyclipper.PT_SUBJECT, True)
 
-            solution = clipper.Execute(pyclipper.CT_UNION, pyclipper.PFT_NONZERO, pyclipper.PFT_NONZERO)
+            # Clipper outputs holes with opposite winding to outers, so feeding
+            # stored regions back in with NONZERO keeps their holes unfilled
+            tree = clipper.Execute2(pyclipper.CT_UNION, pyclipper.PFT_NONZERO, pyclipper.PFT_NONZERO)
 
-            return [
-                [(x / scale_factor, y / scale_factor) for x, y in path]
-                for path in solution if len(path) >= 3
-            ]
+            def unscale(path):
+                return [(x / scale_factor, y / scale_factor) for x, y in path]
+
+            merged = []
+
+            def collect(outer_nodes):
+                # Each outer contour plus its direct hole children is one region;
+                # islands revealed inside a hole become regions of their own.
+                for outer in outer_nodes:
+                    if len(outer.Contour) < 3:
+                        continue
+                    holes = [h for h in outer.Childs if len(h.Contour) >= 3]
+                    merged.append([unscale(outer.Contour)] + [unscale(h.Contour) for h in holes])
+                    for hole in holes:
+                        collect(hole.Childs)
+
+            collect(tree.Childs)
+            return merged
         except Exception as e:
             fog_logger.warning(f"Polygon union failed, keeping areas separate: {e}")
-            return polygons
+            return regions
 
     def _gather_walls(self, config):
         """Collect VTT elements flagged isWall=true (existing shadow-polygon mechanism)."""
@@ -704,24 +733,31 @@ class FogManagerPyglet:
         is roughly the same size as the unclipped circle would have been, which
         silently erased all wall-blocking. This is why walls appeared to have no
         effect even when the clipped/shadowed polygon math itself was correct.
+
+        Hole paths are drawn too: the stencil pass inverts per path (see
+        draw_fog_overlay), so a hole flips its pixels back to fogged.
         """
         from pyglet import shapes
 
         self._stencil_shapes.clear()
         self._stencil_batch = pyglet.graphics.Batch()
 
-        for cleared_area in self.fog_cleared_areas:
-            if len(cleared_area) < 3:
-                continue
-            try:
-                polygon = shapes.Polygon(
-                    *cleared_area,
-                    color=(255, 255, 255),
-                    batch=self._stencil_batch
-                )
-                self._stencil_shapes.append(polygon)
-            except Exception as e:
-                fog_logger.warning(f"Failed to build stencil polygon ({len(cleared_area)} pts): {e}")
+        for region in self.fog_cleared_areas:
+            # Without pyclipper regions can overlap, so even-odd drawing would
+            # re-fog overlaps; regions have no holes then, so draw outers only
+            paths = region if CLIPPER_AVAILABLE else region[:1]
+            for path in paths:
+                if len(path) < 3:
+                    continue
+                try:
+                    polygon = shapes.Polygon(
+                        *path,
+                        color=(255, 255, 255),
+                        batch=self._stencil_batch
+                    )
+                    self._stencil_shapes.append(polygon)
+                except Exception as e:
+                    fog_logger.warning(f"Failed to build stencil polygon ({len(path)} pts): {e}")
 
         self._stencil_dirty = False
 
@@ -773,10 +809,15 @@ class FogManagerPyglet:
         gl.glEnable(gl.GL_STENCIL_TEST)
         gl.glClear(gl.GL_STENCIL_BUFFER_BIT)
 
-        # First pass: Draw cleared areas to stencil buffer
+        # First pass: Draw cleared areas to stencil buffer. Merged regions never
+        # overlap, so inverting per path gives even-odd fill: an outer boundary
+        # marks its pixels revealed and each hole inside it un-marks them.
         gl.glColorMask(gl.GL_FALSE, gl.GL_FALSE, gl.GL_FALSE, gl.GL_FALSE)
         gl.glStencilFunc(gl.GL_ALWAYS, 1, 0xFF)
-        gl.glStencilOp(gl.GL_KEEP, gl.GL_KEEP, gl.GL_REPLACE)
+        if CLIPPER_AVAILABLE:
+            gl.glStencilOp(gl.GL_KEEP, gl.GL_KEEP, gl.GL_INVERT)
+        else:
+            gl.glStencilOp(gl.GL_KEEP, gl.GL_KEEP, gl.GL_REPLACE)
 
         self._stencil_batch.draw()
 
@@ -816,7 +857,7 @@ class FogManagerPyglet:
         """
         # Estimate memory usage (rough approximation)
         # Each polygon point is 2 floats (8 bytes each on 64-bit)
-        total_points = sum(len(area) for area in self.fog_cleared_areas)
+        total_points = sum(len(path) for region in self.fog_cleared_areas for path in region)
         estimated_mem_bytes = total_points * 16  # 2 floats * 8 bytes
 
         return {

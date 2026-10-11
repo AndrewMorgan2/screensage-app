@@ -77,6 +77,72 @@ const deviceIcons = {
     console: `<svg viewBox="0 0 24 24" fill="#5f6368"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`
 };
 
+// Custom screen names (e.g. "Gremil"), shared by the device cards and the screen tabs
+const SCREEN_NAMES_PATH = './storage/sageslate_configs/screen_names.json';
+let screenNames = {};
+
+function screenDisplayName(id) {
+    return screenNames[id] || `Screen${id}`;
+}
+
+// Tab N (data-tab, 1-indexed) is physical Screen(N-1)
+function applyScreenNamesToTabs() {
+    document.querySelectorAll('.sageslate-tab-btn').forEach(tab => {
+        tab.textContent = screenDisplayName(parseInt(tab.dataset.tab, 10) - 1);
+    });
+}
+
+function loadScreenNames() {
+    return fetch(`/json/read?path=${encodeURIComponent(SCREEN_NAMES_PATH)}`)
+        .then(r => (r.ok ? r.json() : {}))
+        .catch(() => ({}))
+        .then(names => {
+            screenNames = names || {};
+            applyScreenNamesToTabs();
+            renderDevices();
+        });
+}
+
+function saveScreenName(id, name) {
+    name = name.trim();
+    if (name) screenNames[id] = name;
+    else delete screenNames[id];  // empty name resets to ScreenN
+
+    fetch('/json/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: SCREEN_NAMES_PATH, content: JSON.stringify(screenNames, null, 2) })
+    }).catch(e => console.error('Failed to save screen names:', e));
+
+    applyScreenNamesToTabs();
+    renderDevices();
+}
+
+// Swap a card's name for a text box; Enter or clicking away saves, Escape cancels
+function startRenamingScreen(device, nameRow) {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'text-input device-rename-input';
+    input.value = screenNames[device.id] || '';
+    input.placeholder = `Screen${device.id}`;
+    nameRow.replaceChildren(input);
+    input.focus();
+    input.select();
+
+    let done = false;
+    const finish = (save) => {
+        if (done) return;
+        done = true;
+        if (save) saveScreenName(device.id, input.value);
+        else renderDevices();
+    };
+    input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') finish(true);
+        if (e.key === 'Escape') finish(false);
+    });
+    input.addEventListener('blur', () => finish(true));
+}
+
 // Function to render devices
 function renderDevices() {
     const deviceContainer = document.getElementById('deviceContainer');
@@ -84,7 +150,7 @@ function renderDevices() {
 
     devices.forEach(device => {
         const deviceElement = document.createElement('div');
-        deviceElement.className = device.id === 0 ? 'device device-large' : 'device';
+        deviceElement.className = 'device';
 
         const statusText = device.isConnected ? 'Connected' : 'Disconnected';
         const statusClass = device.isConnected ? 'connected' : 'disconnected';
@@ -94,9 +160,19 @@ function renderDevices() {
                 ${deviceIcons[device.type]}
                 <div class="status-indicator ${statusClass}"></div>
             </div>
-            <div class="device-name">${device.name}</div>
+            <div class="device-name-row">
+                <span class="device-name"></span>
+                <button type="button" class="device-rename-btn" title="Rename screen">&#9998;</button>
+            </div>
             <div class="device-status">${statusText}</div>
         `;
+
+        const nameEl = deviceElement.querySelector('.device-name');
+        nameEl.textContent = screenDisplayName(device.id);
+        nameEl.title = `${device.name} (${device.ip})`;
+        const nameRow = deviceElement.querySelector('.device-name-row');
+        deviceElement.querySelector('.device-rename-btn')
+            .addEventListener('click', () => startRenamingScreen(device, nameRow));
 
         deviceContainer.appendChild(deviceElement);
     });
@@ -149,4 +225,7 @@ async function fetchDeviceStatus() {
 //   setInterval(checkDeviceStatus, 30000); // Check every 30 seconds
 
 // Initial check on page load
-document.addEventListener('DOMContentLoaded', fetchDeviceStatus);
+document.addEventListener('DOMContentLoaded', () => {
+    loadScreenNames();
+    fetchDeviceStatus();
+});

@@ -1,28 +1,28 @@
 {
   "background": {
     "height": 1080,
-    "src": "../DnD_Images/Tarask.png",
+    "src": "../DnD_Images/McGucket/Elder_Morlock.jpg",
     "width": 1920
   },
   "elements": [
     {
       "collapsed": false,
       "height": "50%",
-      "id": "image_1784839002797",
+      "id": "image_1791631148129",
       "keepAspectRatio": true,
       "opacity": 100,
-      "src": "../DnD_Images/NPC/monster.jpg",
+      "src": "../DnD_Images/McGucket/Old_Man_McGucket_appearance.webp",
       "type": "image",
-      "width": "28.125%",
-      "x": 1068,
-      "y": 306
+      "width": "24.235755441741357%",
+      "x": 12,
+      "y": 438
     }
   ],
   "screen": {
     "fullscreen": true,
-    "height": 2160,
+    "height": 1080,
     "monitor": 2,
-    "width": 3840
+    "width": 1920
   },
   "zoom": {
     "collapsed": false,

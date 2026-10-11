@@ -1,43 +1,859 @@
 {
   "elements": [
     {
+      "alignment": "left",
       "collapsed": true,
-      "grayscale": 0,
+      "color": "#000000",
+      "font": "Arial",
       "hiddenProperties": [
         "x",
         "y"
       ],
-      "id": "circle_1786278904951",
-      "radius": 50,
-      "transparency": 0,
-      "type": "circle",
-      "x": 200,
-      "y": 150
+      "id": "char_text_0",
+      "size": 26,
+      "text": "Example Here",
+      "type": "text",
+      "x": 8,
+      "y": 6
     },
     {
-      "type": "bar",
-      "id": "bar_1786278964959",
-      "x": 143,
-      "y": 159,
-      "width": 200,
-      "height": 20,
-      "currentValue": 50,
-      "maxValue": 100,
-      "barColor": "#000000",
-      "grayscale": 0,
-      "transparency": 0,
+      "alignment": "right",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
       "hiddenProperties": [
         "x",
         "y"
       ],
-      "collapsed": false
+      "id": "char_text_1",
+      "size": 26,
+      "text": "Lvl 1",
+      "type": "text",
+      "x": 392,
+      "y": 6
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_2",
+      "size": 15,
+      "text": "Bard · Troubadour · Clank · Highborne",
+      "type": "text",
+      "x": 8,
+      "y": 38
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 2,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_3",
+      "transparency": 0,
+      "type": "box",
+      "width": 384,
+      "x": 8,
+      "y": 58
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_4",
+      "size": 12,
+      "text": "Evasion",
+      "type": "text",
+      "x": 8,
+      "y": 64
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_5",
+      "size": 24,
+      "text": "11",
+      "type": "text",
+      "x": 8,
+      "y": 80
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_6",
+      "size": 12,
+      "text": "Armor",
+      "type": "text",
+      "x": 106,
+      "y": 64
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_7",
+      "size": 24,
+      "text": "3",
+      "type": "text",
+      "x": 106,
+      "y": 80
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_8",
+      "size": 12,
+      "text": "Major / Severe",
+      "type": "text",
+      "x": 204,
+      "y": 64
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_9",
+      "size": 24,
+      "text": "6 / 12",
+      "type": "text",
+      "x": 204,
+      "y": 80
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_10",
+      "size": 12,
+      "text": "Proficiency",
+      "type": "text",
+      "x": 302,
+      "y": 64
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_11",
+      "size": 24,
+      "text": "1",
+      "type": "text",
+      "x": 302,
+      "y": 80
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 2,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_12",
+      "transparency": 0,
+      "type": "box",
+      "width": 384,
+      "x": 8,
+      "y": 112
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_13",
+      "size": 16,
+      "text": "HP",
+      "type": "text",
+      "x": 8,
+      "y": 122
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_14",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 80,
+      "y": 122
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_15",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 82,
+      "y": 124
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_16",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 104,
+      "y": 122
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_17",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 106,
+      "y": 124
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_18",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 128,
+      "y": 122
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_19",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 130,
+      "y": 124
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_20",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 152,
+      "y": 122
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_21",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 154,
+      "y": 124
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_22",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 176,
+      "y": 122
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_23",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 178,
+      "y": 124
+    },
+    {
+      "alignment": "right",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_24",
+      "size": 16,
+      "text": "0/5",
+      "type": "text",
+      "x": 392,
+      "y": 122
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_25",
+      "size": 16,
+      "text": "Stress",
+      "type": "text",
+      "x": 8,
+      "y": 152
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_26",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 80,
+      "y": 152
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_27",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 82,
+      "y": 154
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_28",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 104,
+      "y": 152
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_29",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 106,
+      "y": 154
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_30",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 128,
+      "y": 152
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_31",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 130,
+      "y": 154
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_32",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 152,
+      "y": 152
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_33",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 154,
+      "y": 154
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_34",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 176,
+      "y": 152
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_35",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 178,
+      "y": 154
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_36",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 200,
+      "y": 152
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_37",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 202,
+      "y": 154
+    },
+    {
+      "alignment": "right",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_38",
+      "size": 16,
+      "text": "0/6",
+      "type": "text",
+      "x": 392,
+      "y": 152
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_39",
+      "size": 16,
+      "text": "Armor",
+      "type": "text",
+      "x": 8,
+      "y": 182
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_40",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 80,
+      "y": 182
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_41",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 82,
+      "y": 184
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_42",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 104,
+      "y": 182
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_43",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 106,
+      "y": 184
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 18,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_44",
+      "transparency": 0,
+      "type": "box",
+      "width": 18,
+      "x": 128,
+      "y": 182
+    },
+    {
+      "collapsed": true,
+      "grayscale": 0,
+      "height": 14,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_45",
+      "transparency": 0,
+      "type": "box",
+      "width": 14,
+      "x": 130,
+      "y": 184
+    },
+    {
+      "alignment": "right",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_46",
+      "size": 16,
+      "text": "0/3",
+      "type": "text",
+      "x": 392,
+      "y": 182
+    },
+    {
+      "collapsed": true,
+      "grayscale": 100,
+      "height": 2,
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_box_47",
+      "transparency": 0,
+      "type": "box",
+      "width": 384,
+      "x": 8,
+      "y": 218
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_48",
+      "size": 18,
+      "text": "AGI +2",
+      "type": "text",
+      "x": 8,
+      "y": 226
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_49",
+      "size": 18,
+      "text": "FIN +1",
+      "type": "text",
+      "x": 138,
+      "y": 226
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_50",
+      "size": 18,
+      "text": "INS 0",
+      "type": "text",
+      "x": 268,
+      "y": 226
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_51",
+      "size": 18,
+      "text": "KNO -1",
+      "type": "text",
+      "x": 8,
+      "y": 250
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_52",
+      "size": 18,
+      "text": "PRE 0",
+      "type": "text",
+      "x": 138,
+      "y": 250
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_53",
+      "size": 18,
+      "text": "STR +1",
+      "type": "text",
+      "x": 268,
+      "y": 250
+    },
+    {
+      "alignment": "left",
+      "collapsed": true,
+      "color": "#000000",
+      "font": "Arial",
+      "hiddenProperties": [
+        "x",
+        "y"
+      ],
+      "id": "char_text_54",
+      "size": 15,
+      "text": "Broadsword · Agility · Melee · d8 phy",
+      "type": "text",
+      "x": 8,
+      "y": 278
     }
   ],
   "image": {
-    "device": "0",
-    "height": 300,
     "src": "../DnD_Images/eink_images/resized/Light_green.png",
-    "width": 400
+    "width": 400,
+    "height": 300
   },
   "zoom": {
     "collapsed": false,

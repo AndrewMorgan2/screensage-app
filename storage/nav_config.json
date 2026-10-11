@@ -1,14 +1,14 @@
 {
   "tabs": {
     "battle": true,
-    "characters": true,
+    "characters": false,
     "display": true,
     "draw": true,
     "images": true,
     "rules": true,
     "sageslate": true,
-    "upload": true,
+    "upload": false,
     "vtt": true,
-    "wifi": true
+    "wifi": false
   }
 }

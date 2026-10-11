@@ -1,0 +1,41 @@
+{
+  "ancestry": "Clank",
+  "armor": {
+    "marked": 0,
+    "name": "Gambeson Armor",
+    "score": 3
+  },
+  "class": "Bard",
+  "community": "Highborne",
+  "evasion": 11,
+  "hp": {
+    "marked": 5,
+    "max": 5
+  },
+  "level": 1,
+  "name": "Example Here",
+  "proficiency": 1,
+  "stress": {
+    "marked": 0,
+    "max": 6
+  },
+  "subclass": "Troubadour",
+  "thresholds": {
+    "major": 6,
+    "severe": 12
+  },
+  "traits": {
+    "Agility": 2,
+    "Finesse": 1,
+    "Instinct": 0,
+    "Knowledge": -1,
+    "Presence": 0,
+    "Strength": 1
+  },
+  "weapon": {
+    "damage": "d8 phy",
+    "name": "Broadsword",
+    "range": "Melee",
+    "trait": "Agility"
+  }
+}

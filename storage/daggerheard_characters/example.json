@@ -1,0 +1,40 @@
+{
+  "ancestry": "Elf",
+  "armor": {
+    "marked": 0,
+    "score": 3
+  },
+  "class": "Ranger",
+  "community": "Wildborne",
+  "evasion": 12,
+  "hp": {
+    "marked": 0,
+    "max": 6
+  },
+  "level": 1,
+  "name": "Example",
+  "proficiency": 1,
+  "stress": {
+    "marked": 0,
+    "max": 6
+  },
+  "subclass": "Wayfinder",
+  "thresholds": {
+    "major": 6,
+    "severe": 12
+  },
+  "traits": {
+    "Agility": 2,
+    "Finesse": 1,
+    "Instinct": 1,
+    "Knowledge": 0,
+    "Presence": 0,
+    "Strength": -1
+  },
+  "weapon": {
+    "damage": "d6+3 phy",
+    "name": "Shortbow",
+    "range": "Far",
+    "trait": "Agility"
+  }
+}

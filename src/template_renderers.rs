@@ -46,6 +46,14 @@ pub fn render_sageslate() -> String {
     TEMPLATE_LOADER.render_with_base("sageslate", context, "SageSlate", "sageslate")
 }
 
+/// Render the DaggerHeart page: SageSlate plus the character card controls
+pub fn render_character_daggerheart() -> String {
+    let mut context = HashMap::new();
+    context.insert("MEDIA_BASE_DIR".to_string(), SAGESLATE_MEDIA_BASE_DIR.to_string());
+
+    TEMPLATE_LOADER.render_with_base("character_daggerheart", context, "DaggerHeart", "character_daggerheart")
+}
+
 /// Render the VTT page
 pub fn render_vtt() -> String {
     // Create empty context since vtt page doesn't need variable replacement
@@ -104,4 +112,9 @@ pub fn render_wifi() -> String {
 pub fn render_characters_admin() -> String {
     let context = HashMap::new();
     TEMPLATE_LOADER.render_with_base("characters", context, "Characters", "characters")
+}
+/// Render the Daggerheart character builder page
+pub fn render_daggerheart() -> String {
+    let context = HashMap::new();
+    TEMPLATE_LOADER.render_with_base("daggerheart", context, "Daggerheart", "daggerheart")
 }

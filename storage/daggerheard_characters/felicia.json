@@ -1,0 +1,41 @@
+{
+  "ancestry": "Faerie",
+  "armor": {
+    "marked": 3,
+    "name": "Leather Armor",
+    "score": 3
+  },
+  "class": "Rogue",
+  "community": "Slyborne",
+  "evasion": 12,
+  "hp": {
+    "marked": 5,
+    "max": 6
+  },
+  "level": 1,
+  "name": "Felicia",
+  "proficiency": 1,
+  "stress": {
+    "marked": 4,
+    "max": 6
+  },
+  "subclass": "Nightwalker",
+  "thresholds": {
+    "major": 7,
+    "severe": 14
+  },
+  "traits": {
+    "Agility": 0,
+    "Finesse": 2,
+    "Instinct": 1,
+    "Knowledge": -1,
+    "Presence": 1,
+    "Strength": 0
+  },
+  "weapon": {
+    "damage": "d10+1 mag",
+    "name": "Glowing Rings",
+    "range": "Very Close",
+    "trait": "Agility"
+  }
+}

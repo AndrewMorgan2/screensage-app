@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Set up 5-slot tab system
     setupSageslateTabs(modules);
     setupAutoSendOnChange(modules);
+    setupCharacterCard(modules);
 });
 
 /**
@@ -199,6 +200,13 @@ function setupBackgroundImageHandling(previewModule, controlsModule) {
 
     // Make loadBackgroundImage globally available for image browser integration
     window.sageslateSetBackgroundImage = loadBackgroundImage;
+
+    // Plain white e-ink background (used by the character card)
+    window.sageslateClearBackground = () => {
+        currentBackgroundUrl = '';
+        previewArea.style.removeProperty('background-image');
+        previewArea.style.setProperty('background-color', '#ffffff', 'important');
+    };
 }
 
 /**
@@ -339,6 +347,7 @@ function loadTabJson(tabIndex, modules) {
             if (config.image?.src && window.sageslateSetBackgroundImage) {
                 window.sageslateSetBackgroundImage(config.image.src);
             }
+            document.dispatchEvent(new CustomEvent('sageslateTabLoaded', { detail: { config } }));
         })
         .catch(() => {
             // File doesn't exist yet — use empty config
@@ -348,28 +357,33 @@ function loadTabJson(tabIndex, modules) {
             modules.previewModule.updatePreviewAreaSize();
             if (imageDimensions) imageDimensions.textContent = '400 × 300';
             modules.controlsModule.parseJsonAndGenerateControls(true);
+            document.dispatchEvent(new CustomEvent('sageslateTabLoaded', { detail: { config: SAGESLATE_DEFAULT_CONFIG() } }));
         });
 }
 
 function setupSageslateTabs(modules) {
     const tabs = document.querySelectorAll('.sageslate-tab-btn');
+    const storageKey = `sageslate_active_tab:${location.pathname}`;
+    const activate = (index) => {
+        tabs.forEach(t => t.classList.toggle('active', parseInt(t.dataset.tab) === index));
+        sageslateActiveTab = index;
+        localStorage.setItem(storageKey, index);
+        loadTabJson(index, modules);
+    };
+
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             const next = parseInt(tab.dataset.tab);
             if (next === sageslateActiveTab) return;
 
             saveTabJson(sageslateActiveTab);
-
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            sageslateActiveTab = next;
-
-            loadTabJson(next, modules);
+            activate(next);
         });
     });
 
-    // Load initial tab
-    loadTabJson(1, modules);
+    // Reopen the tab that was open last time
+    const saved = parseInt(localStorage.getItem(storageKey), 10);
+    activate(SAGESLATE_TAB_PATHS[saved] ? saved : 1);
 }
 
 // ── Sageslate-specific features ────────────────────────────────────────────────
@@ -419,6 +433,246 @@ function setupAutoSendOnChange(modules) {
             executeImageGeneration(modules);
         }, AUTO_SEND_DEBOUNCE_MS);
     });
+}
+
+// ── Daggerheard character card ─────────────────────────────────────────────────
+
+const DAGGERHEARD_CHAR_DIR = './storage/daggerheard_characters';
+
+/**
+ * Fill the character picker from storage/daggerheard_characters and wire the
+ * controls on the character page. Each screen tab remembers its character
+ * (stored as `character` in the tab's slot JSON), so switching tabs switches
+ * the picker, the +/- trackers and the totals to that screen's character.
+ * @private
+ */
+function setupCharacterCard(modules) {
+    const select = document.getElementById('characterSelect');
+    const button = document.getElementById('showCharacterBtn');
+    if (!select || !button) return;
+
+    const totals = document.querySelectorAll('[data-total]');
+    let tabConfig = null;   // layout JSON of the active tab
+    let charNames = {};     // character path -> name, for matching older layouts
+
+    const readCharacter = (path) => fetch(`/json/read?path=${encodeURIComponent(path)}`).then(r => r.json());
+
+    // The character shown on the active tab: the one saved with the layout, or
+    // for layouts made before that was saved, the one whose name is on the card
+    const tabCharacterPath = () => {
+        if (!tabConfig) return '';
+        if (tabConfig.character && tabConfig.character in charNames) return tabConfig.character;
+        const nameText = (tabConfig.elements || []).find(el => el.id === 'char_text_0')?.text;
+        return Object.keys(charNames).find(path => charNames[path] === nameText) || '';
+    };
+
+    const selectTabCharacter = () => {
+        select.value = tabCharacterPath();
+        if (!select.value) return fillTotals(null);
+        readCharacter(select.value).then(fillTotals).catch(() => fillTotals(null));
+    };
+
+    fetch(`/api/images/list?path=${encodeURIComponent(DAGGERHEARD_CHAR_DIR)}`)
+        .then(r => r.json())
+        .then(data => {
+            const files = (data.items || []).filter(i => !i.is_dir && i.name.endsWith('.json'));
+            select.innerHTML = '<option value="">No character</option>' +
+                files.map(f => `<option value="${f.path}">${f.name.replace(/\.json$/, '')}</option>`).join('');
+            return Promise.all(files.map(f => readCharacter(f.path)
+                .then(c => { charNames[f.path] = c.name; })
+                .catch(() => { charNames[f.path] = null; })));
+        })
+        .then(selectTabCharacter)
+        .catch(() => { select.innerHTML = '<option value="">Failed to load characters</option>'; });
+
+    const getPath = (obj, path) => path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
+    const setPath = (obj, path, value) => {
+        const keys = path.split('.');
+        const last = keys.pop();
+        keys.reduce((o, k) => (o[k] = o[k] || {}), obj)[last] = value;
+    };
+
+    const fillTotals = (character) => {
+        totals.forEach(input => {
+            const value = character ? getPath(character, input.dataset.total) : undefined;
+            input.value = value ?? '';
+            input.disabled = !character;
+        });
+    };
+
+    const showCharacter = (character, path) => {
+        const config = buildDaggerheardCardConfig(character);
+        config.character = path;
+        tabConfig = config;
+        charNames[path] = character.name;
+        document.getElementById('jsonInput').value = JSON.stringify(config, null, 2);
+        if (window.sageslateClearBackground) window.sageslateClearBackground();
+        modules.controlsModule.parseJsonAndGenerateControls(true);
+        saveTabJson(sageslateActiveTab);
+        fillTotals(character);
+    };
+
+    // Switching tabs: pick up that screen's character
+    document.addEventListener('sageslateTabLoaded', (e) => {
+        tabConfig = e.detail.config;
+        selectTabCharacter();
+    });
+
+    select.addEventListener('change', () => {
+        if (!select.value) return fillTotals(null);
+        readCharacter(select.value).then(fillTotals).catch(() => fillTotals(null));
+    });
+
+    button.addEventListener('click', () => {
+        const path = select.value;
+        if (!path) return;
+        readCharacter(path)
+            .then(character => {
+                showCharacter(character, path);
+                executeImageGeneration(modules);
+            })
+            .catch(e => console.error('Failed to load character:', e));
+    });
+
+    // Tracker and totals edits save the character file, redraw this tab's
+    // card and send once the clicking/typing stops.
+    const SEND_DEBOUNCE_MS = 1500;
+    let sendTimeout = null;
+    let pending = Promise.resolve();
+
+    const updateCharacter = (mutate) => {
+        const path = select.value;
+        if (!path) return;
+        // Chain edits so rapid changes don't overwrite each other's saves
+        pending = pending.then(() => readCharacter(path)
+            .then(character => {
+                mutate(character);
+                showCharacter(character, path);
+                if (sendTimeout) clearTimeout(sendTimeout);
+                sendTimeout = setTimeout(() => executeImageGeneration(modules), SEND_DEBOUNCE_MS);
+                return fetch('/json/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ path, content: JSON.stringify(character, null, 2) })
+                });
+            })
+            .catch(e => console.error('Failed to update character:', e)));
+    };
+
+    document.querySelectorAll('[data-tracker]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const delta = parseInt(btn.dataset.delta, 10);
+            updateCharacter(c => adjustDaggerheardTracker(c, btn.dataset.tracker, delta));
+        });
+    });
+
+    totals.forEach(input => {
+        input.disabled = true;
+        input.addEventListener('change', () => {
+            const value = parseInt(input.value, 10);
+            if (Number.isNaN(value)) return;
+            updateCharacter(c => {
+                setPath(c, input.dataset.total, Math.max(0, value));
+                // Shrinking a total can't leave more slots marked than exist
+                adjustDaggerheardTracker(c, 'hp', 0);
+                adjustDaggerheardTracker(c, 'stress', 0);
+                adjustDaggerheardTracker(c, 'armor', 0);
+            });
+        });
+    });
+}
+
+/**
+ * Move a tracker's filled slots by `delta`, clamped to 0..max. Matches what
+ * buildDaggerheardCardConfig draws as filled for each tracker.
+ * @private
+ */
+function adjustDaggerheardTracker(c, key, delta) {
+    const clamp = (n, max) => Math.max(0, Math.min(max, n));
+    if (key === 'armor') {
+        c.armor = c.armor || {};
+        c.armor.marked = clamp((c.armor.marked || 0) + delta, c.armor.score || 0);
+    } else {
+        c[key] = c[key] || {};
+        c[key].marked = clamp((c[key].marked || 0) + delta, c[key].max || 0);
+    }
+}
+
+/**
+ * Lay out a Daggerheard character JSON as black-on-white Sageslate elements
+ * sized for the 400x300 e-ink screens.
+ * @private
+ */
+function buildDaggerheardCardConfig(c) {
+    const W = 400, PAD = 8;
+    const elements = [];
+    const text = (x, y, value, size, alignment = 'left') => elements.push({
+        type: 'text', x, y, size, text: String(value), color: '#000000',
+        font: 'Arial', alignment
+    });
+    const box = (x, y, width, height, black) => elements.push({
+        type: 'box', x, y, width, height, grayscale: black ? 100 : 0, transparency: 0
+    });
+    const rule = (y) => box(PAD, y, W - 2 * PAD, 2, true);
+    const signed = (n) => (n > 0 ? `+${n}` : `${n}`);
+
+    // A row of slots: filled squares for the first `filled`, outlined for the rest
+    const slots = (y, label, max, filled) => {
+        text(PAD, y, label, 16);
+        for (let i = 0; i < max; i++) {
+            const x = 80 + i * 24;
+            box(x, y, 18, 18, true);
+            if (i >= filled) box(x + 2, y + 2, 14, 14, false);
+        }
+        text(W - PAD, y, `${filled}/${max}`, 16, 'right');
+    };
+
+    // Header
+    text(PAD, 6, c.name || 'Unnamed', 26);
+    if (c.level !== undefined) text(W - PAD, 6, `Lvl ${c.level}`, 26, 'right');
+    text(PAD, 38, [c.class, c.subclass, c.ancestry, c.community].filter(Boolean).join(' · '), 15);
+    rule(58);
+
+    // Defences
+    const armor = c.armor || {};
+    const thresholds = c.thresholds || {};
+    [
+        ['Evasion', c.evasion],
+        ['Armor', armor.score],
+        ['Major / Severe', thresholds.major !== undefined && `${thresholds.major} / ${thresholds.severe}`],
+        ['Proficiency', c.proficiency],
+    ].forEach(([label, value], i) => {
+        const x = PAD + i * 98;
+        text(x, 64, label, 12);
+        text(x, 80, value === undefined || value === false ? '-' : value, 24);
+    });
+    rule(112);
+
+    // Trackers (filled slots are marked)
+    const hp = c.hp || {}, stress = c.stress || {};
+    slots(122, 'HP', hp.max || 0, hp.marked || 0);
+    slots(152, 'Stress', stress.max || 0, stress.marked || 0);
+    slots(182, 'Armor', armor.score || 0, armor.marked || 0);
+    rule(218);
+
+    // Traits: two rows of three
+    Object.entries(c.traits || {}).slice(0, 6).forEach(([name, value], i) => {
+        const x = PAD + (i % 3) * 130;
+        const y = 226 + Math.floor(i / 3) * 24;
+        text(x, y, `${name.slice(0, 3).toUpperCase()} ${signed(value)}`, 18);
+    });
+
+    // Primary weapon
+    const w = c.weapon;
+    if (w) text(PAD, 278, [w.name, w.trait, w.range, w.damage].filter(Boolean).join(' · '), 15);
+
+    elements.forEach((el, i) => {
+        el.id = `char_${el.type}_${i}`;
+        el.hiddenProperties = ['x', 'y'];
+        el.collapsed = true;
+    });
+
+    return { elements, image: { src: '', width: 400, height: 300 } };
 }
 
 /**

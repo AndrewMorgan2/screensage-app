@@ -1,0 +1,239 @@
+<style>
+    .zoom-group {
+        display: none !important;
+    }
+    #previewArea > div[style*="border: 3px solid red"] {
+        display: none !important;
+    }
+    .sageslate-tab-strip {
+        display: flex;
+        gap: 4px;
+        border-bottom: 2px solid var(--border-color);
+        margin-bottom: 10px;
+    }
+    .sageslate-tab-btn {
+        padding: 7px 18px;
+        background: var(--card-bg-color);
+        border: 1px solid var(--border-color);
+        border-bottom: none;
+        color: var(--secondary-text);
+        cursor: pointer;
+        border-radius: 4px 4px 0 0;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: -2px;
+        transition: color 0.15s, background 0.15s;
+    }
+    .sageslate-tab-btn:hover {
+        color: var(--text-color);
+    }
+    .sageslate-tab-btn.active {
+        background: var(--bg-color);
+        color: var(--primary-color);
+        border-color: var(--border-color);
+        border-bottom-color: var(--bg-color);
+    }
+    .dh-tracker {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.85rem;
+        color: var(--secondary-text);
+    }
+    .dh-total {
+        width: 4em;
+    }
+</style>
+
+<div class="device-container" id="deviceContainer">
+    <div id="devicePlaceholder" style="padding: 20px; text-align: center; color: #888; font-style: italic;">
+        Sageslate device statuses will appear here when devices are connected
+    </div>
+</div>
+<button class="refresh-button" id="refreshButton">Refresh Status</button>
+<h3 id="result-eink-network-ping"></h3>
+
+<div class="vtt-layout">
+
+    <!-- Tab strip: each tab is a physical e-ink screen (Screen0..Screen4) -->
+    <div class="sageslate-tab-strip">
+        <button class="sageslate-tab-btn active" data-tab="1">Screen0</button>
+        <button class="sageslate-tab-btn" data-tab="2">Screen1</button>
+        <button class="sageslate-tab-btn" data-tab="3">Screen2</button>
+        <button class="sageslate-tab-btn" data-tab="4">Screen3</button>
+        <button class="sageslate-tab-btn" data-tab="5">Screen4</button>
+    </div>
+
+    <!-- Button toolbar -->
+    <div class="element-buttons">
+        <button id="addBoxBtn"      class="primary-btn">Add Box</button>
+        <button id="addCircleBtn"   class="primary-btn">Add Circle</button>
+        <button id="addTextBtn"     class="primary-btn">Add Text</button>
+        <button id="addBarBtn"      class="primary-btn">Add Bar</button>
+        <button id="collapseAllBtn" class="secondary-btn">Collapse All</button>
+        <!-- Daggerheard character card: builds this screen's layout from storage/daggerheard_characters/*.json -->
+        <select id="characterSelect" class="text-input" style="width: auto;">
+            <option value="">Loading characters...</option>
+        </select>
+        <button id="showCharacterBtn" class="primary-btn">Show Character</button>
+        <span class="dh-tracker">HP
+            <button class="secondary-btn" data-tracker="hp" data-delta="-1">&minus;</button>
+            <button class="secondary-btn" data-tracker="hp" data-delta="1">+</button>
+        </span>
+        <span class="dh-tracker">Stress
+            <button class="secondary-btn" data-tracker="stress" data-delta="-1">&minus;</button>
+            <button class="secondary-btn" data-tracker="stress" data-delta="1">+</button>
+        </span>
+        <span class="dh-tracker">Armor
+            <button class="secondary-btn" data-tracker="armor" data-delta="-1">&minus;</button>
+            <button class="secondary-btn" data-tracker="armor" data-delta="1">+</button>
+        </span>
+    </div>
+
+    <!-- Totals for the selected character; editing one saves the character and resends its card -->
+    <div class="element-buttons">
+        <label class="dh-tracker">Max HP <input type="number" class="dh-total" data-total="hp.max" min="0" max="20"></label>
+        <label class="dh-tracker">Max Stress <input type="number" class="dh-total" data-total="stress.max" min="0" max="20"></label>
+        <label class="dh-tracker">Armor Slots <input type="number" class="dh-total" data-total="armor.score" min="0" max="20"></label>
+        <label class="dh-tracker">Evasion <input type="number" class="dh-total" data-total="evasion" min="0" max="30"></label>
+        <label class="dh-tracker">Major <input type="number" class="dh-total" data-total="thresholds.major" min="0" max="99"></label>
+        <label class="dh-tracker">Severe <input type="number" class="dh-total" data-total="thresholds.severe" min="0" max="99"></label>
+        <label class="dh-tracker">Proficiency <input type="number" class="dh-total" data-total="proficiency" min="0" max="10"></label>
+        <label class="dh-tracker">Level <input type="number" class="dh-total" data-total="level" min="1" max="10"></label>
+    </div>
+
+    <!-- Preview window (Layout) -->
+    <div id="previewArea" style="position: relative;">
+        <div id="previewScalePanel" style="position: absolute; top: 10px; left: 10px; z-index: 10000; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px;">
+            <div id="previewScaleContent" style="display: flex; align-items: center; gap: 10px;">
+                <label style="color: white; font-size: 12px;">Preview Scale:</label>
+                <input type="range" id="previewScaleSlider" min="10" max="250" value="100" step="5" style="width: 150px;">
+                <span id="previewScaleDisplay" style="color: white;">100%</span>
+            </div>
+            <button id="minimizeScaleBtn" style="position: absolute; top: 5px; right: 5px; padding: 2px 8px; font-size: 14px; font-weight: bold;" title="Minimize">−</button>
+        </div>
+    </div>
+
+    <!-- Last moved element (populated on drag) -->
+    <div id="lastMovedSection" style="display:none;">
+        <div id="lastMovedContent"></div>
+    </div>
+
+    <!-- Collapsible: File Explorer -->
+    <details class="collapsible-section">
+        <summary class="collapsible-toggle">File Explorer</summary>
+        <div class="collapsible-content">
+            <div class="directory-input-container">
+                <h3>Change Directory</h3>
+                <div class="directory-flex-container">
+                    <input type="text" id="directory-input" class="text-input" style="flex-grow: 1;"
+                        placeholder="Enter absolute path (e.g., /home/user/pictures)" value="{{MEDIA_BASE_DIR}}" />
+                    <button onclick="changeDirectory()">Navigate</button>
+                </div>
+                <div class="directory-info">
+                    Default base directory: <code>{{MEDIA_BASE_DIR}}</code>
+                </div>
+                <div id="directory-error" class="error" style="margin-top: 5px; display: none;"></div>
+            </div>
+            <div class="grid-container">
+                <div class="folder-panel">
+                    <h2>Files &amp; Folders</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb" id="path-breadcrumb">
+                            <li class="breadcrumb-item active" id="current-directory">{{MEDIA_BASE_DIR}}</li>
+                        </ol>
+                    </nav>
+                    <div id="folder-list" class="loading">
+                        <!-- Items will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="image-panel">
+                    <h2>Media Viewer</h2>
+                    <div id="image-viewer" class="image-container">
+                        <p class="secondary-text">Select a file to view it here</p>
+                    </div>
+                    <div id="media-actions" class="media-actions">
+                        <h3>Media Actions</h3>
+                        <input type="text" id="current-path" class="text-input" style="margin-bottom: 10px; width: 100%;"
+                            readonly />
+                        <div class="media-actions-buttons">
+                            <button id="set-sageslate-bg-btn" onclick="setAsBackground()">Set as Background</button>
+                            <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 0.85rem; cursor: pointer;" title="When checked, setting the background also removes every other element on the active screen's tab">
+                                <input type="checkbox" id="clear-elements-on-bg" checked>
+                                Clear other elements
+                            </label>
+                            <button id="add-image-btn" onclick="addImageToSageslate()">Add Image</button>
+                        </div>
+                        <div id="path-result" class="result-area"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- Collapsible: Element controls -->
+    <details class="collapsible-section">
+        <summary class="collapsible-toggle">Elements</summary>
+        <div class="collapsible-content">
+            <div id="controlsArea">
+                <p>Controls will appear here after parsing JSON...</p>
+            </div>
+        </div>
+    </details>
+
+    <!-- Collapsible: JSON Editor -->
+    <details class="collapsible-section">
+        <summary class="collapsible-toggle">JSON Editor</summary>
+        <div class="collapsible-content">
+            <textarea id="jsonInput" placeholder="Enter your JSON configuration here..."> </textarea>
+            <div class="save-container">
+                <input type="text" id="saveFilename" placeholder="filename.json" />
+                <button id="saveFileBtn" class="action-button">Save Current JSON</button>
+                <button id="parseButton">Parse JSON &amp; Generate Controls</button>
+                <p id="jsonError" class="error"></p>
+            </div>
+        </div>
+    </details>
+
+    <!-- Collapsible: Saved JSONs -->
+    <details class="collapsible-section">
+        <summary class="collapsible-toggle">Saved JSONs</summary>
+        <div class="collapsible-content">
+            <div class="file-browser" id="fileBrowser"></div>
+        </div>
+    </details>
+
+</div>
+
+<script>
+    DEFAULT_MEDIA_BASE_DIR = "{{MEDIA_BASE_DIR}}";
+</script>
+
+<script>
+document.addEventListener('vttElementMoved', function(e) {
+    // The moved element is the selected one: always show its controls expanded,
+    // even though character-card elements are stored collapsed for the Elements list
+    const el = { ...e.detail.element, collapsed: false };
+    const section = document.getElementById('lastMovedSection');
+    const content = document.getElementById('lastMovedContent');
+    const module  = window.sageslateControlsModule;
+    if (!section || !content || !module) return;
+
+    content.innerHTML = '';
+
+    let index = 0;
+    try {
+        const jsonData = JSON.parse(module.elements.jsonInput.value);
+        const found = jsonData.elements.findIndex(elem => elem.id === el.id);
+        if (found !== -1) index = found;
+    } catch {}
+
+    const savedArea = module.elements.controlsArea;
+    module.elements.controlsArea = content;
+    module.generateControlsForElement(el, index);
+    module.elements.controlsArea = savedArea;
+
+    section.style.display = '';
+});
+</script>
