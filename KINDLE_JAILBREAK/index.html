@@ -853,7 +853,7 @@ Download: <a href="https://github.com/KindleModding/AdBreak/releases">github.com
 <li>Copy the <strong>entire</strong> <code>.assets</code> folder to your computer.</li>
 <li>Unzip the AdBreak release into that copied <code>.assets</code> folder — <code>jb.sh</code>, <code>patchedUks.sqsh</code>, <code>adbreak.html</code> etc. end up sitting at the top level of <code>.assets</code>, alongside the existing per-ad subfolders.</li>
 <li>Overwrite every <code>details.html</code> inside those per-ad subfolders with the contents of <code>adbreak.html</code>:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>find . -name &#39;details.html&#39; -exec cp adbreak.html {} \;
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>find . -name 'details.html' -exec cp adbreak.html {} \;
 </code></pre></div></li>
 <li>Copy this whole modified <code>.assets</code> folder back onto the Kindle, replacing the original at <code>system/.assets</code>.</li>
 <li>Unplug. Tap a lockscreen ad, click through the popups. When a "Bang!" dialog appears and you dismiss it, the jailbreak script runs. Any "application error" popups after that are expected and harmless.</li>
@@ -907,8 +907,8 @@ Guide: <a href="https://kindlemodding.org/jailbreaking/post-jailbreak/setting-up
 <li>Drop the <code>.bin</code> into the Kindle's <code>mrpackages</code> folder, then run <strong>KUAL → Helper → Install MR Packages</strong> again — it'll find it this time.</li>
 <li>It gets its own <strong>USBNetLite</strong> entry in the KUAL menu. Open it, tap <strong>Toggle USB Network</strong>.</li>
 <li>Plug in via USB. A new RNDIS network interface appears on the laptop (name varies, e.g. <code>enp0s20f0u3i1</code>). Give it a static IP on the <code>192.168.15.0/24</code> subnet:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>nmcli connection modify &quot;&lt;connection name&gt;&quot; ipv4.method manual ipv4.addresses 192.168.15.201/24
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>nmcli connection up &quot;&lt;connection name&gt;&quot;
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>nmcli connection modify "&lt;connection name&gt;" ipv4.method manual ipv4.addresses 192.168.15.201/24
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>nmcli connection up "&lt;connection name&gt;"
 </code></pre></div></li>
 <li>SSH in — default credentials <code>root</code> / <code>kindle</code>:
    <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ssh root@192.168.15.244
